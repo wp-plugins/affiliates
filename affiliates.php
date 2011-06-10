@@ -21,7 +21,7 @@
  * Plugin Name: Affiliates
  * Plugin URI: http://www.itthinx.com/plugins/affiliates
  * Description: The Affiliates plugin provides the right tools to maintain a partner referral program.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: itthinx (Karim Rahimpur)
  * Author URI: http://www.itthinx.com
  * Donate-Link: http://www.itthinx.com
