@@ -201,11 +201,22 @@ The plugin provides role-based permissions to access gathered affiliate data, ad
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 =
+* Fixed errors showing up for PHP < 5.3
+
+= 1.0.0 =
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
-= 1.0 =
+
+= 1.0.1 =
+Please upgrade if you see errors like these or if you are on PHP < 5.3:
+
+Warning: call_user_func_array() [function.call-user-func-array]: First argument is expected to be a valid callback, 'Affiliates_Contact::_enqueue_scripts' was given in /var/www/wptest/wp-includes/plugin.php on line 395
+
+Warning: call_user_func_array() [function.call-user-func-array]: First argument is expected to be a valid callback, 'Affiliates_Contact::_print_styles' was given in /var/www/wptest/wp-includes/plugin.php on line 395
+
+= 1.0.0 =
 There is no need to upgrade yet.
 
 == API ==
