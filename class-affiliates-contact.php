@@ -44,8 +44,8 @@ class Affiliates_Contact extends WP_Widget {
 	 */
 	function Affiliates_Contact() {
 		parent::WP_Widget( false, $name = 'Affiliates Contact' );
-		add_action( 'wp_print_styles', 'Affiliates_Contact::_print_styles' );
-		add_action( 'wp_enqueue_scripts', 'Affiliates_Contact::_enqueue_scripts' );			
+		add_action( 'wp_print_styles', array( 'Affiliates_Contact', '_print_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( 'Affiliates_Contact', '_enqueue_scripts' ) );
 	}
 	
 	/**

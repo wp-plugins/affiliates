@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: affiliate, bucks, contact form, crm, e-commerce, lead, link, money, online sale, order, referral, referrer, partner, shopping cart, site, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 
 The Affiliates plugin provides the right tools to maintain a partner referral program.
 
