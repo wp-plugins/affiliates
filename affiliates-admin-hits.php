@@ -273,8 +273,8 @@ function affiliates_admin_hits() {
 			*,
 			count(distinct ip) visits,
 			sum(count) hits,
-			(select count(*) from wp_aff_referrals where date(datetime) = h.date ) referrals,
-			((select count(*) from wp_aff_referrals where date(datetime) = h.date )/count(distinct ip)) ratio
+			(select count(*) from $referrals_table where date(datetime) = h.date ) referrals,
+			((select count(*) from $referrals_table where date(datetime) = h.date )/count(distinct ip)) ratio
 		FROM $hits_table h
 		$filters
 		GROUP BY date

@@ -270,8 +270,8 @@ function affiliates_admin_hits_affiliate() {
 			*,
 			count(distinct ip) visits,
 			sum(count) hits,
-			(select count(*) from wp_aff_referrals where affiliate_id = h.affiliate_id ) referrals,
-			((select count(*) from wp_aff_referrals where affiliate_id = h.affiliate_id )/count(distinct ip)) ratio
+			(select count(*) from $referrals_table where affiliate_id = h.affiliate_id ) referrals,
+			((select count(*) from $referrals_table where affiliate_id = h.affiliate_id )/count(distinct ip)) ratio
 		FROM $hits_table h
 		LEFT JOIN $affiliates_table a ON h.affiliate_id = a.affiliate_id
 		$filters
