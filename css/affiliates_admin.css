@@ -113,6 +113,7 @@ div.details-hits {
 	font-size: 0.8em;
 	color: #999;
 	display: inline;
+	cursor: pointer;
 }
 
 .referrals-overview table.referrals th.datetime {
@@ -151,31 +152,6 @@ div.details-hits {
 	border-color: #eee;
 }
 
-/*
-.visits-overview th,
-.visits-overview td {
-	padding: 5px;
-	min-width: 100px;
-}
-
-.visits-overview th.column-date,
-.visits-overview td.date {
-	text-align: left;
-}
-
-.visits-overview th.visits,
-.visits-overview th.hits,
-.visits-overview th.referrals,
-.visits-overview th.ratio {
-	text-align: right;
-}
-.visits-overview td.visits,
-.visits-overview td.hits,
-.visits-overview td.referrals,
-.visits-overview td.ratio {
-  text-align: right;
-}
-*/
 .filters {
 	background-color: #fff;
 	padding: 1em;
