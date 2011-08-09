@@ -65,7 +65,7 @@ function affiliates_admin() {
 		echo '<ul>';
 		echo '<li>' . sprintf( __( '%10d Hits', AFFILIATES_PLUGIN_DOMAIN ), $hits ) . '</li>';
 		echo '<li>' . sprintf( __( '%10d Visits', AFFILIATES_PLUGIN_DOMAIN ), $visits ) . '</li>';
-		echo '<li>' . sprintf( __( '%10d Referrals', AFFILIATES_PLUGIN_DOMAIN ), $visits ) . '</li>';
+		echo '<li>' . sprintf( __( '%10d Referrals', AFFILIATES_PLUGIN_DOMAIN ), $referrals ) . '</li>';
 		echo '</ul>';
 		
 	}
