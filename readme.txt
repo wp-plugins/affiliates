@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 
 The Affiliates plugin provides the right tools to maintain a partner referral program.
 
@@ -200,6 +200,9 @@ The plugin provides role-based permissions to access gathered affiliate data, ad
 8. Menu - the Affiliates menu
 
 == Changelog ==
+
+= 1.0.4 =
+* This release fixes the issue of md5-encoded links not showing up
 
 = 1.0.3 =
 * Fixed bug in Affiliates Overview : number of referrals shown was wrong
