@@ -480,7 +480,7 @@
 		global $affiliates_options;
 		$encoded_id = null;
 		
-		$id_encoding = get_option( 'add_id_encoding', AFFILIATES_NO_ID_ENCODING );
+		$id_encoding = get_option( 'aff_id_encoding', AFFILIATES_NO_ID_ENCODING );
 		switch ( $id_encoding ) {
 			case AFFILIATES_MD5_ID_ENCODING :
 				$encoded_id = md5( $affiliate_id );
