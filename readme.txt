@@ -218,6 +218,12 @@ The plugin provides role-based permissions to access gathered affiliate data, ad
 
 == Upgrade Notice ==
 
+= 1.0.4 =
+Bug fixes, please update.
+
+= 1.0.3 =
+Bug fixes, please update.
+
 = 1.0.2 =
 Important bug-fixes that affect use of the plugin with installations using non-default table name prefixes and multi-site installations.
 
@@ -249,4 +255,4 @@ Suggest to record a referral. This function is used to actually store referrals 
 	
 - affiliate id if a valid referral is recorded, otherwise `false`
 
-Full documentation and examples are accessible from the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates).
+Full documentation and examples are available at the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates).
