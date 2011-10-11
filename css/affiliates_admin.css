@@ -25,6 +25,20 @@ label.field-label {
 label.field-label.first {
 	padding-left: 0;
 }
+.affiliate.new label.field-label {
+	display: block;
+	padding-left: 0;
+}
+.affiliate.new input[type="text"] {
+	display: block;
+	width: 50%;
+	padding: 0.62em 0;
+	margin-bottom: 0.31em;
+}
+.affiliate.new input[type="text"].datefield {
+	width: 10em;
+	text-align: center;
+}
 
 a.addtoaffiliate {
 	padding: 5px 10px;
@@ -43,7 +57,11 @@ a.removefromaffiliate {
 	font-style: italic;
 	color: #339;
 }
-
+.affiliate-link-param {
+	font-weight: bold;
+	font-style: italic;
+	color: #993;
+}
 .affiliate-permalink {
 	font-weight: bold;
 	font-style: italic;
@@ -55,19 +73,38 @@ a.removefromaffiliate {
 	margin: 5px 1em 5px 0;
 	border: #ddd 1px solid;
 }
-.affiliate.new {
-	background-color: #ccc;
+.affiliate.new,
+.affiliate.edit,
+.affiliate.remove {
+	background-color: #eee;
+	border: 1px solid #ccc;
 }
-.affiliate.odd {
-  background-color: #fff;
+.affiliates-overview .odd {
+	background-color: #fff;
 }
-.affiliate.even {
-  background-color: #eee;
+.affiliates-overview .even {
+	background-color: #eee;
+}
+.affiliates-overview .odd.inoperative {
+	background-color: #ffe;
+}
+.affiliates-overview .even.inoperative {
+	background-color: #eed;
+}
+.affiliates-overview .odd.deleted,
+.affiliates-overview .odd.deleted.inoperative {
+	background-color: #fee;
+}
+.affiliates-overview .even.deleted,
+.affiliates-overview .even.deleted.inoperative {
+	background-color: #edd;
 }
 
 /* overviews */
+.affiliates-overview .tablenav-pages,
 .hits-overview,
 .hits-affiliates-overview,
+.manage-affiliates,
 .referrals-overview {
 	padding-right: 1em;
 }
@@ -77,6 +114,7 @@ div.details-hits {
 	padding-left: 1em;
 }
 
+.affiliates-overview .page-options,
 .hits-overview .page-options,
 .hits-affiliates-overview .page-options,
 .referrals-overview .page-options {
@@ -84,11 +122,12 @@ div.details-hits {
 	display: inline;
 	width: 250px;
 }
+.affiliates-overview .tablenav.top,
 .hits-overview .tablenav.top,
 .hits-affiliates-overview .tablenav.top,
 .referrals-overview .tablenav.top {
-  display: inline;
-  width: 250px;
+	display: inline;
+	width: 250px;
 }
 
 .hits-overview .odd,
@@ -120,7 +159,7 @@ div.details-hits {
 	width: 15%;
 }
 .referrals-overview table.referrals th.post_title {
-  width: 50%;
+  width: 35%;
 }
 
 .referrals-overview table.referrals th.name {
@@ -152,19 +191,35 @@ div.details-hits {
 	border-color: #eee;
 }
 
-.filters {
+.filters,
+.manage {
 	background-color: #fff;
 	padding: 1em;
 	margin-bottom: 1em;
 	border: 1px solid #ddd;
 }
+.manage a.add {
+	text-decoration: none;
+	cursor: pointer;
+}
+.manage a.add .icon {
+	vertical-align: middle;
+	padding-right: 4px;
+}
+.manage a.add .label {
+	height: 20px;
+	vertical-align: middle;
+}
 .expanded-filter,
-.show-inoperative-filter {
+.show-inoperative-filter,
+.show-deleted-filter {
 	padding-left: 1em;
 	padding-right: 5px;
 }
 
 .affiliate-id-filter,
+.affiliate-name-filter,
+.affiliate-user-login-filter,
 .from-date-filter,
 .thru-date-filter {
 	margin-right: 1em;
@@ -178,6 +233,9 @@ input[name="clear_filters"] {
 
 .warning {
 	color: #933;
+}
+.affiliates-overview .warning {
+	cursor: pointer;
 }
 
 input.timeout {
@@ -200,4 +258,41 @@ table.affiliates-permissions tbody tr td.checkbox {
 	padding-top: 0.5em;
 	margin-top: 0.5em;
 	color: #333;
+}
+
+.affiliates-overview .required,
+.manage-affiliates .required {
+	background: url(../images/required.png) transparent no-repeat left center;
+	padding-left: 16px ! important;
+}
+.manage-affiliates input[type="submit"],
+.manage-affiliates .encoded-hint {
+	cursor: pointer;
+}
+.manage-affiliates div.field {
+	padding-bottom: 1em;
+}
+.manage-affiliates a.cancel {
+	padding-left: 1em;
+}
+
+.affiliates-overview th.affiliate_id {
+	width: 5%;
+}
+.affiliates-overview th.name {
+}
+.affiliates-overview th.email {
+}
+.affiliates-overview th.user_login {
+}
+.affiliates-overview th.from_date,
+.affiliates-overview th.thru_date {
+	width: 10%;
+}
+.affiliates-overview th.edit,
+.affiliates-overview th.remove {
+	width: 5%;
+}
+.affiliates-overview th.links {
+	width: 25%;
 }

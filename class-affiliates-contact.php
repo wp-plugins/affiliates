@@ -40,10 +40,17 @@ class Affiliates_Contact extends WP_Widget {
 	private static $captcha_field_id = 'lmfao';
 	
 	/**
-	 * Creates a MiniSearch widget.
+	 * Creates a contact widget.
 	 */
 	function Affiliates_Contact() {
-		parent::WP_Widget( false, $name = 'Affiliates Contact' );
+		$this->__construct();
+	}
+	
+	/**
+	 * Creates a contact widget.
+	 */
+	function __construct() {
+		parent::__construct( false, $name = 'Affiliates Contact' );
 		add_action( 'wp_print_styles', array( 'Affiliates_Contact', '_print_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( 'Affiliates_Contact', '_enqueue_scripts' ) );
 	}
@@ -52,7 +59,8 @@ class Affiliates_Contact extends WP_Widget {
 	 * Enqueues required stylesheets.
 	 */
 	function _print_styles() {
-		wp_enqueue_style( 'affiliates', AFFILIATES_PLUGIN_URL . 'css/affiliates.css', array(), '1.0.0' );
+		global $affiliates_version;
+		wp_enqueue_style( 'affiliates', AFFILIATES_PLUGIN_URL . 'css/affiliates.css', array(), $affiliates_version );
 	}
 		
 	/**
@@ -83,6 +91,8 @@ class Affiliates_Contact extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		}
 		
+		//echo "instance: " . var_export( $instance, true );
+		
 		if ( $this->is_singleton ) {
 			$ext = '';
 		} else {
@@ -90,9 +100,9 @@ class Affiliates_Contact extends WP_Widget {
 		}
 		
 		if ( $this->is_singleton ) {
-			Affiliates_Contact::render_form();
+			Affiliates_Contact::render_form( '', isset( $instance['amount'] ) ? $instance['amount'] : null, isset( $instance['currency_id'] ) ? $instance['currency_id'] : null );
 		} else {
-			Affiliates_Contact::render_form( $widget_id );
+			Affiliates_Contact::render_form( $widget_id, isset( $instance['amount'] ) ? $instance['amount'] : null, isset( $instance['currency_id'] ) ? $instance['currency_id'] : null );
 		}			
 		echo $after_widget;
 	}
@@ -102,10 +112,10 @@ class Affiliates_Contact extends WP_Widget {
 	 * Remember NOT to use any form input elements named 'name', 'year', ... 
 	 * @static
 	 */
-	static function render_form( $widget_id = '' ) {
+	static function render_form( $widget_id = '', $amount = null, $currency_id = null ) {
 		
 		$method = 'post';
-		$action = get_permalink();
+		$action = "";
 		
 		if ( !empty( $widget_id ) ) {
 			$ext = '-' . $widget_id;
@@ -165,9 +175,10 @@ class Affiliates_Contact extends WP_Widget {
 				$affiliate = null;
 				if ( function_exists('affiliates_suggest_referral') ) {
 					$post_id = get_the_ID();
-					$affiliate_id = affiliates_suggest_referral( $post_id, $description, $data );
+					$affiliate_id = affiliates_suggest_referral( $post_id, $description, $data, $amount, $currency_id );
 					if ( $affiliate_id ) {
 						$affiliate = affiliates_get_affiliate( $affiliate_id );
+						// Now you could send an email to the affiliate ...
 					}
 				}
 			}
@@ -272,7 +283,17 @@ class Affiliates_Contact extends WP_Widget {
 	 */
 	function update( $new_instance, $old_instance ) {
 		$settings = $old_instance;			
-		$settings['title'] = strip_tags( $new_instance['title'] );			
+		$settings['title'] = strip_tags( $new_instance['title'] );
+		if ( !empty( $new_instance['amount'] ) ) {
+			$settings['amount'] =  Affiliates_Utility::verify_referral_amount( $new_instance['amount'] );
+		} else {
+			unset( $settings['amount'] );
+		}
+		if ( !empty( $new_instance['currency_id'] ) ) {
+			$settings['currency_id'] = Affiliates_Utility::verify_currency_id( $new_instance['currency_id'] );
+		} else {
+			unset( $settings['currency_id'] );
+		}
 		return $settings;
 	}
 	
@@ -282,11 +303,21 @@ class Affiliates_Contact extends WP_Widget {
 	 * @see WP_Widget::form()
 	 */
 	function form( $instance ) {
-		$title = esc_attr( $instance['title'] );
+		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
+		$amount = isset( $instance['amount'] ) ? esc_attr( $instance['amount'] ) : '';
+		$currency_id = isset( $instance['currency_id'] ) ? esc_attr( $instance['currency_id'] ) : '';
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
-			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'amount' ); ?>"><?php _e( 'Amount (use . for decimals):' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'amount' ); ?>" name="<?php echo $this->get_field_name( 'amount' ); ?>" type="text" value="<?php echo $amount; ?>" />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'currency_id' ); ?>"><?php _e( 'Currency - 3 letter code, e.g. USD, EUR:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'currency_id' ); ?>" name="<?php echo $this->get_field_name( 'currency_id' ); ?>" type="text" value="<?php echo $currency_id; ?>" />
 		</p>
 		<p>
 			<?php _e( 'This contact form will request a referral and store the data that has been submitted.', AFFILIATES_PLUGIN_DOMAIN ); ?>

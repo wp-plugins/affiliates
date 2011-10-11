@@ -84,7 +84,7 @@ class DateHelper {
 	 * @return datetime with respect to UTZ, i.e. seen by the user
 	 */
 	static function s2u( $sdatetime, $offset = 0 ) {
-		return DateHelper::_t2t( $sdatetime, 's2u', $offset );
+		return self::_t2t( $sdatetime, 's2u', $offset );
 	}
 	
 	/**
@@ -95,7 +95,7 @@ class DateHelper {
 	 * @return datetime with respect to STZ, i.e. stored at the server
 	 */
 	static function u2s( $udatetime, $offset = 0 ) {
-		return DateHelper::_t2t( $udatetime, 'u2s', $offset );
+		return self::_t2t( $udatetime, 'u2s', $offset );
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class DateHelper {
 		}
 		
 		// If supported, adjust the dates for the site's/server's timezone:
-		if ( wp_timezone_supported() ) {
+		if ( self::timezone_supported() ) {
 			$time = time();
 			$default_tz = date_default_timezone_get();
 			$default_dtz = new DateTimeZone( $default_tz );
@@ -155,7 +155,7 @@ class DateHelper {
 	 * @return formatted date
 	 */
 	static function formatDate( $datetime ) {
-		return date( DateHelper::$dateFormat, strtotime( $datetime ) );
+		return date( self::$dateFormat, strtotime( $datetime ) );
 	}
 	
 	/**
@@ -165,7 +165,7 @@ class DateHelper {
 	 * @return formatted time
 	 */
 	static function formatTime( $datetime ) {
-		return date( DateHelper::$timeFormat, strtotime( $datetime ) );
+		return date( self::$timeFormat, strtotime( $datetime ) );
 	}
 	
 	/**
@@ -175,7 +175,7 @@ class DateHelper {
 	 * @return formatted datetime
 	 */
 	static function formatDatetime( $datetime ) {
-		return date( DateHelper::$datetimeFormat, strtotime( $datetime ) );
+		return date( self::$datetimeFormat, strtotime( $datetime ) );
 	}
 	
 	static function getServerDateTimeZone() {
@@ -188,6 +188,28 @@ class DateHelper {
 		$tzstring = get_option('timezone_string');
 		$site_dtz = new DateTimeZone( $tzstring );
 		return $site_dtz;
+	}
+	
+	/**
+	 * Substitutes deprecated wp_timezone_supported().
+	 * The current (WP 5.2.1) just returns true. Unfortunately we can
+	 * not assume as of yet that everybody will run their WP on
+	 * PHP 5 >= 5.2.0 so we maintain this for a while.
+	 * @see wp_timezone_supported()
+	 * @link http://core.trac.wordpress.org/ticket/16970
+	 */
+	static function timezone_supported() {
+		$support = false;
+		if (
+			function_exists( 'date_create' ) && // PHP 5 >= 5.2.0
+			function_exists( 'date_default_timezone_set' ) && // PHP 5 >= 5.1.0
+			function_exists( 'timezone_identifiers_list' ) && // PHP 5 >= 5.2.0
+			function_exists( 'timezone_open' ) && // PHP 5 >= 5.2.0
+			function_exists( 'timezone_offset_get' ) // PHP 5 >= 5.2.0
+		) {
+			$support = true;
+		}
+		return apply_filters( 'timezone_support', $support );
 	}
 }
 ?>

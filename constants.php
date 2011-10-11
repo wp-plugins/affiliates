@@ -19,6 +19,8 @@
  * @since affiliates 1.0.0
  */
 
+define( 'AFFILIATES_DEFAULT_VERSION', '1.0.0' );
+
 /**
  * @var string plugin domain
  */
@@ -38,6 +40,11 @@ define( 'AFFILIATES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
  * @var int cookie expiration multiplier, 1 day
  */
 define( 'AFFILIATES_COOKIE_TIMEOUT_BASE', 86400 );
+
+/**
+ * @var int default timeout in days
+ */
+define( 'AFFILIATES_COOKIE_TIMEOUT_DAYS', 1 );
 
 /**
  * @var string this cookie stores the affiliate id
@@ -97,6 +104,7 @@ define( 'AFFILIATES_NO_ID_ENCODING', 1 );
  */
 define( 'AFFILIATES_MD5_ID_ENCODING', 2 );
 
+// affiliates administrative capabilities
 /**
  * @var string allows access to the affiliates section
  */
@@ -112,9 +120,50 @@ define( 'AFFILIATES_ADMINISTER_AFFILIATES', 'aff_admin_affiliates');
  */
 define( 'AFFILIATES_ADMINISTER_OPTIONS', 'aff_admin_options');
 
+/**
+ * @var int generated password length
+ */
+define( 'AFFILIATES_REGISTRATION_PASSWORD_LENGTH', 12 );
+
+/** 
+ * @var int decimal places for referral amount
+ */
+define( 'AFFILIATES_REFERRAL_AMOUNT_DECIMALS', 2 );
+
+/**
+ * @var int number of characters in currency id
+ */
+define( 'AFFILIATES_REFERRAL_CURRENCY_ID_LENGTH', 3 );
+
+/**
+ * @var string referral status pending
+ */
+define( 'AFFILIATES_REFERRAL_STATUS_PENDING', 'pending' );
+
+/**
+ * @var string referral status accepted
+ */
+define( 'AFFILIATES_REFERRAL_STATUS_ACCEPTED', 'accepted' );
+
+/**
+ * @var string referral status rejected
+ */
+define( 'AFFILIATES_REFERRAL_STATUS_REJECTED', 'rejected' );
+
+/**
+ * @var string referral status closed
+ */
+define( 'AFFILIATES_REFERRAL_STATUS_CLOSED', 'closed' );
+
+/**
+ * @var string qualifies as affiliate
+ */
+//define( 'AFFILIATES_IS_AFFILIATE', 'aff_is_affiliate' );
+
 // constants used in affiliates-admin-hits.php & affiliaets-admin-referrals.php
 define( 'AFFILIATES_HITS_PER_PAGE', 10 );
 define( 'AFFILIATES_ADMIN_HITS_NONCE_1', 'affiliates-admin-hits-nonce-1' );
 define( 'AFFILIATES_ADMIN_HITS_NONCE_2', 'affiliates-admin-hits-nonce-2' );
 define( 'AFFILIATES_ADMIN_HITS_FILTER_NONCE', 'affiliates-admin-hits-filter-nonce' );
+define( 'AFFILIATES_ADMIN_REFERRALS_NONCE', 'affiliates-admin-referrals-nonce' );
 ?>

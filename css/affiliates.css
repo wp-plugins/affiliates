@@ -30,3 +30,23 @@
 .affiliates-contact .missing {
 	color: #f00;
 }
+
+/* affiliate registration form */
+.affiliates-registration label {
+	display: block;
+}
+.affiliates-registration input[type="checkbox"] {
+	float: left;
+}
+.affiliates-registration input[type="text"],
+.affiliates-registration textarea {
+	width: 100%;
+	display: block;
+}
+.affiliates-registration .missing {
+	color: #f00;
+}
+.affiliates-registration .required {
+	background: url(../images/required.png) transparent no-repeat left center;
+	padding-left: 16px;
+}

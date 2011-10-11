@@ -20,18 +20,9 @@
 
 jQuery(document).ready(function(){
 	jQuery('.datefield').not('.hasDatePicker').datepicker(
-			{
-				dateFormat:'yy-mm-dd',
-				firstDay: 1
-			}
-			);
-	jQuery('.dobfield').not('.hasDatePicker').datepicker(
-			{
-				dateFormat:'yy-mm-dd',
-				changeYear: true,
-				changeMonth: true,
-				yearRange: 'c-100:c+0',
-				firstDay: 1
-			}
-			);
+		{
+			dateFormat:'yy-mm-dd',
+			firstDay: 1
+		}
+	);
 });

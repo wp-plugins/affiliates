@@ -4,22 +4,38 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.0.4
+Stable tag: 1.1.0
 
-The Affiliates plugin provides the right tools to maintain a partner referral program.
+The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
 == Description ==
 
-The Affiliates plugin provides the right tools to maintain a partner referral program.
+The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
-If you need to **track visits to your site** with **affiliate links**, the affiliates plugin is probably right for you. It provides the tools to maintain a **partner referral program**.
+**Important features have been added to the latest release, including automated affiliate registration and a completely revised affiliate management section. Referrals now directly support amounts and currencies and provide different states for their evaluation.**
 
-Simply put, the affiliates plugin is used to manage and track visits to your site through affiliate links.
-Referrals can also be stored and attributed to an affiliate, for example if clients place orders on your site and you need to credit your affiliates.
+If you need to manage an **Affiliate Marketing Progam**, **track visits to your site** with **affiliate links**, the affiliates plugin is right for you. It provides the tools to maintain a **partner referral program**.
 
-If you require **support** or **customization** including **referrals integration** with your site, you may [contact me here](http://www.itthinx.com/) and consider making a [donation](http://www.itthinx.com/plugins/affiliates).
+Simply put, the affiliates plugin is used to manage affiliates, create referrals and track visits to your site through affiliate links.
+Referrals are stored and attributed to an affiliate, for example if clients place orders on your site and you need to credit your affiliates.
 
-After installing the plugin you can start adding affiliates and provide them with affiliate links to your site.
+__Feedback__ is welcome!
+If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates).
+
+Please try to solve problems there before you rate this plugin or say it doesn't work. There goes a _lot_ of work into providing you with free quality plugins! Please appreciate that and help with your feedback. Thanks!
+
+[Follow me on Twitter](http://twitter.com/itthinx) for updates on this and other plugins.
+
+**Early Bird Contributor** releases are now available. These include advanced features such as:
+
+* **Affiliate Statistics** shortcodes and widgets for affiliates
+* Configurable **Referral Views** for affiliates
+* Embeddable Links and Banners for affiliates
+* Premium support and special attention to feature requests for contributors
+
+If you require **support** or **customization** including **referrals integration** with your site, you may [contact me here](http://www.itthinx.com/). Please consider making a [donation](http://www.itthinx.com/plugins/affiliates) or sponsoring the plugin as a contributor.
+
+After installing the plugin you can allow visitors to join your Affiliate Marketing Program. Enable registration, place the Affiliates Registration widget or shortcode on your site to let your new affiliates join. You can also start adding affiliates manually or let existing users join the Affiliate Program.
 The default options should be suitable for many, but there are some options you might want to consider before you really start.
 
 Full documentation is accessible from the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates). 
@@ -111,10 +127,6 @@ This option is useful if you just need to start clean while you run tests.
 
 It is not intended to keep track of links to other sites that you as a member of an affiliate program may have.
 
-#### Thanks ####
-
-Initial development of this plugin has been sponsored by [Indigourlaub](http://www.indigourlaub.com).
-
 == Installation ==
 
 1. Upload or extract the `affiliates` folder to your site's `/wp-content/plugins/` directory. Or you could use the *Add new* option found in the *Plugins* menu in WordPress.  
@@ -198,8 +210,17 @@ The plugin provides role-based permissions to access gathered affiliate data, ad
 6. Referrals II - showing detailed information stored along with referrals obtained through the Affiliates Contact widget
 7. Options - where general settings are maintained
 8. Menu - the Affiliates menu
+9. Affiliates Contact Widget - Usable example widget for lead generation and referrals with applied commission rate
+10. Affiliates Contact Widget - Visitor's view (theme Twenty Eleven)
+11. Affiliates Registration Widget - Lets visitors sign up to your affiliate program, fully automated. Also available as a shortcode to embed on pages.
+12. Affiliates Registration Widget - Visitor's view of the form. Also available as a shortcode to embed on pages.
+13. Affiliates Registration Widget - View of a visitor's successful form submission to join the site's affiliate program.
 
 == Changelog ==
+
+= 1.1.0 =
+* Automated affiliate registration, providing affiliate registration widget, registration form shortcode and API
+* Important bug fixes
 
 = 1.0.4 =
 * This release fixes the issue of md5-encoded links not showing up
@@ -217,6 +238,10 @@ The plugin provides role-based permissions to access gathered affiliate data, ad
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+This release automates the process of affiliate registration, providing a registration form for affiliates as a widget, a shortcode and API function.
+It also includes important bug fixes. Please update now.
 
 = 1.0.4 =
 Bug fixes, please update.

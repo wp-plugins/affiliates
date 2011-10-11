@@ -44,8 +44,8 @@ class Affiliates_Options {
 		
 		if ( !empty( $current_user ) ) {
 			$options = get_option( 'affiliates_plugin' );
-			if ( is_array( $options ) && is_array( $options[$current_user->ID] ) )	{
-				$value = $options[$current_user->ID][$option];
+			if ( is_array( $options ) && isset( $options[$current_user->ID] ) && is_array( $options[$current_user->ID] ) )	{
+				$value = isset( $options[$current_user->ID][$option] ) ? $options[$current_user->ID][$option] : null;
 			} else {
 				$value = null;
 			}

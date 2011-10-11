@@ -46,6 +46,11 @@ class Affiliates_Pagination {
 	 */
 	function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
+		if ( !isset( $_REQUEST['paged'] ) ) { // needed with rewritten page added
+			if ( preg_match( "/(\/page\/)(\d+)/", $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $matches ) ) {
+				$pagenum = absint( $matches[2] );
+			}
+		}		
 
 		if( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] )
 			$pagenum = $this->_pagination_args['total_pages'];
@@ -92,6 +97,9 @@ class Affiliates_Pagination {
 
 		$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
 
+		// needs to remove rewritten added page
+		$current_url = preg_replace( "/\/page\/\d+/", "", $current_url );
+		
 		$page_links = array();
 
 		$disable_first = $disable_last = '';

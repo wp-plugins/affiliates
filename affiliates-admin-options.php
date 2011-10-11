@@ -59,7 +59,7 @@ function affiliates_admin_options() {
 			if ( $timeout < 0 ) {
 				$timeout = 0;
 			}
-			$affiliates_options->update_option( 'cookie_timeout_days', $timeout );
+			update_option( 'aff_cookie_timeout_days', $timeout );
 			
 			// robots
 			$robots = wp_filter_nohtml_kses( trim ( $_POST['robots'] ) );
@@ -104,23 +104,23 @@ function affiliates_admin_options() {
 			_affiliates_assure_capabilities();
 							
 			if ( !empty( $_POST['delete-data'] ) ) {
-				$affiliates_options->update_option( 'delete_data', true );
+				update_option( 'aff_delete_data', true );
 			} else {
-				$affiliates_options->update_option( 'delete_data', false );
+				update_option( 'aff_delete_data', false );
 			}
 			
 			if ( !empty( $_POST['use-direct'] ) ) {
-				$affiliates_options->update_option( 'use_direct', true );
+				update_option( 'aff_use_direct', true );
 			} else {
-				$affiliates_options->update_option( 'use_direct', false );
+				update_option( 'aff_use_direct', false );
 			}
 		}
 	}
 	
 	
-	$use_direct = $affiliates_options->get_option( 'use_direct', true );
+	$use_direct = get_option( 'aff_use_direct', true );
 	
-	$timeout = $affiliates_options->get_option( 'cookie_timeout_days', 1 );
+	$timeout = get_option( 'aff_cookie_timeout_days', AFFILIATES_COOKIE_TIMEOUT_DAYS );
 
 	$robots = '';
 	$db_robots = $wpdb->get_results( $wpdb->prepare( "SELECT name FROM $robots_table" ), OBJECT );
@@ -190,7 +190,7 @@ function affiliates_admin_options() {
 	$caps_table .= '</tbody>';
 	$caps_table .= '</table>';
 	
-	$delete_data = $affiliates_options->get_option( 'delete_data', false );
+	$delete_data = get_option( 'aff_delete_data', false );
 	
 	//
 	// print the options form

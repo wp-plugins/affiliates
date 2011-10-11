@@ -33,6 +33,8 @@ function affiliates_admin_hits_affiliate() {
 	
 	global $wpdb, $affiliates_options;
 	
+	$output = '';
+	
 	if ( !current_user_can( AFFILIATES_ACCESS_AFFILIATES ) ) {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 	}
@@ -42,7 +44,10 @@ function affiliates_admin_hits_affiliate() {
 		isset( $_POST['thru_date'] ) ||
 		isset( $_POST['clear_filters'] ) ||
 		isset( $_POST['affiliate_id'] ) ||
-		isset( $_POST['expanded'] )
+		isset( $_POST['expanded'] ) ||
+		isset( $_POST['expanded_hits'] ) ||
+		isset( $_POST['expanded_referrals'] ) ||
+		isset( $_POST['show_inoperative'] )
 	) {
 		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_AFF_FILTER_NONCE], plugin_basename( __FILE__ ) ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
@@ -161,30 +166,30 @@ function affiliates_admin_hits_affiliate() {
 	$referrals_table = _affiliates_get_tablename( 'referrals' );
 	$hits_table = _affiliates_get_tablename( 'hits' );
 	
-	echo
+	$output .=
 		'<div>' .
 			'<h2>' .
 				__( 'Affiliates & Referrals', AFFILIATES_PLUGIN_DOMAIN ) .
 			'</h2>' .
 		'</div>';
 
-	$row_count = intval( $_POST['row_count'] );
+	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
 	
 	if ($row_count <= 0) {
 		$row_count = $affiliates_options->get_option( 'hits_affiliate_per_page', AFFILIATES_HITS_AFFILIATE_PER_PAGE );
 	} else {
 		$affiliates_options->update_option('hits_affiliate_per_page', $row_count );
 	}
-	$offset = intval( $_GET['offset'] );
+	$offset = isset( $_GET['offset'] ) ? intval( $_GET['offset'] ) : 0;
 	if ( $offset < 0 ) {
 		$offset = 0;
 	}
-	$paged = intval( $_GET['paged'] );
+	$paged = isset( $_GET['paged'] ) ? intval( $_GET['paged'] ) : 0;
 	if ( $paged < 0 ) {
 		$paged = 0;
 	} 
 	
-	$orderby = $_GET['orderby'];
+	$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : null;
 	switch ( $orderby ) {
 		case 'date' :
 		case 'visits' :
@@ -197,7 +202,7 @@ function affiliates_admin_hits_affiliate() {
 			$orderby = 'name';
 	}
 	
-	$order = $_GET['order'];
+	$order = isset( $_GET['order'] ) ? $_GET['order'] : null;
 	switch ( $order ) {
 		case 'asc' :
 		case 'ASC' :
@@ -295,6 +300,7 @@ function affiliates_admin_hits_affiliate() {
 	$output .= '<div id="" class="hits-affiliates-overview">';
 		
 	$affiliates = affiliates_get_affiliates( true, !$show_inoperative );
+	$affiliates_select = '';
 	if ( !empty( $affiliates ) ) {
 		$affiliates_select .= '<label class="affiliate-id-filter" for="affiliate_id">' . __('Affiliate', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
 		$affiliates_select .= '<select class="affiliate-id-filter" name="affiliate_id">';
@@ -356,7 +362,7 @@ function affiliates_admin_hits_affiliate() {
 		
 	if ( $paginate ) {
 	  require_once(dirname( __FILE__ ) . '/class-affiliates-pagination.php' );
-		$pagination = new Affiliates_Pagination($count, $paged, $row_count);
+		$pagination = new Affiliates_Pagination($count, null, $row_count);
 		$output .= '<form id="posts-filter" method="post" action="">';
 		$output .= '<div>';
 		$output .= wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_HITS_AFF_NONCE_2, true, false );
