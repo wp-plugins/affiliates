@@ -21,7 +21,7 @@
  * Plugin Name: Affiliates
  * Plugin URI: http://www.itthinx.com/plugins/affiliates
  * Description: The Affiliates plugin provides the right tools to maintain a partner referral program.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: itthinx (Karim Rahimpur)
  * Author URI: http://www.itthinx.com
  * Donate-Link: http://www.itthinx.com
@@ -512,9 +512,10 @@
 	 * @þaram string $currency_id three letter currency code - if used, an $amount must be given
 	 * @return affiliate id if a valid referral is recorded, otherwise false
 	 */
-	function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null ) {
+	function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null ) {
 		global $wpdb, $affiliates_options;
-		$affiliate_id = affiliates_check_affiliate_id_encoded( trim( $_COOKIE[AFFILIATES_COOKIE_NAME] ) );
+		//$affiliate_id = affiliates_check_affiliate_id_encoded( trim( $_COOKIE[AFFILIATES_COOKIE_NAME] ) );
+		$affiliate_id = isset( $_COOKIE[AFFILIATES_COOKIE_NAME] ) ? affiliates_check_affiliate_id_encoded( trim( $_COOKIE[AFFILIATES_COOKIE_NAME] ) ) : false;
 		if ( !$affiliate_id ) {
 			if ( get_option( 'aff_use_direct', true ) ) {
 				// Assume a direct referral without id cookie:
@@ -563,6 +564,11 @@
 						$values[] = $currency_id;
 					}
 				}
+			}
+			if ( !empty( $status ) && Affiliates_Utility::verify_referral_status_transition( $status, $status ) ) {
+				$columns .= ',status ';
+				$formats .= ',%s ';
+				$values[] = $status;
 			}
 			
 			$columns .= ")";
