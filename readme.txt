@@ -202,6 +202,8 @@ The plugin provides role-based permissions to access gathered affiliate data, ad
 
 == Screenshots ==
 
+See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliates-screenshots/)
+
 1. Overview - shows summarized information based on current and historic data
 2. Manage Affiliates - where affiliates links for your site's partners are maintained
 3. Visits & Referrals - per-day view of information about visits and referrals generated through affiliate links
