@@ -218,6 +218,7 @@ div.details-hits {
 }
 
 .affiliate-id-filter,
+.status-filter,
 .affiliate-name-filter,
 .affiliate-user-login-filter,
 .from-date-filter,
@@ -295,4 +296,20 @@ table.affiliates-permissions tbody tr td.checkbox {
 }
 .affiliates-overview th.links {
 	width: 25%;
+}
+
+.referrals-overview td.status img.icon {
+	float: left;
+}
+.referrals-overview th.amount {
+	width: 10%;
+}
+.referrals-overview th.currency_id {
+	width: 10%;
+}
+.referrals-overview th.status {
+	width: 20%;
+}
+.referrals-overview td.amount {
+	text-align: right;
 }

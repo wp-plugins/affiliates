@@ -50,3 +50,7 @@
 	background: url(../images/required.png) transparent no-repeat left center;
 	padding-left: 16px;
 }
+
+.affiliate-profile div.field label {
+	display: block;
+}

@@ -29,12 +29,12 @@ define( 'AFFILIATES_PLUGIN_DOMAIN', 'affiliates' );
 /**
  * @var string plugin directory on the server
  */
-define( 'AFFILIATES_PLUGIN_DIR', basename( dirname( __FILE__ ) ) );
+define( 'AFFILIATES_PLUGIN_DIR', AFFILIATES_CORE_DIR );
 
 /**
  * @var string plugin url
  */
-define( 'AFFILIATES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'AFFILIATES_PLUGIN_URL', plugin_dir_url( AFFILIATES_FILE ) );
 
 /**
  * @var int cookie expiration multiplier, 1 day

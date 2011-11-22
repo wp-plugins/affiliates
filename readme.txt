@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -220,6 +220,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.1.2 =
+* Added type to referrals
+
 = 1.1.1 =
 * Added status parameter to referral suggestion
 
@@ -243,6 +246,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Added type to referrals. Upgrade if using Pro or Enterprise or referral types are desired via API.
 
 = 1.1.1 =
 Added status parameter to referral suggestion. Upgrade if you use the API and want to store a status other than default.

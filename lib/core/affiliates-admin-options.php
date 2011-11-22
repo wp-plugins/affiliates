@@ -52,7 +52,7 @@ function affiliates_admin_options() {
 	// 
 	if ( isset( $_POST['timeout'] ) ) {
 		
-		if ( wp_verify_nonce( $_POST[AFFILIATES_ADMIN_OPTIONS_NONCE], plugin_basename( __FILE__ ) ) ) {
+		if ( wp_verify_nonce( $_POST[AFFILIATES_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
 			
 			// timeout
 			$timeout = intval ( $_POST['timeout'] );
@@ -114,6 +114,12 @@ function affiliates_admin_options() {
 			} else {
 				update_option( 'aff_use_direct', false );
 			}
+			
+			if ( !empty( $_POST['status'] ) && ( Affiliates_Utility::verify_referral_status_transition( $_POST['status'], $_POST['status'] ) ) ) {
+				update_option( 'aff_default_referral_status', $_POST['status'] );
+			} else {
+				update_option( 'aff_default_referral_status', AFFILIATES_REFERRAL_STATUS_ACCEPTED );
+			}
 		}
 	}
 	
@@ -121,6 +127,24 @@ function affiliates_admin_options() {
 	$use_direct = get_option( 'aff_use_direct', true );
 	
 	$timeout = get_option( 'aff_cookie_timeout_days', AFFILIATES_COOKIE_TIMEOUT_DAYS );
+	
+	$default_status = get_option( 'aff_default_referral_status', AFFILIATES_REFERRAL_STATUS_ACCEPTED );
+	$status_descriptions = array(
+		AFFILIATES_REFERRAL_STATUS_ACCEPTED => __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_CLOSED   => __( 'Closed', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_PENDING  => __( 'Pending', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_REJECTED => __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN ),
+	);
+	$status_select = "<select name='status'>";
+	foreach ( $status_descriptions as $status_key => $status_value ) {
+		if ( $status_key == $default_status ) {
+			$selected = "selected='selected'";
+		} else {
+			$selected = "";
+		}
+		$status_select .= "<option value='$status_key' $selected>$status_value</option>";
+	}
+	$status_select .= "</select>";
 
 	$robots = '';
 	$db_robots = $wpdb->get_results( $wpdb->prepare( "SELECT name FROM $robots_table" ), OBJECT );
@@ -222,6 +246,11 @@ function affiliates_admin_options() {
 					__( 'If this option is enabled, whenever a referral is suggested and no affiliate is attributable to it, the referral will be attributed to Direct.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 					
+				'<h3>' . __( 'Default referral status', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+				'<p>' .
+					$status_select .
+				'</p>' .
+					
 				'<h3>' . __( 'Robots') . '</h3>' .
 				'<p>' .
 					//'<label for="robots">' . __( 'Robots', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
@@ -261,7 +290,7 @@ function affiliates_admin_options() {
 						__( 'CAUTION: If this option is active while the plugin is deactivated, ALL affiliate and referral data will be DELETED. If you want to retrieve data about your affiliates and their referrals and are going to deactivate the plugin, make sure to back up your data or do not enable this option. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 				'<p>' .
-					wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_OPTIONS_NONCE, true, false ) .
+					wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_NONCE, true, false ) .
 					'<input type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'</p>' .
 			'</div>' .

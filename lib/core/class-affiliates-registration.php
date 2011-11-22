@@ -88,12 +88,18 @@ class Affiliates_Registration {
 		
 		if ( $is_logged_in = is_user_logged_in() ) {
 			$user       = wp_get_current_user();
-			$user       = sanitize_user_object( $user );
+			// sanitize_user_object is deprecated in WP 3.3 beta3
+			//$user       = sanitize_user_object( $user );
 			$first_name = $user->first_name;
+			$first_name = sanitize_user_field( 'first_name', $first_name, $user->ID, 'display' );
 			$last_name  = $user->last_name;
+			$last_name  = sanitize_user_field( 'last_name', $last_name, $user->ID, 'display' );
 			$user_login = $user->user_login;
+			$user_login = sanitize_user_field( 'user_login', $user_login, $user->ID, 'display' );
 			$email      = $user->user_email;
+			$email      = sanitize_user_field( 'email', $email, $user->ID, 'display' );
 			$url        = $user->user_url;
+			$url        = sanitize_user_field( 'user_url', $url, $user->ID, 'display' );
 		} else {
 			$user = null;
 		}
@@ -125,9 +131,10 @@ class Affiliates_Registration {
 		$method = 'post';
 		$action = "";
 		
-		$submit_name = 'affiliates-registration-submit';
-		$nonce = 'affiliates-registration-nonce';
-		$send = false;
+		$submit_name        = 'affiliates-registration-submit';
+		$nonce              = 'affiliates-registration-nonce';
+		$nonce_action       = 'affiliates-registration';
+		$send               = false;
 		
 		$first_name_class   = ' class="required" ';
 		$last_name_class    = ' class="required" ';
@@ -148,7 +155,7 @@ class Affiliates_Registration {
 		
 		if ( !empty( $_POST[$submit_name] ) ) {
 			
-			if ( !wp_verify_nonce( $_POST[$nonce], plugin_basename( __FILE__ ) ) ) {
+			if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) {
 				$error = true; // fail but don't give clues
 			}
 			
@@ -195,7 +202,7 @@ class Affiliates_Registration {
 					'last_name'  => $last_name,
 					'user_login' => $user_login,
 					'email'      => $email,
-					'url'        => $url
+					'user_url'   => $url
 				); 
 				
 				if ( !$is_logged_in ) {
@@ -226,7 +233,7 @@ class Affiliates_Registration {
 						$output .= '<p>' . __( 'Thanks for signing up!', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
 						if ( !$is_logged_in ) {
 							$output .= '<p>' . __( 'Please check your email for the confirmation link.', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
-							$output .= '<p>' . sprintf( __( 'Log in <a href="%s">here</a>.', AFFILIATES_PLUGIN_DIR ), get_home_url( get_current_blog_id(), 'wp-login.php?checkemail=confirm' ) ) . '</p>';
+							$output .= '<p>' . sprintf( __( 'Log in <a href="%s">here</a>.', AFFILIATES_PLUGIN_DOMAIN ), get_home_url( get_current_blog_id(), 'wp-login.php?checkemail=confirm' ) ) . '</p>';
 						} else {
 							if ( isset( $options['registered_profile_link_url'] ) ) {
 								$output .= '<p>';
@@ -326,7 +333,7 @@ class Affiliates_Registration {
 			}
 			$output .= Affiliates_Utility::captcha_get( $captcha );
 			
-			$output .= wp_nonce_field( plugin_basename( __FILE__ ), $nonce, true, false );
+			$output .= wp_nonce_field( $nonce_action, $nonce, true, false );
 			
 			if ( isset( $options['redirect_to'] ) ) {
 				$output .= '<input type="hidden" name="redirect_to" value="'. esc_url( $options['redirect_to'] ) . '" />';
@@ -390,8 +397,8 @@ class Affiliates_Registration {
 		$userdata['user_login'] = $sanitized_user_login;
 		$userdata['email']      = $user_email;
 		$userdata['password']   = $user_pass;
-		$userdata['url']        = esc_url_raw( $userdata['url'] );
-		$userdata['url']        = preg_match( '/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $userdata['url'] ) ? $userdata['url'] : 'http://' . $userdata['url'];
+		$userdata['user_url']   = esc_url_raw( $userdata['user_url'] );
+		$userdata['user_url']   = preg_match( '/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $userdata['user_url'] ) ? $userdata['user_url'] : 'http://' . $userdata['user_url'];
 		
 		// create affiliate entry
 		$user_id = self::create_affiliate( $userdata );
@@ -421,8 +428,8 @@ class Affiliates_Registration {
 			'user_email' => esc_sql( $userdata['email'] ),
 			'user_pass' => esc_sql( $userdata['password'] )
 		);
-		if ( isset( $userdata['url'] ) ) {
-			$_userdata['url'] = esc_sql( $userdata['url'] );
+		if ( isset( $userdata['user_url'] ) ) {
+			$_userdata['user_url'] = esc_sql( $userdata['user_url'] );
 		}
 		return wp_insert_user( $_userdata );
 	}
@@ -504,6 +511,7 @@ class Affiliates_Registration {
 						intval( $affiliate_id )
 					)
 				);
+				do_action( 'affiliates_deleted_affiliate', intval( $affiliate_id ) );
 				// the user is removed from the users table, it wouldn't make sense to maintain
 				// a dangling reference to a non-existent user so release the association as well 
 				$wpdb->query(

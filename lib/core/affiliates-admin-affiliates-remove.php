@@ -74,7 +74,7 @@ function affiliates_admin_affiliates_remove( $affiliate_id ) {
 		'<li>' . sprintf( __( 'From : %s', AFFILIATES_PLUGIN_DOMAIN ), wp_filter_kses( $affiliate['from_date'] ) ) . '</li>' .
 		'<li>' . sprintf( __( 'Until : %s', AFFILIATES_PLUGIN_DOMAIN ), wp_filter_kses( $affiliate['from_date'] ) ) . '</li>' .
 		'</ul> ' .
-		wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_AFFILIATES_NONCE, true, false ) .
+		wp_nonce_field( 'affiliates-remove', AFFILIATES_ADMIN_AFFILIATES_NONCE, true, false ) .
 		'<input type="submit" value="' . __( 'Remove', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="remove" name="action"/>' .
 		'<a class="cancel" href="' . $current_url . '">' . __( 'Cancel', AFFILIATES_PLUGIN_DOMAIN ) . '</a>' .
@@ -100,6 +100,10 @@ function affiliates_admin_affiliates_remove_submit() {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 	}
 	
+	if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_NONCE], 'affiliates-remove' ) ) {
+		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
+	}
+	
 	$affiliates_table = _affiliates_get_tablename( 'affiliates' );
 	
 	$affiliate_id = isset( $_POST['affiliate-id-field'] ) ? $_POST['affiliate-id-field'] : null;
@@ -120,6 +124,7 @@ function affiliates_admin_affiliates_remove_submit() {
 					intval( $affiliate_id )
 				)
 			);
+			do_action( 'affiliates_deleted_affiliate', intval( $affiliate_id ) );
 		}
 	}
 	

@@ -123,20 +123,21 @@ class Affiliates_Contact extends WP_Widget {
 			$ext = '';
 		}
 		
-		$submit_name = 'affiliates-contact-submit';
-		$nonce = 'affiliates-contact-nonce';
-		$send = false;
+		$submit_name   = 'affiliates-contact-submit';
+		$nonce         = 'affiliates-contact-nonce';
+		$nonce_action  = 'affiliates-contact';
+		$send          = false;
 		
 		$sender_class  = '';
 		$email_class   = '';
 		$message_class = '';
 		$captcha       = '';
 			
-		$error = false;
+		$error         = false;
 		
 		if ( !empty( $_POST[$submit_name] ) ) {
 			
-			if ( !wp_verify_nonce( $_POST[$nonce], plugin_basename( __FILE__ ) ) ) {
+			if ( !wp_verify_nonce( $_POST[$nonce], $nonce_action ) ) {
 				$error = true; // fail but don't give clues
 			}
 			
@@ -201,7 +202,7 @@ class Affiliates_Contact extends WP_Widget {
 			echo '<label ' . $message_class . 'id="affiliates-contact-form' . $ext . '-message-label" for="message">' . __( 'Message', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
 			echo '<textarea id="affiliates-contact-form' . $ext . '-message" name="message">' . $message . '</textarea>';
 			echo Affiliates_Contact::captcha_get( $captcha );
-			echo wp_nonce_field( plugin_basename( __FILE__ ), $nonce, true, false );
+			echo wp_nonce_field( $nonce_action, $nonce, true, false );
 			echo '<input type="submit" name="' . $submit_name . '" value="'. __( 'Send', AFFILIATES_PLUGIN_DOMAIN ) . '" />';
 			echo '</div>';
 			echo '</form>';

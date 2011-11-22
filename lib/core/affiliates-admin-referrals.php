@@ -20,7 +20,7 @@
  */	
 	// Shows referrals by date
 
-include_once( dirname( __FILE__ ) . '/class-affiliates-date-helper.php');
+include_once( AFFILIATES_CORE_LIB . '/class-affiliates-date-helper.php');
 
 function affiliates_admin_referrals() {
 	
@@ -42,7 +42,7 @@ function affiliates_admin_referrals() {
 		isset( $_POST['expanded_description'] ) ||
 		isset( $_POST['show_inoperative'] )
 	) {
-		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_FILTER_NONCE], plugin_basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_FILTER_NONCE], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	}
@@ -85,15 +85,17 @@ function affiliates_admin_referrals() {
 	$from_date            = $affiliates_options->get_option( 'referrals_from_date', null );
 	$thru_date            = $affiliates_options->get_option( 'referrals_thru_date', null );
 	$affiliate_id         = $affiliates_options->get_option( 'referrals_affiliate_id', null );
+	$status               = $affiliates_options->get_option( 'referrals_status', null );
 	$expanded             = $affiliates_options->get_option( 'referrals_expanded', null );
 	$expanded_description = $affiliates_options->get_option( 'referrals_expanded_description', null );
 	$expanded_data        = $affiliates_options->get_option( 'referrals_expanded_data', null );
 	$show_inoperative     = $affiliates_options->get_option( 'referrals_show_inoperative', null );
 	
-	if ( isset( $_POST['clear_filters'] ) ) {
+	if ( !isset( $_POST['action'] ) && isset( $_POST['clear_filters'] ) ) {
 		$affiliates_options->delete_option( 'referrals_from_date' );
 		$affiliates_options->delete_option( 'referrals_thru_date' );
 		$affiliates_options->delete_option( 'referrals_affiliate_id' );
+		$affiliates_options->delete_option( 'referrals_status' );
 		$affiliates_options->delete_option( 'referrals_expanded' );
 		$affiliates_options->delete_option( 'referrals_expanded_description' );
 		$affiliates_options->delete_option( 'referrals_expanded_data' );
@@ -101,11 +103,12 @@ function affiliates_admin_referrals() {
 		$from_date = null;
 		$thru_date = null;
 		$affiliate_id = null;
+		$status = null;
 		$expanded = null;
 		$expanded_data = null;
 		$expanded_description = null;
 		$show_inoperative = null;
-	} else {
+	} else if ( !isset( $_POST['action'] ) ) {
 		// filter by date(s)
 		if ( !empty( $_POST['from_date'] ) ) {
 			$from_date = date( 'Y-m-d', strtotime( $_POST['from_date'] ) );
@@ -139,6 +142,18 @@ function affiliates_admin_referrals() {
 		} else if ( isset( $_POST['affiliate_id'] ) ) { // empty && isset => '' => all
 			$affiliate_id = null;
 			$affiliates_options->delete_option( 'referrals_affiliate_id' );	
+		}
+		
+		if ( !empty( $_POST['status'] ) ) {
+			if ( $status = Affiliates_Utility::verify_referral_status_transition( $_POST['status'], $_POST['status'] ) ) {
+				$affiliates_options->update_option( 'referrals_status', $status );
+			} else {
+				$status = null;
+				$affiliates_options->delete_option( 'referrals_status' );
+			}
+		} else {
+			$status = null;
+			$affiliates_options->delete_option( 'referrals_status' );
 		}
 		
 		// expanded details?
@@ -175,13 +190,13 @@ function affiliates_admin_referrals() {
 	}
 	
 	if ( isset( $_POST['row_count'] ) ) {
-		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_NONCE_1], plugin_basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_NONCE_1], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	}
 	
 	if ( isset( $_POST['paged'] ) ) {
-		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_NONCE_2], plugin_basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_HITS_NONCE_2], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	}
@@ -240,7 +255,7 @@ function affiliates_admin_referrals() {
 			$switch_order = 'ASC';
 	}
 	
-	if ( $from_date || $thru_date || $affiliate_id ) {
+	if ( $from_date || $thru_date || $affiliate_id || $status ) {
 		$filters = " WHERE ";
 	} else {
 		$filters = '';			
@@ -263,6 +278,13 @@ function affiliates_admin_referrals() {
 		}
 		$filters .= " r.affiliate_id = %d ";
 		$filter_params[] = $affiliate_id;
+	}
+	if ( $status ) {
+		if ( $from_date || $thru_date || $affiliate_id ) {
+			$filters .= " AND ";
+		}
+		$filters .= " r.status = %s ";
+		$filter_params[] = $status;
 	}
 	
 	// how many are there ?
@@ -331,12 +353,35 @@ function affiliates_admin_referrals() {
 		$affiliates_select .= '</select>';
 	}
 	
+	$status_descriptions = array(
+		AFFILIATES_REFERRAL_STATUS_ACCEPTED => __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_CLOSED   => __( 'Closed', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_PENDING  => __( 'Pending', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_REJECTED => __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN ),
+	);
+	$status_icons = array(
+		AFFILIATES_REFERRAL_STATUS_ACCEPTED => "<img class='icon' alt='" . __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/accepted.png'/>",
+		AFFILIATES_REFERRAL_STATUS_CLOSED   => "<img class='icon' alt='" . __( 'Closed', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/closed.png'/>",
+		AFFILIATES_REFERRAL_STATUS_PENDING  => "<img class='icon' alt='" . __( 'Pending', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/pending.png'/>",
+		AFFILIATES_REFERRAL_STATUS_REJECTED => "<img class='icon' alt='" . __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/rejected.png'/>",
+	);
+	
+	$status_select = '<label class="status-filter" for="status">' . __('Status', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
+	$status_select .= '<select name="status">';
+	$status_select .= '<option value="" ' . ( empty( $status ) ? ' selected="selected" ' : '' ) . '>--</option>';
+	foreach ( $status_descriptions as $key => $label ) {
+		$selected = $key == $status ? ' selected="selected" ' : ''; 
+		$status_select .= '<option ' . $selected . ' value="' . esc_attr( $key ) . '">' . $label . '</option>';
+	}
+	$status_select .= '</select>';
+		
 	$output .=
 		'<div class="filters">' .
 			'<label class="description" for="setfilters">' . __( 'Filters', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
 				'<p>' .
 				$affiliates_select .
+				$status_select .
 				'</p>
 				<p>' .
 				'<label class="from-date-filter" for="from_date">' . __('From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
@@ -345,7 +390,7 @@ function affiliates_admin_referrals() {
 				'<input class="datefield thru-date-filter" name="thru_date" type="text" class="datefield" value="' . esc_attr( $thru_date ) . '"/>'.
 				'</p>
 				<p>' .
-				wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false ) .
+				wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false ) .
 				'<input type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<label class="expanded-filter" for="expanded">' . __( 'Expand details', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="expanded-filter" name="expanded" type="checkbox" ' . ( $expanded ? 'checked="checked"' : '' ) . '/>' .
@@ -367,7 +412,7 @@ function affiliates_admin_referrals() {
 				<div>
 					<label for="row_count">' . __('Results per page', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 					'<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />
-					' . wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_HITS_NONCE_1, true, false ) . '
+					' . wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_NONCE_1, true, false ) . '
 					<input type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>
 				</div>
 			</form>
@@ -375,11 +420,11 @@ function affiliates_admin_referrals() {
 		';
 		
 	if ( $paginate ) {
-	  require_once(dirname( __FILE__ ) . '/class-affiliates-pagination.php' );
+	  require_once( AFFILIATES_CORE_LIB . '/class-affiliates-pagination.php' );
 		$pagination = new Affiliates_Pagination($count, null, $row_count);
 		$output .= '<form id="posts-filter" method="post" action="">';
 		$output .= '<div>';
-		$output .= wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_HITS_NONCE_2, true, false );
+		$output .= wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_NONCE_2, true, false );
 		$output .= '</div>';
 		$output .= '<div class="tablenav top">';
 		$output .= $pagination->pagination( 'top' );
@@ -413,13 +458,6 @@ function affiliates_admin_referrals() {
 		</thead>
 		<tbody>
 		';
-	
-	$status_descriptions = array(
-		AFFILIATES_REFERRAL_STATUS_ACCEPTED => __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN ),
-		AFFILIATES_REFERRAL_STATUS_CLOSED   => __( 'Closed', AFFILIATES_PLUGIN_DOMAIN ),
-		AFFILIATES_REFERRAL_STATUS_PENDING  => __( 'Pending', AFFILIATES_PLUGIN_DOMAIN ),
-		AFFILIATES_REFERRAL_STATUS_REJECTED => __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN ),
-	);
 		
 	if ( count( $results ) > 0 ) {
 
@@ -437,6 +475,7 @@ function affiliates_admin_referrals() {
 			$output .= "<td class='currency_id'>" . stripslashes( wp_filter_nohtml_kses( $result->currency_id ) ) . "</td>";
 			
 			$output .= "<td class='status'>";
+			$output .= isset( $status_icons[$result->status] ) ? $status_icons[$result->status] : '';
 			$output .= "<form method='post' action=''>";
 			$output .= "<div>";
 			$output .= "<select name='status'>";
@@ -454,7 +493,7 @@ function affiliates_admin_referrals() {
 			$output .= '<input name="post_id" type="hidden" value="' . esc_attr( $result->post_id ) . '"/>';
 			$output .= '<input name="datetime" type="hidden" value="' . esc_attr( $result->datetime ) . '"/>';
 			$output .= '<input name="action" type="hidden" value="set_status"/>';
-			$output .= wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false );
+			$output .= wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false );
 			$output .= "</div>";
 			$output .= "</form>";
 			$output .= "</td>";
@@ -543,15 +582,15 @@ function affiliates_admin_referrals() {
 	$output .= '</table>';
 					
 	if ( $paginate ) {
-	  require_once( dirname( __FILE__ ) . '/class-affiliates-pagination.php' );
+	  require_once( AFFILIATES_CORE_LIB . '/class-affiliates-pagination.php' );
 		$pagination = new Affiliates_Pagination( $count, null, $row_count );
 		$output .= '<div class="tablenav bottom">';
 		$output .= $pagination->pagination( 'bottom' );
 		$output .= '</div>';			
 	}
 
-	$output .= '</div>'; // .visits-overview
+	$output .= '</div>'; // .referrals-overview
 	echo $output;
 	affiliates_footer();
-} // function affiliates_admin_hits()
+} // function affiliates_admin_referrals()
 ?>

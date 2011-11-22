@@ -134,19 +134,21 @@ class Affiliates_Utility {
 	 */
 	static function verify_referral_amount( $amount ) {
 		$result = false;
-		if ( !empty( $amount ) && preg_match( "/([0-9,]+)?(\.[0-9]+)?/", $amount, $matches ) ) {
-			if ( !empty( $matches[1] ) ) {
+		if ( preg_match( "/([0-9,]+)?(\.[0-9]+)?/", $amount, $matches ) ) {
+			if ( isset( $matches[1] ) ) {
 				$n = str_replace(",", "", $matches[1] );
 			} else {
 				$n = "0";
 			}
-			if ( !empty( $matches[2] ) ) {
+			if ( isset( $matches[2] ) ) {
 				// exceeding decimals are TRUNCATED
 				$d = substr( $matches[2], 1, AFFILIATES_REFERRAL_AMOUNT_DECIMALS );
 			} else {
 				$d = "0";
 			}
-			$result = $n . "." . $d;
+			if ( isset( $matches[1] ) || isset( $matches[2] ) ) {
+				$result = $n . "." . $d;
+			}
 		}
 		return $result;
 	}

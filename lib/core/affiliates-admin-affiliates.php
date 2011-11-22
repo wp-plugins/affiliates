@@ -27,10 +27,10 @@ define( 'AFFILIATES_ADMIN_AFFILIATES_NONCE_1', 'affiliates-nonce-1');
 define( 'AFFILIATES_ADMIN_AFFILIATES_NONCE_2', 'affiliates-nonce-2');
 define( 'AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE', 'affiliates-filter-nonce' );
 
-require_once( dirname( __FILE__ ) . '/class-affiliates-date-helper.php');
-require_once( dirname( __FILE__ ) . '/affiliates-admin-affiliates-add.php');
-require_once( dirname( __FILE__ ) . '/affiliates-admin-affiliates-edit.php');
-require_once( dirname( __FILE__ ) . '/affiliates-admin-affiliates-remove.php');
+require_once( AFFILIATES_CORE_LIB . '/class-affiliates-date-helper.php');
+require_once( AFFILIATES_CORE_LIB . '/affiliates-admin-affiliates-add.php');
+require_once( AFFILIATES_CORE_LIB . '/affiliates-admin-affiliates-edit.php');
+require_once( AFFILIATES_CORE_LIB . '/affiliates-admin-affiliates-remove.php');
 
 /**
  * Affiliate table and action handling.
@@ -104,7 +104,7 @@ function affiliates_admin_affiliates() {
 		isset( $_POST['show_deleted'] ) ||
 		isset( $_POST['show_inoperative'] )
 	) {
-		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE], plugin_basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	}
@@ -190,13 +190,13 @@ function affiliates_admin_affiliates() {
 	}
 	
 	if ( isset( $_POST['row_count'] ) ) {
-		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_NONCE_1], plugin_basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_NONCE_1], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	}
 	
 	if ( isset( $_POST['paged'] ) ) {
-		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_NONCE_2], plugin_basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_NONCE_2], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	}
@@ -367,7 +367,7 @@ function affiliates_admin_affiliates() {
 				'<input class="show-deleted-filter" name="show_deleted" type="checkbox" ' . ( $show_deleted ? 'checked="checked"' : '' ) . '/>' .
 				'</p>
 				<p>' .
-				wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE, true, false ) .
+				wp_nonce_field( 'admin', AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE, true, false ) .
 				'<input type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="submit" name="clear_filters" value="' . __( 'Clear', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
@@ -381,7 +381,7 @@ function affiliates_admin_affiliates() {
 				<div>
 					<label for="row_count">' . __('Results per page', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 					'<input name="row_count" type="text" size="2" value="' . esc_attr( $row_count ) .'" />
-					' . wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_AFFILIATES_NONCE_1, true, false ) . '
+					' . wp_nonce_field( 'admin', AFFILIATES_ADMIN_AFFILIATES_NONCE_1, true, false ) . '
 					<input type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>
 				</div>
 			</form>
@@ -389,11 +389,11 @@ function affiliates_admin_affiliates() {
 		';
 		
 	if ( $paginate ) {
-	  require_once(dirname( __FILE__ ) . '/class-affiliates-pagination.php' );
+	  require_once( AFFILIATES_CORE_LIB . '/class-affiliates-pagination.php' );
 		$pagination = new Affiliates_Pagination($count, null, $row_count);
 		$output .= '<form id="posts-filter" method="post" action="">';
 		$output .= '<div>';
-		$output .= wp_nonce_field( plugin_basename( __FILE__ ), AFFILIATES_ADMIN_AFFILIATES_NONCE_2, true, false );
+		$output .= wp_nonce_field( 'admin', AFFILIATES_ADMIN_AFFILIATES_NONCE_2, true, false );
 		$output .= '</div>';
 		$output .= '<div class="tablenav top">';
 		$output .= $pagination->pagination( 'top' );
@@ -514,7 +514,7 @@ function affiliates_admin_affiliates() {
 	$output .= '</table>';
 					
 	if ( $paginate ) {
-	  require_once(dirname( __FILE__ ) . '/class-affiliates-pagination.php' );
+	  require_once( AFFILIATES_CORE_LIB . '/class-affiliates-pagination.php' );
 		$pagination = new Affiliates_Pagination($count, null, $row_count);
 		$output .= '<div class="tablenav bottom">';
 		$output .= $pagination->pagination( 'bottom' );
