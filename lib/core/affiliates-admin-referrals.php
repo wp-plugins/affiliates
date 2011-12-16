@@ -524,7 +524,7 @@ function affiliates_admin_referrals() {
 							$value = $info['value'];
 							$output .= "<tr id='referral-data-$i'>";
 							$output .= '<td class="referral-data-title">';
-							$output .= wp_filter_nohtml_kses( $title );
+							$output .= stripslashes( wp_filter_nohtml_kses( $title ) );
 							$output .= '</td>';
 							$output .= '<td class="referral-data-value">';
 							// @todo revise
