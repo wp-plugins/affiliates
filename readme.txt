@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -12,12 +12,54 @@ The Affiliates plugin provides the right tools to maintain an Affiliate Marketin
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
-**Important features have been added to the latest release, including automated affiliate registration and a completely revised affiliate management section. Referrals now directly support amounts and currencies and provide different states for their evaluation.**
+**Important features include automated affiliate registration, an unlimited affiliate management section and the ability to integrate Affiliates with virtually any E-Commerce platform.**
+
+**The free Affiliates plugin provides a solid framework for developers, who wish to build customized solutions based on a sound data model with unlimited affiliate program management tools available on the back end.**
+
+Affiliates Pro and Enterprise provide features for sellers, shops and developers who want to get started with their affiliate program right "out of the box".
 
 If you need to manage an **Affiliate Marketing Progam**, **track visits to your site** with **affiliate links**, the affiliates plugin is right for you. It provides the tools to maintain a **partner referral program**.
 
 Simply put, the affiliates plugin is used to manage affiliates, create referrals and track visits to your site through affiliate links.
 Referrals are stored and attributed to an affiliate, for example if clients place orders on your site and you need to credit your affiliates.
+
+Features
+
+* Real-time reporting
+
+    Referrals and affiliate link statistics are recorded and available instantly, as transactions are processed.
+    Integration with virtually any E-Commerce platform
+
+* Affiliates provides an API which makes it compatible to use with virtually any E-Commerce and Membership system.
+
+    Affiliates Pro Integration packs are available for several platforms. More integrations are added constantly on request.
+
+* Unlimited Affiliates
+
+    Simply have as many affiliates as you can get.
+    
+* Easy affiliate recruitment
+
+    Affiliates can sign up automatically and can also be added manually with or without user accounts.
+
+* Awesome support
+
+    Just get in touch if you need help or have questions.
+
+* Feedback is welcome
+
+    Do you have feature requests or want to provide feedback? Please get in touch, the Affiliates plugins evolve with your needs.
+
+* Free or contribution based
+
+    The Affiliates plugin is free and Open Source. If you want to use it, simply install it from your WordPress Dashboard or download it from WordPress.org.
+
+    Affiliates Pro and Enterprise are contributor releases with additional features. Contributions help to make the plugins even more awesome. Thanks!
+
+* Quick & Easy Installation
+
+    Upload/install and activate the plugin from your WordPress Dashboard.
+
 
 __Feedback__ is welcome!
 If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates).
@@ -26,19 +68,25 @@ Please try to solve problems there before you rate this plugin or say it doesn't
 
 [Follow me on Twitter](http://twitter.com/itthinx) for updates on this and other plugins.
 
-**Early Bird Contributor** releases are now available. These include advanced features such as:
+Readily deployable **Integration Packs** are available for contributors: Jigoshop, WP e-Commerce, Ecwid, eShop, s2Member, Wishlist Member, Contact Form 7, GetResponse, AWeber, ...
+
+Other integrations are developed and made available on request.
+
+Integration Packs include:
 
 * **Affiliate Statistics** shortcodes and widgets for affiliates
 * Configurable **Referral Views** for affiliates
 * Embeddable Links and Banners for affiliates
 * Premium support and special attention to feature requests for contributors
 
-If you require **support** or **customization** including **referrals integration** with your site, you may [contact me here](http://www.itthinx.com/). Please consider making a [donation](http://www.itthinx.com/plugins/affiliates) or sponsoring the plugin as a contributor.
+If you require **consulting services**, **support** or **customization** including **referrals integration** with your site, you may [contact me here](http://www.itthinx.com/). Please consider making a [donation](http://www.itthinx.com/plugins/affiliates) or sponsoring the plugin as a contributor.
 
 After installing the plugin you can allow visitors to join your Affiliate Marketing Program. Enable registration, place the Affiliates Registration widget or shortcode on your site to let your new affiliates join. You can also start adding affiliates manually or let existing users join the Affiliate Program.
 The default options should be suitable for many, but there are some options you might want to consider before you really start.
 
-Full documentation is accessible from the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates). 
+Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
+
+[Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
 
 Although the options are documented on each page and are generally intuitive or self-explaining, a quick introduction is useful ...
 
@@ -220,6 +268,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.2.0 =
+* Changed primary key of referrals table, added reference column and index.
+
 = 1.1.2 =
 * Added type to referrals
 
@@ -246,6 +297,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+* Referrals table changes: primary key changed to referral_id;
+  added reference column and index 
 
 = 1.1.2 =
 Added type to referrals. Upgrade if using Pro or Enterprise or referral types are desired via API.
@@ -278,7 +333,7 @@ There is no need to upgrade yet.
 
 == API ==
 
-	affiliates_suggest_referral( $post_id, $description = '', $data = null )
+	function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null )
 	
 Suggest to record a referral. This function is used to actually store referrals and associated information.
 
@@ -288,10 +343,18 @@ Suggest to record a referral. This function is used to actually store referrals 
 
 - **string $description** the referral description
 
-- **string|array $data** additional information that should be stored along with the referral
+- **string|array $data** (optional) additional information that should be stored along with the referral
+
+- **string $amount** (optional) referral amount - if used, a $currency_id must be given
+
+- **string $currency_id** (optional) three letter currency code - if used, an $amount must be given
+
+- **string $status** (optional) the referral status, if none given the default will be used
 	 
 **Returns:**
 	
 - affiliate id if a valid referral is recorded, otherwise `false`
 
-Full documentation and examples are available at the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates).
+Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
+
+[Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.

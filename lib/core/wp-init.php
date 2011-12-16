@@ -183,6 +183,7 @@ function affiliates_activate() {
 			
 		$referrals_table = _affiliates_get_tablename( 'referrals' );
 		$queries[] = "CREATE TABLE " . $referrals_table . "(
+				referral_id  BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 				affiliate_id bigint(20) unsigned NOT NULL default '0',
 				post_id      bigint(20) unsigned NOT NULL default '0',
 				datetime     datetime NOT NULL,
@@ -195,11 +196,13 @@ function affiliates_activate() {
 				data         longtext default NULL,
 				status       varchar(10) NOT NULL DEFAULT '" . AFFILIATES_REFERRAL_STATUS_ACCEPTED . "',
 				type         varchar(10) NULL,
-				PRIMARY KEY  (affiliate_id, post_id, datetime),
+				reference    VARCHAR(100) DEFAULT NULL,
+				PRIMARY KEY  (referral_id),
 				INDEX        aff_referrals_apd (affiliate_id, post_id, datetime),
 				INDEX        aff_referrals_da (datetime, affiliate_id),
 				INDEX        aff_referrals_sda (status, datetime, affiliate_id),
-				INDEX        aff_referrals_tda (type, datetime, affiliate_id)
+				INDEX        aff_referrals_tda (type, datetime, affiliate_id),
+				INDEX        aff_referrals_ref (reference(20))
 			);";
 		// @see http://bugs.mysql.com/bug.php?id=27645 as of now (2011-03-19) NOW() can not be specified as the default value for a datetime column
 			
@@ -362,6 +365,16 @@ function affiliates_update( $previous_version ) {
 				}
 				break;
 	} // switch
+	// add new PK & fields if it's not a new installation
+	if ( !empty( $previous_version ) && strcmp( $previous_version, "1.2.0" ) < 0 ) {
+		$referrals_table = _affiliates_get_tablename( 'referrals' );
+		$queries[] = "ALTER TABLE " . $referrals_table . "
+		ADD COLUMN referral_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+		ADD COLUMN reference VARCHAR(100) DEFAULT NULL,
+		DROP PRIMARY KEY,
+		ADD PRIMARY KEY (referral_id),
+		ADD INDEX aff_referrals_ref (reference(20));";
+	}
 	//		dbDelta won't handle ALTER ...
 	//		if ( !empty( $queries ) ) {
 	//			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -402,6 +415,7 @@ function affiliates_deactivate() {
 		delete_option( 'aff_cookie_timeout_days' );
 		delete_option( 'aff_use_direct' );
 		delete_option( 'aff_id_encoding' );
+		delete_option( 'aff_default_referral_status' );
 		delete_option( 'aff_delete_data' );
 	}
 }
