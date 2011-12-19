@@ -269,7 +269,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Changelog ==
 
 = 1.2.0 =
-* Changed primary key of referrals table, added reference column and index.
+* Changed primary key of referrals table.
+* Added reference column and index.
 
 = 1.1.2 =
 * Added type to referrals
@@ -299,8 +300,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 1.2.0 =
-* Referrals table changes: primary key changed to referral_id;
-  added reference column and index 
+* Referrals table changes: primary key changed to referral_id
+* Added reference column and index 
 
 = 1.1.2 =
 Added type to referrals. Upgrade if using Pro or Enterprise or referral types are desired via API.
