@@ -269,6 +269,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Changelog ==
 
 = 1.2.1 =
+* added detailed referral info on summary screen: shows number of referrals by status - accepted, closed, pending and rejected
 * affiliates_added_affiliate action provided after a new affiliate has been added
 * affiliates_updated_affiliate action provided after an affiliate has been edited
 * Note that affiliates_deleted_affiliate action already existed
@@ -306,8 +307,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 1.2.1 =
-New actions provided: affiliates_added_affiliate, affiliates_updated_affiliate called when affiliates have been added or updated.
-This is mainly of interest for developers. No upgrade is necessary if these are not needed.
+* Summary screen shows detailed referral info by referral status. See how many referrals have been accepted, closed, are pending or have been rejected in a glimpse.
+* For developers - new actions: affiliates_added_affiliate, affiliates_updated_affiliate (affiliates_deleted_affiliate was there already)
 
 = 1.2.0 =
 * Referrals table changes: primary key changed to referral_id

@@ -50,23 +50,43 @@ function affiliates_admin() {
 				$info = sprintf( _n( 'There is 1 affiliate in this set', 'There are %d affiliates in this set', count( $affiliates ), AFFILIATES_PLUGIN_DOMAIN ), count( $affiliates ) );
 				break;
 		}
-		$hits = 0;
-		$visits = 0;
-		$referrals = 0;
+		$hits               = 0;
+		$visits             = 0;
+		$referrals_accepted = 0;
+		$referrals_closed   = 0;
+		$referrals_pending  = 0;
+		$referrals_rejected = 0;		
 		foreach ( $affiliates as $affiliate ) {
 			$affiliate_id = $affiliate['affiliate_id'];
 			$hits      += affiliates_get_affiliate_hits( $affiliate_id );
 			$visits    += affiliates_get_affiliate_visits( $affiliate_id );
-			$referrals += affiliates_get_affiliate_referrals( $affiliate_id );
+			$referrals_accepted += affiliates_get_affiliate_referrals( $affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_ACCEPTED );
+			$referrals_closed   += affiliates_get_affiliate_referrals( $affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_CLOSED );
+			$referrals_pending  += affiliates_get_affiliate_referrals( $affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_PENDING );
+			$referrals_rejected += affiliates_get_affiliate_referrals( $affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_REJECTED );
 		}
 		
-		echo '<h4>' . $title . '</h4>';
-		echo '<p>' . $info . '</p>';
+		$accepted_icon = "<img class='icon' alt='" . __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/accepted.png'/>";
+		$closed_icon = "<img class='icon' alt='" . __( 'Closed', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/closed.png'/>";
+		$pending_icon = "<img class='icon' alt='" . __( 'Pending', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/pending.png'/>";
+		$rejected_icon = "<img class='icon' alt='" . __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/rejected.png'/>";
+		
+		echo '<div class="manage" style="margin-right:1em">';
+		echo '<p>';
+		echo '<strong>' . $title . '</strong>&nbsp;' . $info;
+		echo '</p>';
 		echo '<ul>';
+		echo '<li>' . __( '<strong>Referrals:</strong>', AFFILIATES_PLUGIN_DOMAIN ) . '</li>';
+		echo '<li><ul>';
+		echo '<li>' . $accepted_icon . '&nbsp;' . sprintf( __( '%10d Accepted', AFFILIATES_PLUGIN_DOMAIN ), $referrals_accepted ) . '</li>';
+		echo '<li>' . $closed_icon . '&nbsp;' . sprintf( __( '%10d Closed', AFFILIATES_PLUGIN_DOMAIN ), $referrals_closed ) . '</li>';
+		echo '<li>' . $pending_icon . '&nbsp;' . sprintf( __( '%10d Pending', AFFILIATES_PLUGIN_DOMAIN ), $referrals_pending ) . '</li>';
+		echo '<li>' . $rejected_icon . '&nbsp;' . sprintf( __( '%10d Rejected', AFFILIATES_PLUGIN_DOMAIN ), $referrals_rejected ) . '</li>';
+		echo '</li></ul>';
 		echo '<li>' . sprintf( __( '%10d Hits', AFFILIATES_PLUGIN_DOMAIN ), $hits ) . '</li>';
 		echo '<li>' . sprintf( __( '%10d Visits', AFFILIATES_PLUGIN_DOMAIN ), $visits ) . '</li>';
-		echo '<li>' . sprintf( __( '%10d Referrals', AFFILIATES_PLUGIN_DOMAIN ), $referrals ) . '</li>';
 		echo '</ul>';
+		echo '</div>';
 		
 	}
 	affiliates_footer();
