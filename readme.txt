@@ -268,6 +268,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.2.1 =
+* affiliates_added_affiliate action provided after a new affiliate has been added
+* affiliates_updated_affiliate action provided after an affiliate has been edited
+* Note that affiliates_deleted_affiliate action already existed
+* Prepared language section for translations (but no translations added yet)
+
 = 1.2.0 =
 * Changed primary key of referrals table.
 * Added reference column and index.
@@ -298,6 +304,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+New actions provided: affiliates_added_affiliate, affiliates_updated_affiliate called when affiliates have been added or updated.
+This is mainly of interest for developers. No upgrade is necessary if these are not needed.
 
 = 1.2.0 =
 * Referrals table changes: primary key changed to referral_id

@@ -471,6 +471,11 @@ class Affiliates_Registration {
 				$result = $affiliate_id;
 				self::new_affiliate_notification( $user_id );
 			}
+			
+			// hook
+			if ( !empty( $affiliate_id ) ) {
+				do_action( 'affiliates_added_affiliate', intval( $affiliate_id ) );
+			}
 		}
 		return $result;
 	}

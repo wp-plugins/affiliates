@@ -427,7 +427,7 @@ add_action( 'init', 'affiliates_init' );
  * Loads the plugin's translations.
  */
 function affiliates_init() {
-	load_plugin_textdomain( AFFILIATES_PLUGIN_DOMAIN, null, AFFILIATES_PLUGIN_DIR );
+	load_plugin_textdomain( AFFILIATES_PLUGIN_DOMAIN, null, 'affiliates/lib/core/languages' );
 }
 
 add_filter( 'query_vars', 'affiliates_query_vars' );

@@ -231,6 +231,11 @@ function affiliates_admin_affiliates_edit_submit() {
 				}
 			}
 		}
+
+		// hook
+		if ( !empty( $affiliate_id ) ) {
+			do_action( 'affiliates_updated_affiliate', intval( $affiliate_id ) );
+		}
 	} else {
 		$result = false;
 	}

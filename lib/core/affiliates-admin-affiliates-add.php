@@ -180,6 +180,11 @@ function affiliates_admin_affiliates_add_submit() {
 				}
 			}
 		}
+		
+		// hook
+		if ( !empty( $affiliate_id ) ) {
+			do_action( 'affiliates_added_affiliate', intval( $affiliate_id ) );
+		}
 	} else {
 		$result = false;
 	}
