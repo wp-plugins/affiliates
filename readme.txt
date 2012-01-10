@@ -27,7 +27,7 @@ Referrals are stored and attributed to an affiliate, for example if clients plac
 
 These integrations are based on the Affiliates plugin and can be downloaded directly. To use Affiliates together with an e-commerce plugin, you need to install the Affiliates plugin, the e-commerce plugin of your choice and the integration plugin:
 
-- Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Affiliates Jigoshop Integration Light](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
+- Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Download](http://wordpress.org/extend/plugins/affiliates-jigoshop-light) [Plugin page](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
 - Integration with [WooCommerce](http://wordpress.org/extend/plugins/woocommerce) : [Affiliates WooCommerce Integration Light](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
 
 **Features**
