@@ -23,7 +23,14 @@ If you need to manage an **Affiliate Marketing Progam**, **track visits to your 
 Simply put, the affiliates plugin is used to manage affiliates, create referrals and track visits to your site through affiliate links.
 Referrals are stored and attributed to an affiliate, for example if clients place orders on your site and you need to credit your affiliates.
 
-Features
+**Free Integrations**
+
+These integrations are based on the Affiliates plugin and can be downloaded directly. To use Affiliates together with an e-commerce plugin, you need to install the Affiliates plugin, the e-commerce plugin of your choice and the integration plugin:
+
+- Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Affiliates Jigoshop Integration Light](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
+- Integration with [WooCommerce](http://wordpress.org/extend/plugins/woocommerce) : [Affiliates WooCommerce Integration Light](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
+
+**Features**
 
 * Real-time reporting
 
