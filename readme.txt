@@ -23,7 +23,15 @@ If you need to manage an **Affiliate Marketing Progam**, **track visits to your 
 Simply put, the affiliates plugin is used to manage affiliates, create referrals and track visits to your site through affiliate links.
 Referrals are stored and attributed to an affiliate, for example if clients place orders on your site and you need to credit your affiliates.
 
-Features
+**Free Integrations**
+
+These integrations are based on the Affiliates plugin and can be downloaded directly. To use Affiliates together with an e-commerce plugin, you need to install the Affiliates plugin, the e-commerce plugin of your choice and the integration plugin:
+
+- Integration with [eShop](http://wordpress.org/extend/plugins/eshop) : [Download](http://www.itthinx.com/plugins/affiliates-eshop-light)
+- Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Download](http://wordpress.org/extend/plugins/affiliates-jigoshop-light) [Plugin page](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
+- Integration with [WooCommerce](http://wordpress.org/extend/plugins/woocommerce) : [Affiliates WooCommerce Integration Light](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
+
+**Features**
 
 * Real-time reporting
 
@@ -266,7 +274,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 12. Affiliates Registration Widget - Visitor's view of the form. Also available as a shortcode to embed on pages.
 13. Affiliates Registration Widget - View of a visitor's successful form submission to join the site's affiliate program.
 
+
 == Changelog ==
+
+No changes but a note on new integrations available.
 
 = 1.2.1 =
 * added detailed referral info on summary screen: shows number of referrals by status - accepted, closed, pending and rejected
@@ -305,6 +316,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+No changes but a note on new integrations available.
 
 = 1.2.1 =
 * Summary screen shows detailed referral info by referral status. See how many referrals have been accepted, closed, are pending or have been rejected in a glimpse.
@@ -370,3 +383,6 @@ Suggest to record a referral. This function is used to actually store referrals 
 Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
 
 [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
+ 
+
+ 
