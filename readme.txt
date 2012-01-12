@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -277,7 +277,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
-No changes but a note on new integrations available.
+= 1.2.2 =
+* No changes but a note on new integrations available.
 
 = 1.2.1 =
 * added detailed referral info on summary screen: shows number of referrals by status - accepted, closed, pending and rejected
@@ -317,7 +318,8 @@ No changes but a note on new integrations available.
 
 == Upgrade Notice ==
 
-No changes but a note on new integrations available.
+= 1.2.2 =
+* No changes but a note on new integrations available.
 
 = 1.2.1 =
 * Summary screen shows detailed referral info by referral status. See how many referrals have been accepted, closed, are pending or have been rejected in a glimpse.
@@ -383,6 +385,3 @@ Suggest to record a referral. This function is used to actually store referrals 
 Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
 
 [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
- 
-
- 
