@@ -277,6 +277,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+No changes but a note on new integrations available.
 
 = 1.2.1 =
 * added detailed referral info on summary screen: shows number of referrals by status - accepted, closed, pending and rejected
@@ -316,6 +317,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Upgrade Notice ==
 
+No changes but a note on new integrations available.
 
 = 1.2.1 =
 * Summary screen shows detailed referral info by referral status. See how many referrals have been accepted, closed, are pending or have been rejected in a glimpse.
