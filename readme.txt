@@ -344,6 +344,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+
 = 1.3.0 =
 * Added new shortcodes: [affiliates_is_affiliate], [affiliates_is_not_affiliate], [affiliates_url], [affiliates_referrals] 
 
