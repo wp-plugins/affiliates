@@ -42,6 +42,7 @@ include_once( AFFILIATES_CORE_LIB . '/class-affiliates-utility.php' );
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-contact.php' );
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-registration.php' );
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-registration-widget.php' );
+include_once( AFFILIATES_CORE_LIB . '/class-affiliates-shortcodes.php' );
 
 add_action( 'widgets_init', 'affiliates_widgets_init' );
 
