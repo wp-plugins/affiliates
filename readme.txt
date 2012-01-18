@@ -12,7 +12,7 @@ The Affiliates plugin provides the right tools to maintain an Affiliate Marketin
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
-**Important features include automated affiliate registration, an unlimited affiliate management section and the ability to integrate Affiliates with virtually any E-Commerce platform. Free integratons with eShop, Jigoshop and WooCommerce are available.**
+**Important features include automated affiliate registration, an unlimited affiliate management section and the ability to integrate Affiliates with virtually any E-Commerce platform. Free integrations with eShop, Jigoshop and WooCommerce are available.**
 
 **The Affiliates plugin provides an affiliate system for sellers, shops and developers who want to get started with their affiliate program right "out of the box".**
 
