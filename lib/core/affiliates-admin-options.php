@@ -46,6 +46,8 @@ function affiliates_admin_options() {
 				__( 'Affiliates options', AFFILIATES_PLUGIN_DOMAIN ) .
 			'</h2>' .
 		'</div>';
+	
+	$pages_generated_info = '';
 
 	//
 	// handle options form submission
@@ -53,6 +55,17 @@ function affiliates_admin_options() {
 	if ( isset( $_POST['timeout'] ) ) {
 		
 		if ( wp_verify_nonce( $_POST[AFFILIATES_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+			
+			// page generation
+			error_log( var_export( $_POST, true ) );
+			if ( isset( $_POST['generate'] ) ) {
+				require_once( AFFILIATES_CORE_LIB . '/class-affiliates-generator.php' );
+				$post_ids = Affiliates_Generator::setup_pages();
+				foreach ( $post_ids as $post_id ) {
+					$link = '<a href="' . get_permalink( $post_id ) . '" target="_blank">' . get_the_title( $post_id ) . '</a>';
+					$pages_generated_info .= '<div class="info">' . __( sprintf( 'The %s page has been created.', $link ), AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+				}
+			}
 			
 			// timeout
 			$timeout = intval ( $_POST['timeout'] );
@@ -122,7 +135,6 @@ function affiliates_admin_options() {
 			}
 		}
 	}
-	
 	
 	$use_direct = get_option( 'aff_use_direct', true );
 	
@@ -222,6 +234,12 @@ function affiliates_admin_options() {
 	echo
 		'<form action="" name="options" method="post">' .		
 			'<div>' .
+				'<h3>' . __( 'Page generation', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+				'<p>' .
+					__( 'Press the button to generate an affiliate area.', AFFILIATES_PLUGIN_DOMAIN ) .
+					'<input class="generate" name="generate" type="submit" value="' . __( 'Generate', AFFILIATES_PLUGIN_DOMAIN ) .'" />' .
+				'</p>' .
+				$pages_generated_info .
 				'<h3>' . __( 'Referral timeout') . '</h3>' .
 				'<p>' .
 					'<input class="timeout" name="timeout" type="text" value="' . esc_attr( intval( $timeout ) ) . '" />' .
