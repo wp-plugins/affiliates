@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -106,7 +106,7 @@ The 'Affiliates' menu provides these sections:
 
 #### Affiliates ####
 
-Here an overview is provided with summarized statistical data, including your currently operative affiliates, total hits, visits and referrals.
+Here an overview is provided with charts showing referrals, visits and hits as well as summarized statistical data, including your currently operative affiliates, total hits, visits and referrals.
 
 #### Manage Affiliates ####
 
@@ -363,6 +363,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.3.2 =
+* 14 Day Charts added in overview showing referrals, visits and hits for the last 14 days.
+
 = 1.3.1 =
 * Added Affiliate Area page generation button in Affiliates > Options.
 * Added more shortcodes: [affiliates_login_redirect], [affiliates_logout].
@@ -411,6 +414,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+* 14 Day Charts added in overview showing referrals, visits and hits for the last 14 days.
 
 = 1.3.1 =
 * This release provides the option to generate an Affiliate Area page and more shortcodes that allow you to place a log in form and a log out link on a page. 
