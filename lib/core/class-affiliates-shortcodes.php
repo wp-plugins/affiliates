@@ -27,6 +27,8 @@ class Affiliates_Shortcodes {
 		add_shortcode( 'affiliates_is_not_affiliate', array( __CLASS__, 'affiliates_is_not_affiliate' ) );
 		add_shortcode( 'affiliates_referrals', array( __CLASS__, 'affiliates_referrals' ) );
 		add_shortcode( 'affiliates_url', array( __CLASS__, 'affiliates_url' ) );
+		add_shortcode( 'affiliates_login_redirect', array( __CLASS__, 'affiliates_login_redirect' ) );
+		add_shortcode( 'affiliates_logout', array( __CLASS__, 'affiliates_logout' ) );
 	}
 	
 	/**
@@ -37,6 +39,11 @@ class Affiliates_Shortcodes {
 	 * @param string $content this is rendered for affiliates
 	 */
 	public static function affiliates_is_affiliate( $atts, $content = null ) {
+		
+		remove_shortcode( 'affiliates_is_affiliate' );
+		$content = do_shortcode( $content );
+		add_shortcode( 'affiliates_is_affiliate', array( __CLASS__, 'affiliates_is_affiliate' ) );
+		
 		$output = "";
 		if ( affiliates_user_is_affiliate( get_current_user_id() ) ) {
 			$output .= $content;
@@ -51,6 +58,11 @@ class Affiliates_Shortcodes {
 	 * @param string $content this is rendered for non-affiliates
 	 */
 	public static function affiliates_is_not_affiliate( $atts, $content = null ) {
+		
+		remove_shortcode( 'affiliates_is_not_affiliate' );
+		$content = do_shortcode( $content );
+		add_shortcode( 'affiliates_is_not_affiliate', array( __CLASS__, 'affiliates_is_not_affiliate' ) );
+		
 		$output = "";
 		if ( !affiliates_user_is_affiliate( get_current_user_id() ) ) {
 			$output .= $content;
@@ -66,6 +78,11 @@ class Affiliates_Shortcodes {
 	 */
 	public static function affiliates_referrals( $atts, $content = null ) {
 		global $wpdb;
+		
+		remove_shortcode( 'affiliates_referrals' );
+		$content = do_shortcode( $content );
+		add_shortcode( 'affiliates_referrals', array( __CLASS__, 'affiliates_referrals' ) );
+		
 		$output = "";
 		$options = shortcode_atts(
 			array(
@@ -126,10 +143,18 @@ class Affiliates_Shortcodes {
 		return $output;
 	}
 	
+	/**
+	 * Retrieve totals for an affiliate.
+	 * 
+	 * @param int $affiliate_id
+	 * @param string $from_date
+	 * @param string $thru_date
+	 * @param string $status
+	 * @return array of totals indexed by currency_id or false on error
+	 */
 	private static function get_total( $affiliate_id, $from_date = null , $thru_date = null, $status = null ) {
 		global $wpdb;
 		$referrals_table = _affiliates_get_tablename( 'referrals' );
-		$result = 0;
 		$where = " WHERE affiliate_id = %d";
 		$values = array( $affiliate_id );
 		if ( $from_date ) {
@@ -185,6 +210,11 @@ class Affiliates_Shortcodes {
 	 */
 	public static function affiliates_url( $atts, $content = null ) {
 		global $wpdb;
+		
+		remove_shortcode( 'affiliates_url' );
+		$content = do_shortcode( $content );
+		add_shortcode( 'affiliates_url', array( __CLASS__, 'affiliates_url' ) );
+		
 		$output = "";
 		$user_id = get_current_user_id();
 		if ( $user_id && affiliates_user_is_affiliate( $user_id ) ) {
@@ -209,6 +239,40 @@ class Affiliates_Shortcodes {
 			}
 		}
 		return $output;
+	}
+	
+	/**
+	 * Renders a login form that can redirect to a url or the current page.
+	 * 
+	 * @param array $atts
+	 * @param string $content
+	 * @return string rendered form
+	 */
+	function affiliates_login_redirect( $atts, $content = null ) {
+		extract( shortcode_atts( array( 'redirect_url' => '' ), $atts ) );
+		$form = '';
+		if ( !is_user_logged_in() ) {
+			if ( empty( $redirect_url ) ) {
+				$redirect_url = get_permalink();
+			}
+			$form = wp_login_form( array( 'echo' => false, 'redirect' => $redirect_url ) );
+		}
+		return $form;
+	}
+	
+	/**
+	 * Renders a link to log out.
+	 * 
+	 * @param array $atts
+	 * @param string $content not used
+	 * @return string rendered logout link or empty if not logged in
+	 */
+	function affiliates_logout( $atts, $content = null ) {
+		if ( is_user_logged_in() ) {
+			return '<a href="' . esc_url( wp_logout_url() ) .'">' . __( 'Log out' ) . '</a>';
+		} else {
+			return '';
+		}
 	}
 }
 Affiliates_Shortcodes::init();

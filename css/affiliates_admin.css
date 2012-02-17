@@ -235,6 +235,12 @@ input[name="clear_filters"] {
 .warning {
 	color: #933;
 }
+div.info {
+	background-color: #ffffe0;
+	border: 1px solid #993;
+	padding: 1em;
+	margin-right: 1em;
+}
 .affiliates-overview .warning {
 	cursor: pointer;
 }

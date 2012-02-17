@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.3.0
+Stable tag: 1.3.2
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -106,7 +106,7 @@ The 'Affiliates' menu provides these sections:
 
 #### Affiliates ####
 
-Here an overview is provided with summarized statistical data, including your currently operative affiliates, total hits, visits and referrals.
+Here an overview is provided with charts showing referrals, visits and hits as well as summarized statistical data, including your currently operative affiliates, total hits, visits and referrals.
 
 #### Manage Affiliates ####
 
@@ -137,6 +137,12 @@ Additional data and referral descriptions that have been recorded using the plug
 Data can be conveniently sorted and also filtered by affiliate and time period.
 
 #### Options ####
+
+##### Page generation #####
+
+You can let Affiliates generate an Affiliate Area page for you: Press the _Generate_ button.
+You will find a new page titled _Affiliate Area_ on your site which includes a login form, affiliate registration form, information about an affiliate's performance and the affiliate's link as well as a link to log out at the end of the page.
+You can edit this page and adjust it according to your preferences.
 
 ##### Referral timeout #####
 
@@ -192,13 +198,23 @@ It is not intended to keep track of links to other sites that you as a member of
 1. Upload or extract the `affiliates` folder to your site's `/wp-content/plugins/` directory. Or you could use the *Add new* option found in the *Plugins* menu in WordPress.  
 2. Enable the plugin from the *Plugins* menu in WordPress.
 3. A new *Affiliates* menu will appear in WordPress, this is where you manage your affiliates and keep track of visits and referrals.
+4. Go to _Affiliates > Options_ and click the *Generate* button. This will add a new page to your site with a default Affiliate Area that you can then edit if needed.
+5. Now you can let your affiliates sign up directly from the Affiliate Area or start adding affiliates manually and provide them with affiliate links to your site.
 
-Now you can start adding affiliates and provide them with affiliate links to your site.
-The default options should be suitable for many, but there are some options you might want to consider before you really start.
+The default options should be suitable for many, but there are some options you might want to consider before you really start. Please read the [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates/) for additional information.
 
 == Frequently Asked Questions ==
 
+= Is there an option to create an Affiliate Area? =
+
+You can let Affiliates generate an Affiliate Area page for you.
+Go to _Affiliates > Options_ and press the _Generate_ button.
+You will find a new page titled _Affiliate Area_ on your site which includes a login form, affiliate registration form, information about an affiliate's performance and the affiliate's link as well as a link to log out at the end of the page.
+You can edit this page and adjust it according to your preferences. 
+
 = How can I show affiliates their affiliate link? =
+
+Note: You can create a page and embed a shortcode manually, or you can go to _Affiliates > Options_ and **press the _Generate_ button which will create the default Affiliate Area**.
 
 Embed this shortcode on a page:
 
@@ -217,6 +233,8 @@ If you want to show how a link would look like, you can use the shortcode within
 Remember to use HTML entities for < and >.
 
 = How can I show affiliates information about their performance? =
+
+Note: You can create a page and embed a shortcode manually, or you can go to _Affiliates > Options_ and **press the _Generate_ button which will create the default Affiliate Area**.
 
 Your affiliates will want to know how much they will and have earned and how many referrals they have made.
 
@@ -341,9 +359,17 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 11. Affiliates Registration Widget - Lets visitors sign up to your affiliate program, fully automated. Also available as a shortcode to embed on pages.
 12. Affiliates Registration Widget - Visitor's view of the form. Also available as a shortcode to embed on pages.
 13. Affiliates Registration Widget - View of a visitor's successful form submission to join the site's affiliate program.
+14. Generated Affiliate Area page - This is what an affiliate sees on the page when logged in.
 
 == Changelog ==
 
+= 1.3.2 =
+* 14 Day Charts added in overview showing referrals, visits and hits for the last 14 days.
+
+= 1.3.1 =
+* Added Affiliate Area page generation button in Affiliates > Options.
+* Added more shortcodes: [affiliates_login_redirect], [affiliates_logout].
+* Improved shortcodes to support nesting.
 
 = 1.3.0 =
 * Added new shortcodes: [affiliates_is_affiliate], [affiliates_is_not_affiliate], [affiliates_url], [affiliates_referrals] 
@@ -388,6 +414,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+* 14 Day Charts added in overview showing referrals, visits and hits for the last 14 days.
+
+= 1.3.1 =
+* This release provides the option to generate an Affiliate Area page and more shortcodes that allow you to place a log in form and a log out link on a page. 
 
 = 1.3.0 =
 * Upgrade if you want to show affiliates information about their performance on the front end. There are new shortcodes that you can embed on a page.

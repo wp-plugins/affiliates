@@ -31,18 +31,166 @@ function affiliates_admin() {
 	
 	echo '<h2>' . __( 'Affiliates Overview', AFFILIATES_PLUGIN_DOMAIN ) . '</h2>';
 	
+	$days_back = 14;
+	$day_interval = 7;
+	
+	$affiliates_table = _affiliates_get_tablename( 'affiliates' );
+	$hits_table = _affiliates_get_tablename( 'hits' );
+	$referrals_table = _affiliates_get_tablename( 'referrals' );
+	$today = date( 'Y-m-d', time() );
+	$from_date = date( 'Y-m-d', time() - $days_back * 3600 * 24 );
+	
+	$affiliates_subquery = " affiliate_id IN (SELECT affiliate_id FROM $affiliates_table WHERE from_date <= %s AND ( thru_date IS NULL OR thru_date >= %s ) AND status = 'active') ";
+	
+	// hits per day
+	$query = "SELECT date, sum(count) as hits FROM $hits_table WHERE date >= %s AND date <= %s AND " . $affiliates_subquery . " GROUP BY date";
+	$hit_results = $wpdb->get_results( $wpdb->prepare( $query,
+		$from_date, $today, $today, $today
+	 ));
+	$hits = array();
+	foreach( $hit_results as $hit_result ) {
+		$hits[$hit_result->date] = $hit_result->hits;
+	}
+	
+	// visits per day
+	$query = "SELECT count(DISTINCT IP) visits, date FROM $hits_table WHERE date >= %s AND date <= %s AND " . $affiliates_subquery . " GROUP BY date";
+	$visit_results = $wpdb->get_results( $wpdb->prepare( $query,
+		$from_date, $today, $today, $today
+	));
+	$visits = array();
+	foreach( $visit_results as $visit_result ) {
+		$visits[$visit_result->date] = $visit_result->visits;
+	}
+	
+	// referrals per day
+	$query = "SELECT count(referral_id) referrals, date(datetime) date FROM $referrals_table WHERE status = %s AND date(datetime) >= %s AND date(datetime) <= %s AND " . $affiliates_subquery . " GROUP BY date";
+	$results = $wpdb->get_results( $wpdb->prepare( $query,
+		AFFILIATES_REFERRAL_STATUS_ACCEPTED, $from_date, $today, $today, $today
+	));
+	$accepted = array();
+	foreach( $results as $result ) {
+		$accepted[$result->date] = $result->referrals;
+	}
+	
+	$results = $wpdb->get_results( $wpdb->prepare( $query,
+		AFFILIATES_REFERRAL_STATUS_CLOSED, $from_date, $today, $today, $today
+	));
+	$closed = array();
+	foreach( $results as $result ) {
+		$closed[$result->date] = $result->referrals;
+	}
+	
+	$results = $wpdb->get_results( $wpdb->prepare( $query,
+		AFFILIATES_REFERRAL_STATUS_PENDING, $from_date, $today, $today, $today
+	));
+	$pending = array();
+	foreach( $results as $result ) {
+		$pending[$result->date] = $result->referrals;
+	}
+	
+	$results = $wpdb->get_results( $wpdb->prepare( $query,
+		AFFILIATES_REFERRAL_STATUS_REJECTED, $from_date, $today, $today, $today
+	));
+	$rejected = array();
+	foreach( $results as $result ) {
+		$rejected[$result->date] = $result->referrals;
+	}
+
+	$hits_table = '<table class="affiliates-overview hits"><caption>'.__( 'Hits', AFFILIATES_PLUGIN_DOMAIN ) . '</caption><thead><tr><td></td>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		if ( $day % $day_interval == 0 ) {
+			$hits_table .= '<th scope="col">' . $date . '</th>';
+		} else {
+			$hits_table .= '<th scope="col"></th>';
+		}
+	}
+	$hits_table .= '</tr></thead><tbody><tr><th scope="row">' . __( 'Hits', AFFILIATES_PLUGIN_DOMAIN ) . '</th>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		$value = isset( $hits[$date] ) ? $hits[$date] : 0; 
+		$hits_table .= '<td>' . $value . '</td>';
+	}
+	$hits_table .= '</tr></tbody></table>';
+
+	$visits_table = '<table class="affiliates-overview visits"><caption>'.__( 'Visits', AFFILIATES_PLUGIN_DOMAIN ) . '</caption><thead><tr><td></td>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		if ( $day % $day_interval == 0 ) {
+			$visits_table .= '<th scope="col">' . $date . '</th>';
+		} else {
+			$visits_table .= '<th scope="col"></th>';
+		}
+	}
+	$visits_table .= '</tr></thead><tbody><tr><th scope="row">' . __( 'Visits', AFFILIATES_PLUGIN_DOMAIN ) . '</th>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		$value = isset( $visits[$date] ) ? $visits[$date] : 0;
+		$visits_table .= '<td>' . $value . '</td>';
+	}
+	$visits_table .= '</tr></tbody></table>';
+	
+	$referrals_table = '<table class="affiliates-overview referrals"><caption>'.__( 'Referrals', AFFILIATES_PLUGIN_DOMAIN ) . '</caption><thead><tr><td></td>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		if ( $day % $day_interval == 0 ) {
+			$referrals_table .= '<th scope="col">' . $date . '</th>';
+		} else {
+			$referrals_table .= '<th scope="col"></th>';
+		}
+	}
+	$referrals_table .= '</tr></thead><tbody><tr><th scope="row">' . __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN ) . '</th>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		$value = isset( $accepted[$date] ) ? $accepted[$date] : 0;
+		$referrals_table .= '<td>' . $value . '</td>';
+	}
+	$referrals_table .= '</tr>';
+	$referrals_table .= '</tr></thead><tbody><tr><th scope="row">' . __( 'Closed', AFFILIATES_PLUGIN_DOMAIN ) . '</th>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		$value = isset( $closed[$date] ) ? $closed[$date] : 0;
+		$referrals_table .= '<td>' . $value . '</td>';
+	}
+	$referrals_table .= '</tr>';
+	$referrals_table .= '</tr></thead><tbody><tr><th scope="row">' . __( 'Pending', AFFILIATES_PLUGIN_DOMAIN ) . '</th>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		$value = isset( $pending[$date] ) ? $pending[$date] : 0;
+		$referrals_table .= '<td>' . $value . '</td>';
+	}
+	$referrals_table .= '</tr>';
+	$referrals_table .= '</tr></thead><tbody><tr><th scope="row">' . __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN ) . '</th>';
+	for ( $day = -$days_back; $day <= 0; $day++ ) {
+		$date = date( 'Y-m-d', time()+$day*3600*24 );
+		$value = isset( $rejected[$date] ) ? $rejected[$date] : 0;
+		$referrals_table .= '<td>' . $value . '</td>';
+	}
+	$referrals_table .= '</tr></tbody></table>';
+	
+	echo '<h3>' . sprintf( __( '%d Day Charts', AFFILIATES_PLUGIN_DOMAIN ), $days_back ) . '</h2>';
+	echo '<div class="manage" style="margin-right:1em">';
+	echo $referrals_table;
+	echo $visits_table;
+	echo $hits_table;
+	echo '<br class="clear"/>';
+	echo '</div>';
+	
 	echo '<h3>' . __( 'Statistics Summary', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>';
 	for ( $i = 0; $i < 3; $i++ ) {
+		$add_class = "";
 		switch ( $i ) {
 			case 0:
 				$affiliates = affiliates_get_affiliates( true, true );
 				$title = __( 'From operative affiliates:', AFFILIATES_PLUGIN_DOMAIN );
 				$info = sprintf( _n( 'There is 1 operative affiliate', 'There are %d operative affiliates', count( $affiliates ), AFFILIATES_PLUGIN_DOMAIN ), count( $affiliates ) );
+				$add_class = "active valid";
 				break;
 			case 1:
 				$affiliates = affiliates_get_affiliates( true, false );
 				$title = __( 'From operative and non-operative affiliates:', AFFILIATES_PLUGIN_DOMAIN );
 				$info = sprintf( _n( 'There is 1 affiliate in this set', 'There are %d affiliates in this set', count( $affiliates ), AFFILIATES_PLUGIN_DOMAIN ), count( $affiliates ) );
+				$add_class = "active";
 				break;
 			case 2:
 				$affiliates = affiliates_get_affiliates( false, false );
