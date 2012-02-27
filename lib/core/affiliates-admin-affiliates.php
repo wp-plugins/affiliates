@@ -111,9 +111,9 @@ function affiliates_admin_affiliates() {
 	
 	// filters
 	$from_date            = $affiliates_options->get_option( 'affiliates_from_date', null );
-	$from_datetime = null;
+	$from_datetime        = null;
 	$thru_date            = $affiliates_options->get_option( 'affiliates_thru_date', null );
-	$thru_datetime = null;
+	$thru_datetime        = null;
 	$affiliate_id         = $affiliates_options->get_option( 'affiliates_affiliate_id', null );
 	$affiliate_name       = $affiliates_options->get_option( 'affiliates_affiliate_name', null );
 	$affiliate_user_login = $affiliates_options->get_option( 'affiliates_affiliate_user_login', null );
@@ -139,12 +139,28 @@ function affiliates_admin_affiliates() {
 		$show_inoperative = false;
 	} else if ( isset( $_POST['submitted'] ) ) {
 		if ( !empty( $_POST['affiliate_name'] ) ) {
-			$affiliate_name = $_POST['affiliate_name'];
-			$affiliates_options->update_option( 'affiliates_affiliate_name', $affiliate_name );
+			$affiliate_name = trim( $_POST['affiliate_name'] );
+			if ( strlen( $affiliate_name ) > 0 ) {
+				$affiliates_options->update_option( 'affiliates_affiliate_name', $affiliate_name );
+			} else {
+				$affiliate_name = null;
+				$affiliates_options->delete_option( 'affiliates_affiliate_name' );
+			}
+		} else {
+			$affiliate_name = null;
+			$affiliates_options->delete_option( 'affiliates_affiliate_name' );
 		}
 		if ( !empty( $_POST['affiliate_user_login'] ) ) {
-			$affiliate_user_login = $_POST['affiliate_user_login'];
-			$affiliates_options->update_option( 'affiliates_affiliate_user_login', $affiliate_user_login );
+			$affiliate_user_login = trim( $_POST['affiliate_user_login'] );
+			if ( strlen( $affiliate_user_login ) > 0 ) {
+				$affiliates_options->update_option( 'affiliates_affiliate_user_login', $affiliate_user_login );
+			} else {
+				$affiliate_user_login = null;
+				$affiliates_options->delete_option( 'affiliates_affiliate_user_login' );
+			}
+		} else {
+			$affiliate_user_login = null;
+			$affiliates_options->delete_option( 'affiliates_affiliate_user_login' );
 		}
 		$show_deleted = isset( $_POST['show_deleted'] );
 		$affiliates_options->update_option( 'affiliates_show_deleted', $show_deleted );
@@ -155,12 +171,14 @@ function affiliates_admin_affiliates() {
 			$from_date = date( 'Y-m-d', strtotime( $_POST['from_date'] ) );
 			$affiliates_options->update_option( 'affiliates_from_date', $from_date );
 		} else {
+			$from_date = null;
 			$affiliates_options->delete_option( 'affiliates_from_date' );
 		}
 		if ( !empty( $_POST['thru_date'] ) ) {
 			$thru_date = date( 'Y-m-d', strtotime( $_POST['thru_date'] ) );
 			$affiliates_options->update_option( 'affiliates_thru_date', $thru_date );
 		} else {
+			$thru_date = null;
 			$affiliates_options->delete_option( 'affiliates_thru_date' );
 		}
 		if ( $from_date && $thru_date ) {
