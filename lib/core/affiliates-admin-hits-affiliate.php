@@ -83,10 +83,16 @@ function affiliates_admin_hits_affiliate() {
 		if ( !empty( $_POST['from_date'] ) ) {
 			$from_date = date( 'Y-m-d', strtotime( $_POST['from_date'] ) );
 			$affiliates_options->update_option( 'hits_affiliate_from_date', $from_date );
+		} else {
+			$from_date = null;
+			$affiliates_options->delete_option( 'hits_affiliate_from_date' );
 		}
 		if ( !empty( $_POST['thru_date'] ) ) {
 			$thru_date = date( 'Y-m-d', strtotime( $_POST['thru_date'] ) );
 			$affiliates_options->update_option( 'hits_affiliate_thru_date', $thru_date );
+		} else {
+			$thru_date = null;
+			$affiliates_options->delete_option( 'hits_affiliate_thru_date' );
 		}
 		if ( $from_date && $thru_date ) {
 			if ( strtotime( $from_date ) > strtotime( $thru_date ) ) {
