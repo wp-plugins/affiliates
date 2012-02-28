@@ -162,8 +162,8 @@ define( 'AFFILIATES_REFERRAL_STATUS_CLOSED', 'closed' );
 
 // constants used in affiliates-admin-hits.php & affiliaets-admin-referrals.php
 define( 'AFFILIATES_HITS_PER_PAGE', 10 );
-define( 'AFFILIATES_ADMIN_HITS_NONCE_1', 'affiliates-admin-hits-nonce-1' );
-define( 'AFFILIATES_ADMIN_HITS_NONCE_2', 'affiliates-admin-hits-nonce-2' );
+define( 'AFFILIATES_ADMIN_OVERVIEW_NONCE',    'affiliates-admin-overview-nonce' );
+define( 'AFFILIATES_ADMIN_HITS_NONCE_1',      'affiliates-admin-hits-nonce-1' );
+define( 'AFFILIATES_ADMIN_HITS_NONCE_2',      'affiliates-admin-hits-nonce-2' );
 define( 'AFFILIATES_ADMIN_HITS_FILTER_NONCE', 'affiliates-admin-hits-filter-nonce' );
-define( 'AFFILIATES_ADMIN_REFERRALS_NONCE', 'affiliates-admin-referrals-nonce' );
-?>
+define( 'AFFILIATES_ADMIN_REFERRALS_NONCE',   'affiliates-admin-referrals-nonce' );
