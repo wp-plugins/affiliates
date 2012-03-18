@@ -42,6 +42,8 @@ function affiliates_admin_affiliates() {
 	$output = '';
 	$today = date( 'Y-m-d', time() );
 	
+	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+	
 	if ( !current_user_can( AFFILIATES_ADMINISTER_AFFILIATES ) ) {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 	}
@@ -505,15 +507,15 @@ function affiliates_admin_affiliates() {
 			$output .= 
 				__( 'Link', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
-				'<span class="affiliate-link">' . get_bloginfo('url') . '?affiliates=' . $encoded_id . '</span>' .
+				'<span class="affiliate-link">' . get_bloginfo('url') . '?' . $pname . '=' . $encoded_id . '</span>' .
 				' &nbsp; ' .
 				__( 'URL Parameter', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
-				 '<span class="affiliate-link-param">' . '?affiliates=' . $encoded_id . '</span>' .
+				 '<span class="affiliate-link-param">' . '?' . $pname . '=' . $encoded_id . '</span>' .
 				'<br/>' .
 				__( 'Pretty', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
-				'<span class="affiliate-permalink">' . get_bloginfo('url') . '/affiliates/' . $encoded_id . '</span>' .
+				'<span class="affiliate-permalink">' . get_bloginfo('url') . '/' . $pname . '/' . $encoded_id . '</span>' .
 				( $wp_rewrite->using_permalinks() ? '' :
 					'<span class="warning">' .
 					'&nbsp;' .

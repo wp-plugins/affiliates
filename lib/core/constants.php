@@ -52,6 +52,11 @@ define( 'AFFILIATES_COOKIE_TIMEOUT_DAYS', 1 );
 define( 'AFFILIATES_COOKIE_NAME', 'wp_affiliates' );
 
 /**
+ * @var string (default) affiliate URL parameter name
+ */
+define( 'AFFILIATES_PNAME', 'affiliates' );
+
+/**
  * @var string affiliates form nonce name
  */
 define( 'AFFILIATES_ADMIN_AFFILIATES_NONCE', 'affiliates-nonce' );
