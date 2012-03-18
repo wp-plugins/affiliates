@@ -24,6 +24,11 @@
  */
 define( 'AFFILIATES_ADMIN_OPTIONS_NONCE', 'affiliates-admin-nonce' );
 
+/**
+ * @var string generator nonce
+ */
+define( 'AFFILIATES_ADMIN_OPTIONS_GEN_NONCE', 'affiliates-admin-gen-nonce' );
+
 /** 
  * @var string Default set of robots. For now ... do-it-yourself.
  * @unused
@@ -32,7 +37,7 @@ define( 'AFFILIATES_DEFAULT_ROBOTS', '' );
 
 function affiliates_admin_options() {
 	
-	global $wpdb, $affiliates_options, $wp_roles;
+	global $wp, $wpdb, $affiliates_options, $wp_roles;
 	
 	if ( !current_user_can( AFFILIATES_ADMINISTER_OPTIONS ) ) {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
@@ -50,22 +55,25 @@ function affiliates_admin_options() {
 	$pages_generated_info = '';
 
 	//
+	// handle page generation form submission
+	//
+	if ( isset( $_POST['generate'] ) ) {
+		if ( wp_verify_nonce( $_POST[AFFILIATES_ADMIN_OPTIONS_GEN_NONCE], 'admin' ) ) {
+			require_once( AFFILIATES_CORE_LIB . '/class-affiliates-generator.php' );
+			$post_ids = Affiliates_Generator::setup_pages();
+			foreach ( $post_ids as $post_id ) {
+				$link = '<a href="' . get_permalink( $post_id ) . '" target="_blank">' . get_the_title( $post_id ) . '</a>';
+				$pages_generated_info .= '<div class="info">' . __( sprintf( 'The %s page has been created.', $link ), AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+			}
+		}
+	}
+
+	//
 	// handle options form submission
 	// 
-	if ( isset( $_POST['timeout'] ) ) {
+	if ( isset( $_POST['submit'] ) ) {
 		
 		if ( wp_verify_nonce( $_POST[AFFILIATES_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
-			
-			// page generation
-			error_log( var_export( $_POST, true ) );
-			if ( isset( $_POST['generate'] ) ) {
-				require_once( AFFILIATES_CORE_LIB . '/class-affiliates-generator.php' );
-				$post_ids = Affiliates_Generator::setup_pages();
-				foreach ( $post_ids as $post_id ) {
-					$link = '<a href="' . get_permalink( $post_id ) . '" target="_blank">' . get_the_title( $post_id ) . '</a>';
-					$pages_generated_info .= '<div class="info">' . __( sprintf( 'The %s page has been created.', $link ), AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
-				}
-			}
 			
 			// timeout
 			$timeout = intval ( $_POST['timeout'] );
@@ -88,6 +96,40 @@ function affiliates_admin_options() {
 						$wpdb->query( $query );
 					}
 				}
+			}
+
+			$pname = !empty( $_POST['pname'] ) ? trim( $_POST['pname'] ) : get_option( 'aff_pname', AFFILIATES_PNAME );
+			$forbidden_names = array();
+			if ( !empty( $wp->public_query_vars ) ) {
+				$forbidden_names += $wp->public_query_vars;
+			}
+			if ( !empty( $wp->private_query_vars ) ) {
+				$forbidden_names += $wp->private_query_vars;
+			}
+			if ( !empty( $wp->extra_query_vars ) ) {
+				$forbidden_names += $wp->extra_query_vars;
+			}
+			if ( !preg_match( '/[a-z_]+/', $pname, $matches ) || !isset( $matches[0] ) || $pname !== $matches[0] ) {
+				$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+				echo '<div class="error">' . __( 'The Affiliate URL parameter name <strong>has not been changed</strong>, the suggested name <em>is not valid</em>. Only lower case letters and the underscore _ are allowed.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+			} else if ( in_array( $pname, $forbidden_names ) ) {
+				$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+				echo '<div class="error">' . __( 'The Affiliate URL parameter name <strong>has not been changed</strong>, the suggested name <em>is forbidden</em>.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+			}
+			if ( $pname !== get_option( 'aff_pname', AFFILIATES_PNAME ) ) {
+				$old_pname = get_option( 'aff_pname', $pname );
+				update_option( 'aff_pname', $pname );
+				echo '<div class="info">' .
+					'<p>' .
+					sprintf( __( 'The Affiliate URL parameter name <strong>has been changed</strong> from <em><strong>%s</strong></em> to <em><strong>%s</strong></em>.', AFFILIATES_PLUGIN_DOMAIN ), $old_pname, $pname ) .
+					'</p>' .
+					'<p class="warning">' .
+					__( 'If your affiliates are using affiliate links based on the previous Affiliate URL parameter name, they <strong>NEED</strong> to update their affiliate links.', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</p>' .
+					'<p class="warning">' .
+					__( 'Unless the incoming affiliate links reflect the current Affiliate URL parameter name, no affiliate hits, visits or referrals will be recorded.', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</p>' .
+				'</div>';
 			}
 			
 			$encoding_id = $_POST['id_encoding'];
@@ -164,6 +206,8 @@ function affiliates_admin_options() {
 		$robots .= $db_robot->name . "\n";
 	}
 	
+	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+	
 	$id_encoding = get_option( 'aff_id_encoding', AFFILIATES_NO_ID_ENCODING );
 	$id_encoding_select = '';
 	$encodings = affiliates_get_id_encodings();
@@ -229,17 +273,27 @@ function affiliates_admin_options() {
 	$delete_data = get_option( 'aff_delete_data', false );
 	
 	//
+	// Generator form
+	//
+	echo
+		'<form action="" name="options" method="post">' .		
+		'<div>' .
+		'<h3>' . __( 'Page generation', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+		'<p>' .
+		__( 'Press the button to generate an affiliate area.', AFFILIATES_PLUGIN_DOMAIN ) .
+		'<input class="generate" name="generate" type="submit" value="' . __( 'Generate', AFFILIATES_PLUGIN_DOMAIN ) .'" />' .
+		wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_GEN_NONCE, true, false ) .
+		'</p>' .
+		$pages_generated_info.
+		'</div>' .
+		'</form>';
+	
+	//
 	// print the options form
 	//
 	echo
 		'<form action="" name="options" method="post">' .		
 			'<div>' .
-				'<h3>' . __( 'Page generation', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
-				'<p>' .
-					__( 'Press the button to generate an affiliate area.', AFFILIATES_PLUGIN_DOMAIN ) .
-					'<input class="generate" name="generate" type="submit" value="' . __( 'Generate', AFFILIATES_PLUGIN_DOMAIN ) .'" />' .
-				'</p>' .
-				$pages_generated_info .
 				'<h3>' . __( 'Referral timeout') . '</h3>' .
 				'<p>' .
 					'<input class="timeout" name="timeout" type="text" value="' . esc_attr( intval( $timeout ) ) . '" />' .
@@ -277,7 +331,21 @@ function affiliates_admin_options() {
 				'<p>' .
 					__( 'Hits on affiliate links from these robots will be marked or not recorded. Put one entry on each line.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
-					
+				
+				'<h3>' . __( 'Affiliate URL parameter name', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+				'<p>' .
+				'<input class="pname" name="pname" type="text" value="' . esc_attr( $pname ) . '" />' .
+				'</p>' .
+				'<p>' .
+				sprintf( __( 'The current Affiliate URL parameter name is: <b>%s</b>', AFFILIATES_PLUGIN_DOMAIN ), $pname ) .
+				'</p>' .
+				'<p>' .
+				sprintf( __( 'The default Affiliate URL parameter name is <em>%s</em>.', AFFILIATES_PLUGIN_DOMAIN ), AFFILIATES_PNAME ) .
+				'</p>' .
+				'<p class="description warning">' .
+				__( 'CAUTION: If you change this setting and have distributed affiliate links or permalinks, make sure that these are updated. Unless the incoming affiliate links reflect the current URL parameter name, no affiliate hits, visits or referrals will be recorded.', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</p>' .
+				
 				'<h3>' . __( 'Affiliate ID encoding', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
 					$id_encoding_select .

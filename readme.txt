@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -363,6 +363,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.3.6 =
+* added the option to change the default Affiliates URL parameter name from 'affiliates' to something else
+* added Affiliates URL parameter name option to options page
+* loading admin area scripts only when in admin
+* fixed options page behavior: when pressing return in a field, a new page was generated 
+
 = 1.3.5 =
 * Fixed too restrictive date filters in charts.
 
@@ -423,6 +429,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.3.6 =
+* Added the possibility to change the affiliate URL parameter name: new setting in Affiliates > Options.
+* Several improvements and minor fixes. 
 
 = 1.3.5 =
 * Charts in overview allow to display data for a selected date range, for example show charts for the current month instead of just the last 14 days.

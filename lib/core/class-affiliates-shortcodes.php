@@ -211,6 +211,8 @@ class Affiliates_Shortcodes {
 	public static function affiliates_url( $atts, $content = null ) {
 		global $wpdb;
 		
+		$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+		
 		remove_shortcode( 'affiliates_url' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_url', array( __CLASS__, 'affiliates_url' ) );
@@ -235,7 +237,7 @@ class Affiliates_Shortcodes {
 				if ( !empty( $url_query ) ) {
 					$separator = '&';
 				}
-				$output .= $base_url . $separator . 'affiliates=' . $encoded_affiliate_id;
+				$output .= $base_url . $separator . $pname . '=' . $encoded_affiliate_id;
 			}
 		}
 		return $output;

@@ -430,6 +430,7 @@ function affiliates_deactivate() {
 		delete_option( 'aff_id_encoding' );
 		delete_option( 'aff_default_referral_status' );
 		delete_option( 'aff_delete_data' );
+		delete_option( 'aff_pname' );
 	}
 }
 
@@ -451,7 +452,8 @@ add_filter( 'query_vars', 'affiliates_query_vars' );
  * @see affiliates_rewrite_rules_array() for the rewrite rule that matches the affiliates id
  */
 function affiliates_query_vars( $query_vars ) {
-	$query_vars[] = "affiliates";
+	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+	$query_vars[] = $pname;
 	return $query_vars;
 }
 
@@ -463,11 +465,12 @@ add_filter( 'rewrite_rules_array', 'affiliates_rewrite_rules_array' );
  * @param array $rules current rules
  */
 function affiliates_rewrite_rules_array( $rules ) {
+	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 	$rule = array(
 		// we could be more restrictive (if we wanted to)
 		//'affiliates/([0-9a-zA-Z]+)/?$' => 'index.php?affiliates=$matches[1]'
 		//'affiliates/([^/]+)/?$' => 'index.php?affiliates=$matches[1]'
- 		AFFILIATES_REGEX_PATTERN => 'index.php?affiliates=$matches[1]'
+ 		str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ) => 'index.php?' . $pname . '=$matches[1]'
 	);
 	$rules = $rule + $rules ; // !
 	return $rules;
@@ -495,7 +498,12 @@ function affiliates_parse_request( $wp ) {
 
 	global $wpdb, $affiliates_options;
 
-	$affiliate_id = isset( $wp->query_vars['affiliates'] ) ? affiliates_check_affiliate_id_encoded( trim( $wp->query_vars['affiliates'] ) ) : null;
+	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
+	$affiliate_id = isset( $wp->query_vars[$pname] ) ? affiliates_check_affiliate_id_encoded( trim( $wp->query_vars[$pname] ) ) : null;
+	
+	if ( isset( $wp->query_vars[$pname] ) ) {
+		$affiliate_id = apply_filters( 'affiliates_parse_request_affiliate_id', $wp->query_vars[$pname], $affiliate_id );
+	}
 
 	if ( $affiliate_id ) {
 		$encoded_id = affiliates_encode_affiliate_id( $affiliate_id );
@@ -512,8 +520,8 @@ function affiliates_parse_request( $wp ) {
 		//unset( $wp->query_vars['affiliates'] );
 		// but we use a redirect so that we end up on the desired url without the affiliate id dangling on the url
 		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$current_url = remove_query_arg( 'affiliates', $current_url );
-		$current_url = ereg_replace(AFFILIATES_REGEX_PATTERN, '', $current_url);
+		$current_url = remove_query_arg( $pname, $current_url );
+		$current_url = ereg_replace( str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ), '', $current_url);
 		wp_redirect($current_url);
 		exit; // "wp_redirect() does not exit automatically and should almost always be followed by exit." @see http://codex.wordpress.org/Function_Reference/wp_redirect  
 	}
@@ -796,15 +804,18 @@ function affiliates_get_direct_id() {
 	}
 	return $result;
 }
+ 
 
-include_once( AFFILIATES_CORE_LIB . '/affiliates-admin.php');
-include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-options.php');
-include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-affiliates.php');
-include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-hits.php');
-include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-hits-affiliate.php');
-include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-referrals.php');
-
-add_action( 'admin_menu', 'affiliates_admin_menu' );
+// only needed when in admin
+if ( is_admin() ) {
+	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin.php');
+	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-options.php');
+	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-affiliates.php');
+	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-hits.php');
+	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-hits-affiliate.php');
+	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-referrals.php');
+	add_action( 'admin_menu', 'affiliates_admin_menu' );
+}
 
 /**
  * Register our admin section.
@@ -898,6 +909,8 @@ function affiliates_admin_menu() {
 add_action( 'contextual_help', 'affiliates_contextual_help', 10, 3 );
 
 function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
+	
+	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 
 	$show_affiliates_help = false;
 	$help = '<h3><a href="http://www.itthinx.com/plugins/affiliates" target="_blank">Affiliates</a></h3>';
@@ -940,9 +953,9 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 				__( 'Affiliate link', AFFILIATES_PLUGIN_DOMAIN ) .
 				'<p/>' .
 				'<p>' .
-				__( 'This link uses a parameter in the URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) .
-				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) .
-				__( 'You may also append the ?affiliates=... part to links to your posts.', AFFILIATES_PLUGIN_DOMAIN ) .
+				__( 'This link uses a parameter in the URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
+				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) . '<br/>' .
+				sprintf( __( 'You may also append the ?%s=... part to links to your posts.', AFFILIATES_PLUGIN_DOMAIN ), $pname ) .
 				'</p>' .
 				'</li>' .
 				'<li>' .
@@ -950,7 +963,7 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 				__( 'Affiliate permalink', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 				'<p>' .
-				__( 'This link uses a nicer URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) .
+				__( 'This link uses a nicer URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
 				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 				'</li>' .
