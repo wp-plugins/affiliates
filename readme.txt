@@ -519,3 +519,4 @@ Suggest to record a referral. This function is used to actually store referrals 
 Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
 
 [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
+
