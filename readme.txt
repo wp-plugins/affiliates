@@ -33,6 +33,18 @@ These integrations are based on the Affiliates plugin and can be downloaded dire
 - Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Download](http://wordpress.org/extend/plugins/affiliates-jigoshop-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
 - Integration with [WooCommerce](http://wordpress.org/extend/plugins/woocommerce) : [Download](http://wordpress.org/extend/plugins/affiliates-woocommerce-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
 
+**Extensions / Integrations with Affiliates Pro**
+
+Extended integrations are available:
+[for Contact Form 7](http://www.itthinx.com/plugins/affiliates-pro-contact-form-7),
+[for eShop](http://www.itthinx.com/plugins/affiliates-eshop),
+[for Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop),
+[for PayPal](http://www.itthinx.com/plugins/affiliates-pro-paypal),
+[for s2Member](http://www.itthinx.com/plugins/affiliates-s2member),
+[for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce)
+and [for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
+
+
 **Features**
 
 * Real-time reporting
@@ -234,7 +246,13 @@ Remember to use HTML entities for < and >.
 
 = How can I show affiliates information about their performance? =
 
+Detailed information on this is available on the [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates/) pages.
+
 Note: You can create a page and embed a shortcode manually, or you can go to _Affiliates > Options_ and **press the _Generate_ button which will create the default Affiliate Area**.
+
+The number of hits on an affiliate's link can be shown with the [affiliates_hits] shortcode.
+
+The number of visits on an affiliate's link can be shown with the [affiliates_visits] shortcode.
 
 Your affiliates will want to know how much they will and have earned and how many referrals they have made.
 
