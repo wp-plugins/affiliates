@@ -278,19 +278,19 @@ function affiliates_admin_hits() {
 	// Referrals on dates without visits would give an infinite ratio (x referrals / 0 visits).
 	// We have a separate page which shows all referrals.
 	$query = $wpdb->prepare("
-		SELECT
-			*,
-			count(distinct ip) visits,
-			sum(count) hits,
-			(select count(*) from $referrals_table where date(datetime) = h.date ) referrals,
-			((select count(*) from $referrals_table where date(datetime) = h.date )/count(distinct ip)) ratio
-		FROM $hits_table h
-		$filters
-		GROUP BY date
-		ORDER BY $orderby $order
-		LIMIT $row_count OFFSET $offset
-		",
-		$filter_params
+			SELECT
+				*,
+				count(distinct ip) visits,
+				sum(count) hits,
+				(select count(*) from $referrals_table where date(datetime) = h.date ". ( $affiliate_id ? " AND affiliate_id = " . intval( $affiliate_id ) . " " : "" )  .") referrals,
+				((select count(*) from $referrals_table where date(datetime) = h.date ". ( $affiliate_id ? " AND affiliate_id = " . intval( $affiliate_id ) . " " : "" )  .")/count(distinct ip)) ratio
+			FROM $hits_table h
+	$filters
+			GROUP BY date
+			ORDER BY $orderby $order
+			LIMIT $row_count OFFSET $offset
+			",
+	$filter_params
 	);
 
 	$results = $wpdb->get_results( $query, OBJECT );		
@@ -428,7 +428,7 @@ function affiliates_admin_hits() {
 					$referrals_filters = " WHERE date(datetime) = %s ";
 					$referrals_filter_params = array( $result->date );
 					if ( $affiliate_id ) {
-						$referrals_filters .= " AND affiliate_id = %d ";
+						$referrals_filters .= " AND r.affiliate_id = %d ";
 						$referrals_filter_params[] = $affiliate_id;
 					}
 					$referrals_orderby = "datetime $order";

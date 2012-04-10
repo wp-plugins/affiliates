@@ -205,20 +205,25 @@ class Affiliates_Registration {
 					'user_url'   => $url
 				); 
 				
-				if ( !$is_logged_in ) {
-					$affiliate_user_id = self::register_affiliate( $userdata );
-				} else {
-					$affiliate_user_id = $user->ID;
+				// don't try to create a new user on multiple renderings
+				global $affiliate_user_id, $new_affiliate_registered;
+				if ( !isset( $affiliate_user_id ) ) {
+					if ( !$is_logged_in ) {
+						$affiliate_user_id = self::register_affiliate( $userdata );
+						$new_affiliate_registered = true;
+					} else {
+						$affiliate_user_id = $user->ID;
+					}
 				}
 					
 				// register as affiliate
 				if ( !is_wp_error( $affiliate_user_id ) ) {
 					// add affiliate entry
 					$send = true;
-					
-					$affiliate_id = self::store_affiliate( $affiliate_user_id, $userdata );
-					
-					do_action( 'affiliates_stored_affiliate', $affiliate_id, $affiliate_user_id );
+					if ( !$new_affiliate_registered ) {
+						$affiliate_id = self::store_affiliate( $affiliate_user_id, $userdata );
+						do_action( 'affiliates_stored_affiliate', $affiliate_id, $affiliate_user_id );
+					}
 					
 					$is_widget = isset( $options['is_widget'] ) && ( $options['is_widget'] === true || $options['is_widget'] == 'true' );
 					$redirect = isset( $options['redirect'] ) && ( $options['redirect'] === true || $options['redirect'] == 'true' );

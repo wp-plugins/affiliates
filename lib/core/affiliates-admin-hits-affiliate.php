@@ -276,21 +276,29 @@ function affiliates_admin_hits_affiliate() {
 	// Get the summarized results, these are grouped by date.
 	// Note: Referrals on dates without a hit will not be included.
 	// @see notes about this in affiliates_admin_hits()
+	$date_condition = "";
+	if ( $from_date && $thru_date ) {
+		$date_condition = " AND datetime >= '" . $from_datetime . "' AND datetime < '" . $thru_datetime ."' ";
+	} else if ( $from_date ) {
+		$date_condition = " AND datetime >= '" . $from_datetime . "' ";
+	} else if ( $thru_date ) {
+		$date_condition = " AND datetime < '" . $thru_datetime . "' ";
+	}
 	$query = $wpdb->prepare("
-		SELECT
-			*,
-			count(distinct ip) visits,
-			sum(count) hits,
-			(select count(*) from $referrals_table where affiliate_id = h.affiliate_id ) referrals,
-			((select count(*) from $referrals_table where affiliate_id = h.affiliate_id )/count(distinct ip)) ratio
-		FROM $hits_table h
-		LEFT JOIN $affiliates_table a ON h.affiliate_id = a.affiliate_id
-		$filters
-		GROUP BY h.affiliate_id
-		ORDER BY $orderby $order
-		LIMIT $row_count OFFSET $offset
-		",
-		$filter_params
+			SELECT
+				*,
+				count(distinct ip) visits,
+				sum(count) hits,
+				(select count(*) from $referrals_table where affiliate_id = h.affiliate_id $date_condition ) referrals,
+				((select count(*) from $referrals_table where affiliate_id = h.affiliate_id $date_condition )/count(distinct ip)) ratio
+			FROM $hits_table h
+			LEFT JOIN $affiliates_table a ON h.affiliate_id = a.affiliate_id
+			$filters
+			GROUP BY h.affiliate_id
+			ORDER BY $orderby $order
+			LIMIT $row_count OFFSET $offset
+			",
+			$filter_params
 	);
 
 	$results = $wpdb->get_results( $query, OBJECT );		

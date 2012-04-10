@@ -363,6 +363,11 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.3.7 =
+* added [affiliates_hits] and [affiliates_visits] shortcodes
+* fixed bug when affiliate is selected on Visits & Referrals screen when affiliate is given in filters
+* fixed bug in Affiliates & Referrals screen when date and affiliate is given in filters
+
 = 1.3.6 =
 * added the option to change the default Affiliates URL parameter name from 'affiliates' to something else
 * added Affiliates URL parameter name option to options page
@@ -429,6 +434,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.3.7 =
+* added [affiliates_hits] and [affiliates_visits] shortcodes
+* fixed bugs in admin screens for some filter settings
 
 = 1.3.6 =
 * Added the possibility to change the affiliate URL parameter name: new setting in Affiliates > Options.
@@ -519,6 +528,3 @@ Suggest to record a referral. This function is used to actually store referrals 
 Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
 
 [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
-
-
-

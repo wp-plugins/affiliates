@@ -150,6 +150,14 @@ function affiliates_activate() {
 	global $wpdb, $wp_roles;
 
 	_affiliates_set_default_capabilities();
+	
+	$charset_collate = '';
+	if ( ! empty( $wpdb->charset ) ) {
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	}
+	if ( ! empty( $wpdb->collate ) ) {
+		$charset_collate .= " COLLATE $wpdb->collate";
+	}
 
 	$affiliates_table = _affiliates_get_tablename('affiliates');
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $affiliates_table . "'" ) != $affiliates_table ) {
@@ -164,7 +172,7 @@ function affiliates_activate() {
 				PRIMARY KEY  (affiliate_id),
 				INDEX        affiliates_afts (affiliate_id, from_date, thru_date, status),
 				INDEX        affiliates_sft (status, from_date, thru_date)
-			);";
+			) $charset_collate;";
 			
 		// email @see http://tools.ietf.org/html/rfc5321
 		// 2.3.11. Mailbox and Address
@@ -216,7 +224,7 @@ function affiliates_activate() {
 				INDEX        aff_referrals_sda (status, datetime, affiliate_id),
 				INDEX        aff_referrals_tda (type, datetime, affiliate_id),
 				INDEX        aff_referrals_ref (reference(20))
-			);";
+			) $charset_collate;";
 		// @see http://bugs.mysql.com/bug.php?id=27645 as of now (2011-03-19) NOW() can not be specified as the default value for a datetime column
 			
 		// A note about whether or not to record information about
@@ -250,7 +258,7 @@ function affiliates_activate() {
 				PRIMARY KEY     (affiliate_id, date, time, ip),
 				INDEX           aff_hits_ddt (date, datetime),
 				INDEX           aff_hits_dtd (datetime, date)
-			);";
+			) $charset_collate;";
 			
 		$robots_table = _affiliates_get_tablename( 'robots' );
 		$queries[] = "CREATE TABLE " . $robots_table . "(
@@ -258,14 +266,14 @@ function affiliates_activate() {
 				name        varchar(100) NOT NULL,
 				PRIMARY KEY (robot_id),
 				INDEX       aff_robots_n (name)
-			);";
+			) $charset_collate;";
 			
 		$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
 		$queries[] = "CREATE TABLE " . $affiliates_users_table . "(
 				affiliate_id bigint(20) unsigned NOT NULL,
 				user_id      bigint(20) unsigned NOT NULL,
 				PRIMARY KEY (affiliate_id, user_id)
-			);";
+			) $charset_collate;";
 			
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $queries );
@@ -1143,30 +1151,55 @@ function affiliates_get_affiliates( $active = true, $valid = true ) {
  * @param int $affiliate_id the affiliate's id
  * @param string $from_date optional from date
  * @param string $thru_date optional thru date
+ * @param boolean $precise take time into account ($from_date and $thru_date include time)
  * @return int number of hits
  */
-function affiliates_get_affiliate_hits( $affiliate_id, $from_date = null , $thru_date = null ) {
+function affiliates_get_affiliate_hits( $affiliate_id, $from_date = null , $thru_date = null, $precise = false ) {
 	global $wpdb;
 	$hits_table = _affiliates_get_tablename('hits');
 	$result = 0;
 	$where = " WHERE affiliate_id = %d";
 	$values = array( $affiliate_id );
 	if ( $from_date ) {
-		$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+		if ( $precise ) {
+			$from_datetime = date( 'Y-m-d H:i:s', strtotime( $from_date ) );
+		} else {
+			$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+		}
 	}
 	if ( $thru_date ) {
-		$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+		if ( $precise ) {
+			$thru_datetime = date( 'Y-m-d H:i:s', strtotime( $thru_date ) );
+		} else {
+			$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+		}
 	}
 	if ( $from_date && $thru_date ) {
-		$where .= " AND date >= %s AND date < %s ";
-		$values[] = $from_date;
-		$values[] = $thru_date;
+		if ( $precise ) {
+			$where .= " AND datetime >= %s AND datetime < %s ";
+			$values[] = $from_datetime;
+			$values[] = $thru_datetime;
+		} else {
+			$where .= " AND date >= %s AND date < %s ";
+			$values[] = $from_date;
+			$values[] = $thru_date;
+		}
 	} else if ( $from_date ) {
-		$where .= " AND date >= %s ";
-		$values[] = $from_date;
+		if ( $precise ) {
+			$where .= " AND datetime >= %s ";
+			$values[] = $from_datetime;
+		} else {
+			$where .= " AND date >= %s ";
+			$values[] = $from_date;
+		}
 	} else if ( $thru_date ) {
-		$where .= " AND date < %s ";
-		$values[] = $thru_date;
+		if ( $precise ) {
+			$where .= " AND datetime < %s ";
+			$values[] = $thru_datetime;
+		} else {
+			$where .= " AND date < %s ";
+			$values[] = $thru_date;
+		}
 	}
 	$query = $wpdb->prepare("
 		SELECT sum(count) FROM $hits_table $where
@@ -1184,30 +1217,72 @@ function affiliates_get_affiliate_hits( $affiliate_id, $from_date = null , $thru
  * @param int $affiliate_id the affiliate's id
  * @param string $from_date optional from date
  * @param string $thru_date optional thru date
+ * @param boolean $precise take time into account ($from_date and $thru_date include time)
  * @return int number of visits
  */
-function affiliates_get_affiliate_visits( $affiliate_id, $from_date = null , $thru_date = null ) {
+function affiliates_get_affiliate_visits( $affiliate_id, $from_date = null , $thru_date = null, $precise = false ) {
 	global $wpdb;
 	$hits_table = _affiliates_get_tablename('hits');
 	$result = 0;
 	$where = " WHERE affiliate_id = %d";
 	$values = array( $affiliate_id );
+// 	if ( $from_date ) {
+// 		$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+// 	}
+// 	if ( $thru_date ) {
+// 		$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+// 	}
+// 	if ( $from_date && $thru_date ) {
+// 		$where .= " AND date >= %s AND date < %s ";
+// 		$values[] = $from_date;
+// 		$values[] = $thru_date;
+// 	} else if ( $from_date ) {
+// 		$where .= " AND date >= %s ";
+// 		$values[] = $from_date;
+// 	} else if ( $thru_date ) {
+// 		$where .= " AND date < %s ";
+// 		$values[] = $thru_date;
+// 	}
 	if ( $from_date ) {
-		$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+		if ( $precise ) {
+			$from_datetime = date( 'Y-m-d H:i:s', strtotime( $from_date ) );
+		} else {
+			$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+		}
 	}
 	if ( $thru_date ) {
-		$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+		if ( $precise ) {
+			$thru_datetime = date( 'Y-m-d H:i:s', strtotime( $thru_date ) );
+		} else {
+			$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+		}
 	}
 	if ( $from_date && $thru_date ) {
-		$where .= " AND date >= %s AND date < %s ";
-		$values[] = $from_date;
-		$values[] = $thru_date;
+		if ( $precise ) {
+			$where .= " AND datetime >= %s AND datetime < %s ";
+			$values[] = $from_datetime;
+			$values[] = $thru_datetime;
+		} else {
+			$where .= " AND date >= %s AND date < %s ";
+			$values[] = $from_date;
+			$values[] = $thru_date;
+		}
 	} else if ( $from_date ) {
-		$where .= " AND date >= %s ";
-		$values[] = $from_date;
+		if ( $precise ) {
+			$where .= " AND datetime >= %s ";
+			$values[] = $from_datetime;
+		} else {
+			$where .= " AND date >= %s ";
+			$values[] = $from_date;
+		}
 	} else if ( $thru_date ) {
-		$where .= " AND date < %s ";
-		$values[] = $thru_date;
+		if ( $precise ) {
+			$where .= " AND datetime < %s ";
+			$values[] = $thru_datetime;
+		} else {
+			$where .= " AND date < %s ";
+			$values[] = $thru_date;
+		}
 	}
 	$query = $wpdb->prepare("
 		SELECT SUM(visits) FROM
@@ -1227,17 +1302,25 @@ function affiliates_get_affiliate_visits( $affiliate_id, $from_date = null , $th
  * @param string $thru_date optional thru date
  * @return int number of hits
  */
-function affiliates_get_affiliate_referrals( $affiliate_id, $from_date = null , $thru_date = null, $status = null ) {
+function affiliates_get_affiliate_referrals( $affiliate_id, $from_date = null , $thru_date = null, $status = null, $precise = false ) {
 	global $wpdb;
 	$referrals_table = _affiliates_get_tablename( 'referrals' );
 	$result = 0;
 	$where = " WHERE affiliate_id = %d";
 	$values = array( $affiliate_id );
 	if ( $from_date ) {
-		$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+		if ( $precise ) {
+			$from_date = date( 'Y-m-d H:i:s', strtotime( $from_date ) );
+		} else {
+			$from_date = date( 'Y-m-d', strtotime( $from_date ) );
+		}
 	}
 	if ( $thru_date ) {
-		$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+		if ( $precise ) {
+			$thru_date = date( 'Y-m-d H:i:s', strtotime( $thru_date ) );
+		} else {
+			$thru_date = date( 'Y-m-d', strtotime( $thru_date ) + 24*3600 );
+		}
 	}
 	if ( $from_date && $thru_date ) {
 		$where .= " AND datetime >= %s AND datetime < %s ";
