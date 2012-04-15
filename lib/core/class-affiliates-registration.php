@@ -213,6 +213,7 @@ class Affiliates_Registration {
 						$new_affiliate_registered = true;
 					} else {
 						$affiliate_user_id = $user->ID;
+						$new_affiliate_registered = true;
 					}
 				}
 					
@@ -220,7 +221,7 @@ class Affiliates_Registration {
 				if ( !is_wp_error( $affiliate_user_id ) ) {
 					// add affiliate entry
 					$send = true;
-					if ( !$new_affiliate_registered ) {
+					if ( $new_affiliate_registered ) {
 						$affiliate_id = self::store_affiliate( $affiliate_user_id, $userdata );
 						do_action( 'affiliates_stored_affiliate', $affiliate_id, $affiliate_user_id );
 					}
