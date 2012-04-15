@@ -37,6 +37,8 @@ function affiliates_admin_referrals() {
 		isset( $_POST['thru_date'] ) ||
 		isset( $_POST['clear_filters'] ) ||
 		isset( $_POST['affiliate_id'] ) ||
+		isset( $_POST['status'] ) ||
+		isset( $_POST['search'] ) ||
 		isset( $_POST['expanded'] ) ||
 		isset( $_POST['expanded_data'] ) ||
 		isset( $_POST['expanded_description'] ) ||
@@ -86,6 +88,7 @@ function affiliates_admin_referrals() {
 	$thru_date            = $affiliates_options->get_option( 'referrals_thru_date', null );
 	$affiliate_id         = $affiliates_options->get_option( 'referrals_affiliate_id', null );
 	$status               = $affiliates_options->get_option( 'referrals_status', null );
+	$search               = $affiliates_options->get_option( 'referrals_search', null );
 	$expanded             = $affiliates_options->get_option( 'referrals_expanded', null );
 	$expanded_description = $affiliates_options->get_option( 'referrals_expanded_description', null );
 	$expanded_data        = $affiliates_options->get_option( 'referrals_expanded_data', null );
@@ -96,6 +99,7 @@ function affiliates_admin_referrals() {
 		$affiliates_options->delete_option( 'referrals_thru_date' );
 		$affiliates_options->delete_option( 'referrals_affiliate_id' );
 		$affiliates_options->delete_option( 'referrals_status' );
+		$affiliates_options->delete_option( 'referrals_search' );
 		$affiliates_options->delete_option( 'referrals_expanded' );
 		$affiliates_options->delete_option( 'referrals_expanded_description' );
 		$affiliates_options->delete_option( 'referrals_expanded_data' );
@@ -104,6 +108,7 @@ function affiliates_admin_referrals() {
 		$thru_date = null;
 		$affiliate_id = null;
 		$status = null;
+		$search = null;
 		$expanded = null;
 		$expanded_data = null;
 		$expanded_description = null;
@@ -160,6 +165,14 @@ function affiliates_admin_referrals() {
 		} else {
 			$status = null;
 			$affiliates_options->delete_option( 'referrals_status' );
+		}
+		
+		if ( !empty( $_POST['search'] ) ) {
+			$search = $_POST['search'];
+			$affiliates_options->update_option( 'referrals_search', $_POST['search'] );
+		} else {
+			$status = null;
+			$affiliates_options->delete_option( 'referrals_search' );
 		}
 		
 		// expanded details?
@@ -261,7 +274,7 @@ function affiliates_admin_referrals() {
 			$switch_order = 'ASC';
 	}
 	
-	if ( $from_date || $thru_date || $affiliate_id || $status ) {
+	if ( $from_date || $thru_date || $affiliate_id || $status || $search ) {
 		$filters = " WHERE ";
 	} else {
 		$filters = '';			
@@ -291,6 +304,13 @@ function affiliates_admin_referrals() {
 		}
 		$filters .= " r.status = %s ";
 		$filter_params[] = $status;
+	}
+	if ( $search ) {
+		if ( $from_date || $thru_date || $affiliate_id || $status ) {
+			$filters .= " AND ";
+		}
+		$filters .= " r.data LIKE '%%%s%%' ";
+		$filter_params[] = $search;
 	}
 	
 	// how many are there ?
@@ -388,6 +408,8 @@ function affiliates_admin_referrals() {
 				'<p>' .
 				$affiliates_select .
 				$status_select .
+				' <label class="search-filter" for="search" title="Search in data">' . __( 'Search', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				' <input class="search-filter" name="search" type="text" value="' . esc_attr( $search ) . '"/>'.
 				'</p>
 				<p>' .
 				'<label class="from-date-filter" for="from_date">' . __('From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
