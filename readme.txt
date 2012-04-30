@@ -381,6 +381,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 1.3.9 =
+* added [affiliates_id] shortcode that prints the affiliate's id
+
+= 1.3.8.1 =
+* using alternative method to record IP on hits and referrals on system with PHP_INT_SIZE < 8
+
 = 1.3.8 =
 * fixed affiliate registration bug
 * added filter to search in referral data
@@ -456,6 +462,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 1.3.9 =
+* New shortcode: [affiliates_id] prints the current affiliate's ID when that affiliate is logged in.
 
 = 1.3.8 =
 * fixed affiliate registration bug

@@ -562,12 +562,21 @@ function affiliates_record_hit( $affiliate_id, $now = null, $type = null ) {
 	$columns    = '(affiliate_id, date, time, datetime, type';
 	$formats    = '(%d,%s,%s,%s,%s';
 	$values     = array( $affiliate_id, $date, $time, $datetime, $type );
-	$ip_address = $_SERVER['REMOTE_ADDR'];
 
-	if ( $ip_int = ip2long( $ip_address ) ) {
-		$columns .= ',ip';
-		$formats .= ',%d';
-		$values[] = $ip_int;
+	$ip_address = $_SERVER['REMOTE_ADDR'];
+	if ( PHP_INT_SIZE >= 8 ) {
+		if ( $ip_int = ip2long( $ip_address ) ) {
+			$columns .= ',ip';
+			$formats .= ',%d';
+			$values[] = $ip_int;
+		}
+	} else {
+		if ( $ip_int = ip2long( $ip_address ) ) {
+			$ip_int = sprintf( '%u', $ip_int );
+			$columns .= ',ip';
+			$formats .= ',%s';
+			$values[] = $ip_int;
+		}
 	}
 	if ( $user_id = get_current_user_id() ) {
 		$columns .= ',user_id';
@@ -661,10 +670,19 @@ function affiliates_suggest_referral( $post_id, $description = '', $data = null,
 
 		// add ip
 		$ip_address = $_SERVER['REMOTE_ADDR'];
-		if ( $ip_int = ip2long( $ip_address ) ) {
-			$columns .= ',ip ';
-			$formats .= ',%d ';
-			$values[] = $ip_int;
+		if ( PHP_INT_SIZE >= 8 ) {
+			if ( $ip_int = ip2long( $ip_address ) ) {
+				$columns .= ',ip ';
+				$formats .= ',%d ';
+				$values[] = $ip_int;
+			}
+		} else {
+			if ( $ip_int = ip2long( $ip_address ) ) {
+				$ip_int = sprintf( '%u', $ip_int );
+				$columns .= ',ip';
+				$formats .= ',%s';
+				$values[] = $ip_int;
+			}
 		}
 
 		if ( is_array( $data ) && !empty( $data ) ) {

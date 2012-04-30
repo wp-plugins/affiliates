@@ -22,7 +22,11 @@ class Affiliates_Shortcodes {
 	
 	// var $url_options = array();
 	
+	/**
+	 * Add shortcodes.
+	 */
 	public static function init() {
+		add_shortcode( 'affiliates_id', array( __CLASS__, 'affiliates_id' ) );
 		add_shortcode( 'affiliates_is_affiliate', array( __CLASS__, 'affiliates_is_affiliate' ) );
 		add_shortcode( 'affiliates_is_not_affiliate', array( __CLASS__, 'affiliates_is_not_affiliate' ) );
 		add_shortcode( 'affiliates_hits', array( __CLASS__, 'affiliates_hits' ) );
@@ -32,7 +36,31 @@ class Affiliates_Shortcodes {
 		add_shortcode( 'affiliates_login_redirect', array( __CLASS__, 'affiliates_login_redirect' ) );
 		add_shortcode( 'affiliates_logout', array( __CLASS__, 'affiliates_logout' ) );
 	}
-	
+
+	/**
+	 * Affiliate ID shortcode.
+	 * Renders the affiliate's id.
+	 *
+	 * @param array $atts attributes
+	 * @param string $content not used
+	 */
+	public static function affiliates_id( $atts, $content = null ) {
+		global $wpdb;
+		$output = "";
+		$user_id = get_current_user_id();
+		if ( $user_id && affiliates_user_is_affiliate( $user_id ) ) {
+			$affiliates_table = _affiliates_get_tablename( 'affiliates' );
+			$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
+			if ( $affiliate_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT $affiliates_users_table.affiliate_id FROM $affiliates_users_table LEFT JOIN $affiliates_table ON $affiliates_users_table.affiliate_id = $affiliates_table.affiliate_id WHERE $affiliates_users_table.user_id = %d AND $affiliates_table.status = 'active'",
+				intval( $user_id )
+			))) {
+				$output .= affiliates_encode_affiliate_id( $affiliate_id );
+			}
+		}
+		return $output;
+	}
+
 	/**
 	 * Affiliate content shortcode.
 	 * Renders the content if the current user is an affiliate.
