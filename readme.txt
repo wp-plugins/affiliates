@@ -3,8 +3,8 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
 Requires at least: 3.0
-Tested up to: 3.3.1
-Stable tag: 1.3.8
+Tested up to: 3.3.2
+Stable tag: 1.3.9
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -41,8 +41,8 @@ Extended integrations are available:
 [for Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop),
 [for PayPal](http://www.itthinx.com/plugins/affiliates-pro-paypal),
 [for s2Member](http://www.itthinx.com/plugins/affiliates-s2member),
-[for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce)
-and [for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
+[for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce),
+[for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
 
 
 **Features**
