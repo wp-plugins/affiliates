@@ -123,7 +123,8 @@ class Affiliates_Registration {
 			return $output;
 		}
 		
-		if ( !get_option( 'users_can_register', false ) ) {
+		
+		if ( !get_option( 'aff_registration', get_option( 'users_can_register', false ) ) ) {
 			$output .= '<p>' . __( 'Registration is currently closed.', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
 			return $output;
 		}

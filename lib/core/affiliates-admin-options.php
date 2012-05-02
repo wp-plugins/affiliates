@@ -98,6 +98,12 @@ function affiliates_admin_options() {
 				}
 			}
 
+			if ( !empty( $_POST['registration'] ) ) {
+				update_option( 'aff_registration', true );
+			} else {
+				update_option( 'aff_registration', false );
+			}
+			
 			$pname = !empty( $_POST['pname'] ) ? trim( $_POST['pname'] ) : get_option( 'aff_pname', AFFILIATES_PNAME );
 			$forbidden_names = array();
 			if ( !empty( $wp->public_query_vars ) ) {
@@ -157,11 +163,13 @@ function affiliates_admin_options() {
 			}
 			// prevent locking out
 			_affiliates_assure_capabilities();
-							
-			if ( !empty( $_POST['delete-data'] ) ) {
-				update_option( 'aff_delete_data', true );
-			} else {
-				update_option( 'aff_delete_data', false );
+
+			if ( !affiliates_is_sitewide_plugin() ) {
+				if ( !empty( $_POST['delete-data'] ) ) {
+					update_option( 'aff_delete_data', true );
+				} else {
+					update_option( 'aff_delete_data', false );
+				}
 			}
 			
 			if ( !empty( $_POST['use-direct'] ) ) {
@@ -205,6 +213,8 @@ function affiliates_admin_options() {
 	foreach ($db_robots as $db_robot ) {
 		$robots .= $db_robot->name . "\n";
 	}
+	
+	$registration = get_option( 'aff_registration', get_option( 'users_can_register', false ) );
 	
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 	
@@ -331,7 +341,13 @@ function affiliates_admin_options() {
 				'<p>' .
 					__( 'Hits on affiliate links from these robots will be marked or not recorded. Put one entry on each line.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
-				
+
+				'<h3>' . __( 'Affiliate registration', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+				'<p>' .
+					'<input name="registration" type="checkbox" ' . ( $registration ? 'checked="checked"' : '' ) . '/>' .
+					'<label for="registration">' . __( 'Allow affiliate registration', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'</p>' .
+
 				'<h3>' . __( 'Affiliate URL parameter name', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
 				'<input class="pname" name="pname" type="text" value="' . esc_attr( $pname ) . '" />' .
@@ -365,8 +381,9 @@ function affiliates_admin_options() {
 				__( 'A minimum set of permissions will be preserved.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'<br/>' .
 				__( 'If you lock yourself out, please ask an administrator to help.', AFFILIATES_PLUGIN_DOMAIN ) .
-				'</p>' . 
-					
+				'</p>';
+		if ( !affiliates_is_sitewide_plugin() ) {
+			echo
 				'<h3>' . __( 'Deactivation and data persistence', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
 					'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
@@ -374,7 +391,9 @@ function affiliates_admin_options() {
 				'</p>' .
 				'<p class="description warning">' .
 						__( 'CAUTION: If this option is active while the plugin is deactivated, ALL affiliate and referral data will be DELETED. If you want to retrieve data about your affiliates and their referrals and are going to deactivate the plugin, make sure to back up your data or do not enable this option. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', AFFILIATES_PLUGIN_DOMAIN ) .
-				'</p>' .
+				'</p>';
+		}
+		echo
 				'<p>' .
 					wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_NONCE, true, false ) .
 					'<input type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
@@ -383,4 +402,49 @@ function affiliates_admin_options() {
 		'</form>';
 	affiliates_footer();
 }
-?>
+
+/**
+ * Network options.
+ */
+function affiliates_network_admin_options() {
+	global $wp, $wpdb, $affiliates_options, $wp_roles;
+	if ( !current_user_can( AFFILIATES_ADMINISTER_OPTIONS ) ) {
+		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
+	}
+	echo '<h2>' . __( 'Affiliates', AFFILIATES_PLUGIN_DOMAIN ) . '</h2>';
+	if ( affiliates_is_sitewide_plugin() ) {
+		if ( isset( $_POST['submit'] ) ) {
+			if ( wp_verify_nonce( $_POST[AFFILIATES_ADMIN_OPTIONS_NONCE], 'admin' ) ) {
+				if ( !empty( $_POST['delete-network-data'] ) ) {
+					update_option( 'aff_delete_network_data', true );
+				} else {
+					update_option( 'aff_delete_network_data', false );
+				}
+			}
+		}
+		$delete_network_data = get_option( 'aff_delete_network_data', false );
+		echo
+			'<form action="" name="options" method="post">' .		
+			'<div>' .
+			'<h3>' . __( 'Affiliates network data', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+			'<p>' .
+			'<input name="delete-network-data" type="checkbox" ' . ( $delete_network_data ? 'checked="checked"' : '' ) . '/>' .
+			'<label for="delete-network-data">' . __( 'Delete all affiliate data on network deactivation', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+			'</p>' .
+			'<p class="description warning">' .
+			__( 'READ AND UNDERSTAND the following before activating this option:', AFFILIATES_PLUGIN_DOMAIN ) .
+			'</p>' .
+			'<ol class="description warning">' .
+			'<li>' . __( 'CAUTION: If this option is active while the plugin is network deactivated, <strong>ALL affiliate and referral data will be DELETED on all sites of the network</strong>.', AFFILIATES_PLUGIN_DOMAIN ) . '</li>' .
+			'<li>' . __( 'This option should only be used to clean up after testing.', AFFILIATES_PLUGIN_DOMAIN ) . '</li>' .
+			'<li>' . __( 'Make sure to back up your data or do not enable this option.', AFFILIATES_PLUGIN_DOMAIN ) . '</li>' .
+			'<li>' . __( 'By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', AFFILIATES_PLUGIN_DOMAIN ) . '</li>' .
+			'</ol>' .
+			'<p>' .
+			wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_NONCE, true, false ) .
+			'<input type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
+			'</p>' .
+			'</div>' .
+			'</form>';
+	}
+}

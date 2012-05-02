@@ -113,6 +113,8 @@ function affiliates_admin_print_scripts() {
 // ---
 
 register_activation_hook( AFFILIATES_FILE, 'affiliates_activate' );
+add_action( 'wpmu_new_blog', 'affiliates_wpmu_new_blog', 10, 2 );
+add_action( 'delete_blog', 'affiliates_delete_blog', 10, 2 );
 
 //global $affiliates_version, $affiliates_admin_messages;
 
@@ -143,14 +145,105 @@ add_action( 'admin_notices', 'affiliates_admin_notices' );
 
 /**
  * Tasks performed upon plugin activation.
- * - create tables
- * - insert default affiliate
  */
-function affiliates_activate() {
+function affiliates_activate( $network_wide = false ) {
+	if ( is_multisite() && $network_wide ) {
+		$blog_ids = affiliates_get_blogs();
+		foreach ( $blog_ids as $blog_id ) {
+			switch_to_blog( $blog_id );
+			wp_cache_reset();
+			affiliates_setup();
+			restore_current_blog();
+		}
+	} else {
+		affiliates_setup();
+	}
+}
+
+/**
+ * Setup for a new creat blog.
+ * @param int $blog_id
+ */
+function affiliates_wpmu_new_blog( $blog_id, $user_id ) {
+	if ( is_multisite() ) {
+		if ( affiliates_is_sitewide_plugin() ) {
+			switch_to_blog( $blog_id );
+			wp_cache_reset();
+			affiliates_setup();
+			restore_current_blog();
+		}
+	}
+}
+
+/**
+ * Clean up for a given blog.
+ * 
+ * @param int $blog_id
+ * @param boolean $drop
+ */
+function affiliates_delete_blog( $blog_id, $drop = false ) {
+	if ( is_multisite() ) {
+		if ( affiliates_is_sitewide_plugin() ) {
+			switch_to_blog( $blog_id );
+			wp_cache_reset();
+			affiliates_cleanup( $drop );
+			restore_current_blog();
+		}
+	}
+}
+
+/**
+ * Returns true if the plugin is site-wide.
+ * @return boolean true if site-wide plugin
+ */
+function affiliates_is_sitewide_plugin() {
+	$result = false;
+	if ( is_multisite() ) {
+		$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins', array() );
+		$active_sitewide_plugins = array_keys( $active_sitewide_plugins );
+		$components = explode( DIRECTORY_SEPARATOR, AFFILIATES_FILE );
+		$plugin = '';
+		$n = count( $components );
+		if ( isset( $components[$n - 2] ) ) {
+			$plugin .= $components[$n - 2] . DIRECTORY_SEPARATOR;
+		}
+		$plugin .= $components[$n - 1];
+		$result = in_array( $plugin, $active_sitewide_plugins );
+	}
+	return $result;
+}
+
+/**
+ * Retrieve current blogs' ids.
+ * @return array blog ids 
+ */
+function affiliates_get_blogs() {
+	global $wpdb;
+	$result = array();
+	if ( is_multisite() ) {
+		$blogs = $wpdb->get_results( $wpdb->prepare(
+			"SELECT blog_id FROM $wpdb->blogs WHERE site_id = %d AND archived = '0' AND spam = '0' AND deleted = '0'",
+			$wpdb->siteid
+		) );
+		if ( is_array( $blogs ) ) {
+			foreach( $blogs as $blog ) {
+				$result[] = $blog->blog_id;
+			}
+		}
+	} else {
+		$result[] = get_current_blog_id();
+	}
+	return $result;
+}
+
+/**
+ * Create tables and prepare data. 
+ */
+function affiliates_setup() {
 	global $wpdb, $wp_roles;
 
 	_affiliates_set_default_capabilities();
-	
+
 	$charset_collate = '';
 	if ( ! empty( $wpdb->charset ) ) {
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
@@ -173,36 +266,38 @@ function affiliates_activate() {
 				INDEX        affiliates_afts (affiliate_id, from_date, thru_date, status),
 				INDEX        affiliates_sft (status, from_date, thru_date)
 			) $charset_collate;";
-			
-		// email @see http://tools.ietf.org/html/rfc5321
-		// 2.3.11. Mailbox and Address
-		// ... The standard mailbox naming convention is defined to
-		// be "local-part@domain"; ...
-		// 4.1.2. Command Argument Syntax
-		// ...
-		// Mailbox        = Local-part "@" ( Domain / address-literal )
-		// ...
-		// 4.5.3. Sizes and Timeouts
-		// 4.5.3.1.1. Local-part
-		// The maximum total length of a user name or other local-part is 64 octets.
-		// 4.5.3.1.2. Domain
-		// The maximum total length of a domain name or number is 255 octets.
-		// 4.5.3.1.3. Path
-		// The maximum total length of a reverse-path or forward-path is 256
-		// octets (including the punctuation and element separators).
-		// So the maximum size of an email address is ... ?
-		// 64 + 1 + 255 = 320 octets
-		// Then again, people change their minds ... we'll assume 512 as sufficient.
-		// Note: WP's user.user_email is varchar(100) @see wp-admin/includes/schema.php
-			
-		// IPv6 addr
-		// FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF = 340282366920938463463374607431768211455
-		// Note that ipv6 is not part of the PK but can be handled using
-		// the lower bits of the ipv6 address to fill in ip and using the
-		// complete IPv6 address on ipv6.
-		// Note also, that currently Affiliates does NOT use ipv6.
-			
-		$referrals_table = _affiliates_get_tablename( 'referrals' );
+	}
+
+	// email @see http://tools.ietf.org/html/rfc5321
+	// 2.3.11. Mailbox and Address
+	// ... The standard mailbox naming convention is defined to
+	// be "local-part@domain"; ...
+	// 4.1.2. Command Argument Syntax
+	// ...
+	// Mailbox        = Local-part "@" ( Domain / address-literal )
+	// ...
+	// 4.5.3. Sizes and Timeouts
+	// 4.5.3.1.1. Local-part
+	// The maximum total length of a user name or other local-part is 64 octets.
+	// 4.5.3.1.2. Domain
+	// The maximum total length of a domain name or number is 255 octets.
+	// 4.5.3.1.3. Path
+	// The maximum total length of a reverse-path or forward-path is 256
+	// octets (including the punctuation and element separators).
+	// So the maximum size of an email address is ... ?
+	// 64 + 1 + 255 = 320 octets
+	// Then again, people change their minds ... we'll assume 512 as sufficient.
+	// Note: WP's user.user_email is varchar(100) @see wp-admin/includes/schema.php
+		
+	// IPv6 addr
+	// FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF = 340282366920938463463374607431768211455
+	// Note that ipv6 is not part of the PK but can be handled using
+	// the lower bits of the ipv6 address to fill in ip and using the
+	// complete IPv6 address on ipv6.
+	// Note also, that currently Affiliates does NOT use ipv6.
+
+	$referrals_table = _affiliates_get_tablename( 'referrals' );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $referrals_table . "'" ) != $referrals_table ) {
 		$queries[] = "CREATE TABLE " . $referrals_table . "(
 				referral_id  BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 				affiliate_id bigint(20) unsigned NOT NULL default '0',
@@ -226,24 +321,25 @@ function affiliates_activate() {
 				INDEX        aff_referrals_ref (reference(20))
 			) $charset_collate;";
 		// @see http://bugs.mysql.com/bug.php?id=27645 as of now (2011-03-19) NOW() can not be specified as the default value for a datetime column
-			
-		// A note about whether or not to record information about
-		// http_user_agent here: No, we don't do that!
-		// Our business is to record hits on affiliate links, not
-		// to gather statistical data about user agents. For our
-		// purpose, it does not add value to record that and if
-		// one wishes to do so, there are better solutions anyhow.
-		// IMPORTANT:
-		// datetime -- records the datetime with respect to the server's timezone
-		// date and time are are also with respect to the server's timezone
-		// date -- we do NOT use this to display information to the user
-		// time -- same applies to this here
-		// date and time (and currently only date really) are used for better
-		// performance on certain queries.
-		// We DO use the datetime (adjusted to the user's timezone using
-		// DateHelper's s2u() function to display the date and time
-		// in accordance to the user's date and time.
-		$hits_table = _affiliates_get_tablename( 'hits' );
+	}
+	// A note about whether or not to record information about
+	// http_user_agent here: No, we don't do that!
+	// Our business is to record hits on affiliate links, not
+	// to gather statistical data about user agents. For our
+	// purpose, it does not add value to record that and if
+	// one wishes to do so, there are better solutions anyhow.
+	// IMPORTANT:
+	// datetime -- records the datetime with respect to the server's timezone
+	// date and time are are also with respect to the server's timezone
+	// date -- we do NOT use this to display information to the user
+	// time -- same applies to this here
+	// date and time (and currently only date really) are used for better
+	// performance on certain queries.
+	// We DO use the datetime (adjusted to the user's timezone using
+	// DateHelper's s2u() function to display the date and time
+	// in accordance to the user's date and time.
+	$hits_table = _affiliates_get_tablename( 'hits' );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $hits_table . "'" ) != $hits_table ) {
 		$queries[] = "CREATE TABLE " . $hits_table . "(
 				affiliate_id    BIGINT(20) UNSIGNED NOT NULL DEFAULT '0',
 				date            DATE NOT NULL,
@@ -259,29 +355,34 @@ function affiliates_activate() {
 				INDEX           aff_hits_ddt (date, datetime),
 				INDEX           aff_hits_dtd (datetime, date)
 			) $charset_collate;";
-			
-		$robots_table = _affiliates_get_tablename( 'robots' );
+	}
+	$robots_table = _affiliates_get_tablename( 'robots' );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $robots_table . "'" ) != $robots_table ) {
 		$queries[] = "CREATE TABLE " . $robots_table . "(
 				robot_id    bigint(20) unsigned NOT NULL auto_increment,
 				name        varchar(100) NOT NULL,
 				PRIMARY KEY (robot_id),
 				INDEX       aff_robots_n (name)
 			) $charset_collate;";
-			
-		$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
+	}
+	$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $affiliates_users_table . "'" ) != $affiliates_users_table ) {
 		$queries[] = "CREATE TABLE " . $affiliates_users_table . "(
 				affiliate_id bigint(20) unsigned NOT NULL,
 				user_id      bigint(20) unsigned NOT NULL,
 				PRIMARY KEY (affiliate_id, user_id)
 			) $charset_collate;";
-			
+	}
+	if ( !empty( $queries ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $queries );
 	}
-	$today = date( 'Y-m-d', time() );
-	$direct = intval( $wpdb->get_var( "SELECT COUNT(affiliate_id) FROM $affiliates_table WHERE type = '" . AFFILIATES_DIRECT_TYPE . "';" ) );
-	if ( $direct <= 0 ) {
-		$wpdb->query( "INSERT INTO $affiliates_table (name, from_date, type) VALUES ('" . AFFILIATES_DIRECT_NAME . "','$today','" . AFFILIATES_DIRECT_TYPE . "');" );
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $affiliates_table . "'" ) == $affiliates_table ) {
+		$today = date( 'Y-m-d', time() );
+		$direct = intval( $wpdb->get_var( "SELECT COUNT(affiliate_id) FROM $affiliates_table WHERE type = '" . AFFILIATES_DIRECT_TYPE . "';" ) );
+		if ( $direct <= 0 ) {
+			$wpdb->query( "INSERT INTO $affiliates_table (name, from_date, type) VALUES ('" . AFFILIATES_DIRECT_NAME . "','$today','" . AFFILIATES_DIRECT_TYPE . "');" );
+		}
 	}
 }
 
@@ -360,29 +461,31 @@ function affiliates_update( $previous_version ) {
 			break;
 
 			default : // 1.0.0 1.0.1 1.0.2 1.0.3 1.0.4
-				$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
-				if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $affiliates_users_table . "'" ) != $affiliates_users_table ) {
-					$queries[] = "CREATE TABLE " . $affiliates_users_table . " (
-							affiliate_id bigint(20) unsigned NOT NULL,
-							user_id      bigint(20) unsigned NOT NULL,
-							PRIMARY KEY (affiliate_id, user_id)
-						);";
-				}
+				if ( !empty( $previous_version ) ) {
+					$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
+					if ( $wpdb->get_var( "SHOW TABLES LIKE '" . $affiliates_users_table . "'" ) != $affiliates_users_table ) {
+						$queries[] = "CREATE TABLE " . $affiliates_users_table . " (
+								affiliate_id bigint(20) unsigned NOT NULL,
+								user_id      bigint(20) unsigned NOT NULL,
+								PRIMARY KEY (affiliate_id, user_id)
+							);";
+					}
 
-				// add new fields and index to referrals
-				$referrals_table = _affiliates_get_tablename( 'referrals' );
-				$amount_row = $wpdb->get_row( "SHOW COLUMNS FROM " . $referrals_table . " LIKE 'amount'" );
-				if ( empty( $amount_row )  ) {
-					$queries[] = "ALTER TABLE " . $referrals_table . "
-					ADD COLUMN amount       decimal(18,2) default NULL,
-					ADD COLUMN currency_id  char(3) default NULL,
-					ADD COLUMN status       varchar(10) NOT NULL DEFAULT '" . AFFILIATES_REFERRAL_STATUS_ACCEPTED . "',
-					ADD COLUMN type         varchar(10) NULL,
-					ADD INDEX aff_referrals_da (datetime, affiliate_id),
-					ADD INDEX aff_referrals_sda (status, datetime, affiliate_id),
-					ADD INDEX aff_referrals_tda (type, datetime, affiliate_id)
-					;";
-					$queries[] = "UPDATE " . $referrals_table . " SET status = '" . AFFILIATES_REFERRAL_STATUS_ACCEPTED . "' WHERE status IS NULL;";
+					// add new fields and index to referrals
+					$referrals_table = _affiliates_get_tablename( 'referrals' );
+					$amount_row = $wpdb->get_row( "SHOW COLUMNS FROM " . $referrals_table . " LIKE 'amount'" );
+					if ( empty( $amount_row )  ) {
+						$queries[] = "ALTER TABLE " . $referrals_table . "
+						ADD COLUMN amount       decimal(18,2) default NULL,
+						ADD COLUMN currency_id  char(3) default NULL,
+						ADD COLUMN status       varchar(10) NOT NULL DEFAULT '" . AFFILIATES_REFERRAL_STATUS_ACCEPTED . "',
+						ADD COLUMN type         varchar(10) NULL,
+						ADD INDEX aff_referrals_da (datetime, affiliate_id),
+						ADD INDEX aff_referrals_sda (status, datetime, affiliate_id),
+						ADD INDEX aff_referrals_tda (type, datetime, affiliate_id)
+						;";
+						$queries[] = "UPDATE " . $referrals_table . " SET status = '" . AFFILIATES_REFERRAL_STATUS_ACCEPTED . "' WHERE status IS NULL;";
+					}
 				}
 				break;
 	} // switch
@@ -416,14 +519,35 @@ register_deactivation_hook( AFFILIATES_FILE, 'affiliates_deactivate' );
  * Drop tables and clear data if the plugin is deactivated.
  * This will happen only if the user chooses to delete data upon deactivation.
  */
-function affiliates_deactivate() {
-	global $wpdb, $affiliates_options, $wp_roles;
+function affiliates_deactivate( $network_wide = false ) {
+	if ( is_multisite() && $network_wide ) {
+		if ( get_option( 'aff_delete_network_data', false ) ) {
+			$blog_ids = affiliates_get_blogs();
+			foreach ( $blog_ids as $blog_id ) {
+				switch_to_blog( $blog_id );
+				wp_cache_reset();
+				affiliates_cleanup( true );
+				restore_current_blog();
+			}
+		}
+	} else {
+		affiliates_cleanup();
+	}
+}
 
-	$delete_data = get_option( 'aff_delete_data', false );
+/**
+ * Cleans up tables, data, capabilities if the option is set.
+ * 
+ * @param boolean $delete force deletion
+ */
+function affiliates_cleanup( $delete = false ) {
+	global $wpdb, $affiliates_options, $wp_roles;
+	
+	$delete_data = get_option( 'aff_delete_data', false ) || $delete;
 	if ( $delete_data ) {
 		foreach ( $wp_roles->role_objects as $role ) {
-	 		$role->remove_cap( AFFILIATES_ACCESS_AFFILIATES );
-			 $role->remove_cap( AFFILIATES_ADMINISTER_AFFILIATES );
+			$role->remove_cap( AFFILIATES_ACCESS_AFFILIATES );
+			$role->remove_cap( AFFILIATES_ADMINISTER_AFFILIATES );
 			$role->remove_cap( AFFILIATES_ADMINISTER_OPTIONS );
 		}
 		$wpdb->query('DROP TABLE IF EXISTS ' . _affiliates_get_tablename( 'referrals' ) );
@@ -438,6 +562,7 @@ function affiliates_deactivate() {
 		delete_option( 'aff_id_encoding' );
 		delete_option( 'aff_default_referral_status' );
 		delete_option( 'aff_delete_data' );
+		delete_option( 'aff_delete_network_data' );
 		delete_option( 'aff_pname' );
 	}
 }
@@ -841,6 +966,7 @@ if ( is_admin() ) {
 	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-hits-affiliate.php');
 	include_once( AFFILIATES_CORE_LIB . '/affiliates-admin-referrals.php');
 	add_action( 'admin_menu', 'affiliates_admin_menu' );
+	add_action( 'network_admin_menu', 'affiliates_network_admin_menu' );
 }
 
 /**
@@ -930,6 +1056,25 @@ function affiliates_admin_menu() {
 	add_action( 'admin_print_scripts-' . $page, 'affiliates_admin_print_scripts' );
 
 	do_action( 'affiliates_admin_menu', $pages );
+}
+
+/**
+ * Adds network admin menu.
+ */
+function affiliates_network_admin_menu() {
+	$pages = array();
+	$page = add_menu_page(
+		__( 'Affiliates', AFFILIATES_PLUGIN_DOMAIN ),
+		__( 'Affiliates', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_ACCESS_AFFILIATES,
+		'affiliates-network-admin',
+		'affiliates_network_admin_options',
+		AFFILIATES_PLUGIN_URL . '/images/affiliates.png'
+	);
+	$pages[] = $page;
+	add_action( 'admin_print_styles-' . $page, 'affiliates_admin_print_styles' );
+	add_action( 'admin_print_scripts-' . $page, 'affiliates_admin_print_scripts' );
+	do_action( 'affiliates_network_admin_menu', $pages );
 }
 
 add_action( 'contextual_help', 'affiliates_contextual_help', 10, 3 );

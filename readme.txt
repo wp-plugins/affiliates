@@ -381,6 +381,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.0.0 =
+* Made affiliate registration independent of user registration based on general settings
+* Adjusted for usage on multisite subsites
+* Added network management options
+* Fixed default update flow for new installation
+
 = 1.3.9 =
 * added [affiliates_id] shortcode that prints the affiliate's id
 
@@ -462,6 +468,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+* Affiliate registration is now independent of the general user registration (affiliates can be allowed to register although not 'Anyone can register') 
+* Multisite support
 
 = 1.3.9 =
 * New shortcode: [affiliates_id] prints the current affiliate's ID when that affiliate is logged in.
