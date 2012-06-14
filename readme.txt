@@ -1,10 +1,11 @@
 === Affiliates ===
 Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
-Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress
+Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, 
 Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 2.0.0
+Stable tag: 2.0.1
+License: GPLv3
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
 
@@ -37,10 +38,12 @@ These integrations are based on the Affiliates plugin and can be downloaded dire
 
 Extended integrations are available:
 [for Contact Form 7](http://www.itthinx.com/plugins/affiliates-pro-contact-form-7),
+[for Easy Digital Downloads](http://www.itthinx.com/plugins/affiliates-pro-for-easy-digital-downloads/),
 [for eShop](http://www.itthinx.com/plugins/affiliates-eshop),
 [for Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop),
 [for PayPal](http://www.itthinx.com/plugins/affiliates-pro-paypal),
 [for s2Member](http://www.itthinx.com/plugins/affiliates-s2member),
+[for TheCartPress](http://www.itthinx.com/plugins/affiliates-thecartpress/),
 [for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce),
 [for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
 
@@ -381,6 +384,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.0.1 =
+* WordPress 3.4 compatibility checked
+* fixed MD5-encoded affiliate links
+
 = 2.0.0 =
 * Made affiliate registration independent of user registration based on general settings
 * Adjusted for usage on multisite subsites
@@ -468,6 +475,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.0.1 =
+* WordPress 3.4 compatibility & fixes
 
 = 2.0.0 =
 * Affiliate registration is now independent of the general user registration (affiliates can be allowed to register although not 'Anyone can register') 

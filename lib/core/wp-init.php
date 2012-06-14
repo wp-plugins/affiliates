@@ -633,9 +633,12 @@ function affiliates_parse_request( $wp ) {
 
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 	$affiliate_id = isset( $wp->query_vars[$pname] ) ? affiliates_check_affiliate_id_encoded( trim( $wp->query_vars[$pname] ) ) : null;
-	
 	if ( isset( $wp->query_vars[$pname] ) ) {
-		$affiliate_id = apply_filters( 'affiliates_parse_request_affiliate_id', $wp->query_vars[$pname], $affiliate_id );
+		// affiliates-by-username uses this hook
+		$maybe_affiliate_id = apply_filters( 'affiliates_parse_request_affiliate_id', $wp->query_vars[$pname], $affiliate_id );
+		if ( ( $maybe_affiliate_id !== null ) && $maybe_affiliate_id !== trim( $wp->query_vars[$pname] ) ) {
+			$affiliate_id = $maybe_affiliate_id;
+		}
 	}
 
 	if ( $affiliate_id ) {
