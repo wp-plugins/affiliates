@@ -4,7 +4,7 @@ Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, 
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv3
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
@@ -25,6 +25,8 @@ If you need to manage an **Affiliate Marketing Progam**, **track visits to your 
 
 Simply put, the affiliates plugin is used to manage affiliates, create referrals and track visits to your site through affiliate links.
 Referrals are stored and attributed to an affiliate, for example if clients place orders on your site and you need to credit your affiliates. You can show your affiliates how well they perform, by embedding simple shortcodes on a page.
+
+[Follow itthinx on Twitter](http://twitter.com/itthinx) for updates on this and other plugins.
 
 **Free Integrations**
 
@@ -47,6 +49,7 @@ Extended integrations are available:
 [for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce),
 [for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
 
+Development and consulting services are available [on request](http://www.itthinx.com/contact/).
 
 **Features**
 
@@ -69,9 +72,11 @@ Extended integrations are available:
 
     Affiliates can sign up automatically and can also be added manually with or without user accounts.
 
-* Awesome support
+* Documentation and Support
 
-    Just get in touch if you need help or have questions.
+    - Please refer to the [Documentation](http://www.itthinx.com/documentation/affiliates/) pages.
+    - [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro.
+    - If you need help or want to ask a question, please leave a comment on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates/).
 
 * Feedback is welcome
 
@@ -93,29 +98,12 @@ If you need help, have problems, want to leave feedback or want to provide const
 
 Please try to solve problems there before you rate this plugin or say it doesn't work. There goes a _lot_ of work into providing you with free quality plugins! Please appreciate that and help with your feedback. Thanks!
 
-[Follow me on Twitter](http://twitter.com/itthinx) for updates on this and other plugins.
 
-Readily deployable **Integration Packs** are available for contributors: Jigoshop, WP e-Commerce, Ecwid, eShop, s2Member, Wishlist Member, Contact Form 7, GetResponse, AWeber, ...
-
-Other integrations are developed and made available on request.
-
-Integration Packs include:
-
-* **Affiliate Statistics** shortcodes and widgets for affiliates
-* Configurable **Referral Views** for affiliates
-* Embeddable Links and Banners for affiliates
-* Premium support and special attention to feature requests for contributors
-
-If you require **consulting services**, **support** or **customization** including **referrals integration** with your site, you may [contact me here](http://www.itthinx.com/). Please consider making a [donation](http://www.itthinx.com/plugins/affiliates) or sponsoring the plugin as a contributor.
+### Menu ###
 
 After installing the plugin you can allow visitors to join your Affiliate Marketing Program. Enable registration, place the Affiliates Registration widget or shortcode on your site to let your new affiliates join. You can also start adding affiliates manually or let existing users join the Affiliate Program.
-The default options should be suitable for many, but there are some options you might want to consider before you really start.
 
-Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
-
-[Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
-
-Although the options are documented on each page and are generally intuitive or self-explaining, a quick introduction is useful ...
+The default options should be suitable for many, but there are some options you might want to consider before you really start. Although the options are documented on each page and are generally intuitive or self-explaining, a quick introduction is useful ...
 
 The 'Affiliates' menu provides these sections:
 
@@ -208,7 +196,18 @@ This option is useful if you just need to start clean while you run tests.
 
 It is not intended to keep track of links to other sites that you as a member of an affiliate program may have.
 
+### Translations ###
+
+Many thanks to those who have contributed translations:
+
+* Lithuanian translation provided by Vincent G from [Host1Free](http://www.host1free.com/)
+* Hebrew translation provided by Yair from [temoni.org](http://www.temoni.org/)
+    
+If you want to add a translation, please [get in touch](http://www.itthinx.com/contact/).
+
 == Installation ==
+
+More detailed instructions are available on the [Setup](http://www.itthinx.com/documentation/affiliates/setup/) documentation page.
 
 1. Upload or extract the `affiliates` folder to your site's `/wp-content/plugins/` directory. Or you could use the *Add new* option found in the *Plugins* menu in WordPress.  
 2. Enable the plugin from the *Plugins* menu in WordPress.
@@ -217,6 +216,7 @@ It is not intended to keep track of links to other sites that you as a member of
 5. Now you can let your affiliates sign up directly from the Affiliate Area or start adding affiliates manually and provide them with affiliate links to your site.
 
 The default options should be suitable for many, but there are some options you might want to consider before you really start. Please read the [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates/) for additional information.
+
 
 == Frequently Asked Questions ==
 
@@ -384,6 +384,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.1.0 =
+* Added Lithuanian translation.
+* Added Hebrew translation.
+
 = 2.0.1 =
 * WordPress 3.4 compatibility checked
 * fixed MD5-encoded affiliate links
@@ -475,6 +479,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+* Added Lithuanian and Hebrew translations.
 
 = 2.0.1 =
 * WordPress 3.4 compatibility & fixes
