@@ -27,6 +27,7 @@ class Affiliates_Shortcodes {
 	 */
 	public static function init() {
 		add_shortcode( 'affiliates_id', array( __CLASS__, 'affiliates_id' ) );
+		add_shortcode( 'referrer_id', array( __CLASS__, 'referrer_id' ) );
 		add_shortcode( 'affiliates_is_affiliate', array( __CLASS__, 'affiliates_is_affiliate' ) );
 		add_shortcode( 'affiliates_is_not_affiliate', array( __CLASS__, 'affiliates_is_not_affiliate' ) );
 		add_shortcode( 'affiliates_hits', array( __CLASS__, 'affiliates_hits' ) );
@@ -55,6 +56,32 @@ class Affiliates_Shortcodes {
 				"SELECT $affiliates_users_table.affiliate_id FROM $affiliates_users_table LEFT JOIN $affiliates_table ON $affiliates_users_table.affiliate_id = $affiliates_table.affiliate_id WHERE $affiliates_users_table.user_id = %d AND $affiliates_table.status = 'active'",
 				intval( $user_id )
 			))) {
+				$output .= affiliates_encode_affiliate_id( $affiliate_id );
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Referrer ID shortcode.
+	 * Renders the referring affiliate's id.
+	 *
+	 * @param array $atts attributes
+	 * @param string $content not used
+	 */
+	public static function referrer_id( $atts, $content = null ) {
+		$options = shortcode_atts(
+			array(
+				'direct'  => false
+			),
+			$atts
+		);
+		extract( $options );
+		$output = "";
+		require_once( 'class-affiliates-service.php' );
+		$affiliate_id = Affiliates_Service::get_referrer_id();
+		if ( $affiliate_id ) {
+			if ( $direct || $affiliate_id !== affiliates_get_direct_id() ) {
 				$output .= affiliates_encode_affiliate_id( $affiliate_id );
 			}
 		}
