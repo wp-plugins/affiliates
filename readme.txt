@@ -1,10 +1,10 @@
 === Affiliates ===
 Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
-Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, 
+Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.0
-Tested up to: 3.4
-Stable tag: 2.1.0
+Tested up to: 3.4.1
+Stable tag: 2.1.1
 License: GPLv3
 
 The Affiliates plugin provides the right tools to maintain an Affiliate Marketing Program.
@@ -41,6 +41,7 @@ These integrations are based on the Affiliates plugin and can be downloaded dire
 Extended integrations are available:
 [for Contact Form 7](http://www.itthinx.com/plugins/affiliates-pro-contact-form-7),
 [for Easy Digital Downloads](http://www.itthinx.com/plugins/affiliates-pro-for-easy-digital-downloads/),
+[for Ecwid](http://www.itthinx.com/plugins/affiliates-ecwid),
 [for eShop](http://www.itthinx.com/plugins/affiliates-eshop),
 [for Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop),
 [for PayPal](http://www.itthinx.com/plugins/affiliates-pro-paypal),
@@ -363,6 +364,14 @@ Yes.
 
 The plugin provides role-based permissions to access gathered affiliate data, administer affiliates and administer options.
 
+= Can I change the content of the email that new affiliates receive? =
+
+See [Useful Plugins](http://www.itthinx.com/useful-plugins/).
+
+= After login or logout, I want to redirect users to another page instead of the WordPress login. How can I do that? =
+
+See [Useful Plugins](http://www.itthinx.com/useful-plugins/).
+
 == Screenshots ==
 
 See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliates-screenshots/)
@@ -383,6 +392,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 14. Generated Affiliate Area page - This is what an affiliate sees on the page when logged in.
 
 == Changelog ==
+
+= 2.1.1 =
+* Added shortcode to render the referrer's id.
 
 = 2.1.0 =
 * Added Lithuanian translation.
@@ -479,6 +491,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.1 =
+* New shortcode to render the referrer's id.
 
 = 2.1.0 =
 * Added Lithuanian and Hebrew translations.
@@ -589,7 +604,4 @@ Suggest to record a referral. This function is used to actually store referrals 
 
 Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
 
-
 [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
-
-

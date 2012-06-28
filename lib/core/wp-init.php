@@ -772,14 +772,8 @@ function affiliates_record_hit( $affiliate_id, $now = null, $type = null ) {
  */
 function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null ) {
 	global $wpdb, $affiliates_options;
-	//$affiliate_id = affiliates_check_affiliate_id_encoded( trim( $_COOKIE[AFFILIATES_COOKIE_NAME] ) );
-	$affiliate_id = isset( $_COOKIE[AFFILIATES_COOKIE_NAME] ) ? affiliates_check_affiliate_id_encoded( trim( $_COOKIE[AFFILIATES_COOKIE_NAME] ) ) : false;
-	if ( !$affiliate_id ) {
-		if ( get_option( 'aff_use_direct', true ) ) {
-			// Assume a direct referral without id cookie:
-			$affiliate_id = affiliates_get_direct_id();
-		}
-	}
+	require_once( 'class-affiliates-service.php' );
+	$affiliate_id = Affiliates_Service::get_referrer_id();
 	if ( $affiliate_id ) {
 
 		$current_user = wp_get_current_user();
