@@ -222,10 +222,16 @@ div.details-hits {
 .affiliate-name-filter,
 .affiliate-user-login-filter,
 .from-date-filter,
-.thru-date-filter {
+.thru-date-filter,
+.days-back-filter {
 	margin-right: 1em;
 }
 .thru-date-filter {
+}
+
+input.days-back-filter {
+	width: 5em;
+	text-align: right;
 }
 
 input[name="clear_filters"] {

@@ -393,6 +393,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.1.2 =
+* Dropped use of visualize for stats graphs, using flot instead.
+
 = 2.1.1 =
 * Added shortcode to render the referrer's id.
 
@@ -491,6 +494,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.2 =
+* Upgrade to get much improved stats graphics on the Affiliates Overview. Also adds the option to show stats for a given amount of days back.
 
 = 2.1.1 =
 * New shortcode to render the referrer's id.

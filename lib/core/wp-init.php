@@ -65,9 +65,6 @@ function affiliates_admin_init() {
 	global $affiliates_version;
 	wp_register_style( 'smoothness', AFFILIATES_PLUGIN_URL . 'css/smoothness/jquery-ui-1.8.16.custom.css', array(), $affiliates_version );
 	wp_register_style( 'affiliates_admin', AFFILIATES_PLUGIN_URL . 'css/affiliates_admin.css', array(), $affiliates_version );
-	
-	wp_register_style( 'visualize', AFFILIATES_PLUGIN_URL . 'css/graph/visualize/visualize.css', array(), $affiliates_version );
-	wp_register_style( 'visualize-affiliates-admin', AFFILIATES_PLUGIN_URL . 'css/graph/visualize-affiliates-admin.css', array(), $affiliates_version );
 }
 
 /**
@@ -77,17 +74,14 @@ function affiliates_admin_init() {
 function affiliates_admin_print_styles() {
 	wp_enqueue_style( 'smoothness' );
 	wp_enqueue_style( 'affiliates_admin' );
-	
-	wp_enqueue_style( 'visualize' );
-	wp_enqueue_style( 'visualize-affiliates-admin' );
 }
-	
+
 /**
  * Load scripts.
  */
 function affiliates_admin_print_scripts() {
 	global $post_type, $affiliates_version;
-	
+
 	// load datepicker scripts for all
 	wp_enqueue_script( 'datepicker', AFFILIATES_PLUGIN_URL . 'js/jquery.ui.datepicker.min.js', array( 'jquery', 'jquery-ui-core' ), $affiliates_version );
 	wp_enqueue_script( 'datepickers', AFFILIATES_PLUGIN_URL . 'js/datepickers.js', array( 'jquery', 'jquery-ui-core', 'datepicker' ), $affiliates_version );
@@ -96,13 +90,11 @@ function affiliates_admin_print_scripts() {
 	// add more dates used for trips and events
 	wp_enqueue_script( 'affiliates', AFFILIATES_PLUGIN_URL . 'js/affiliates.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-button', 'jquery-corner' ), $affiliates_version );
 	// and thus are the translations of the buttons used
-	
-	wp_enqueue_script( 'excanvas', AFFILIATES_PLUGIN_URL . 'js/graph/visualize/excanvas.js', array(), $affiliates_version );
-	wp_enqueue_script( 'visualize', AFFILIATES_PLUGIN_URL . 'js/graph/visualize/visualize.jQuery.js', array( 'jquery' ), $affiliates_version );
-	wp_enqueue_script( 'visualize-affiliates-admin', AFFILIATES_PLUGIN_URL . 'js/graph/affiliates-admin.js', array( 'jquery', 'visualize' ), $affiliates_version );
-	
-	$GLOBALS['wp_scripts']->add_data( 'excanvas', 'conditional', 'lt IE 9' );
-	
+
+	wp_enqueue_script( 'excanvas', AFFILIATES_PLUGIN_URL . 'js/graph/flot/excanvas.min.js', array( 'jquery' ), $affiliates_version );
+	wp_enqueue_script( 'flot', AFFILIATES_PLUGIN_URL . 'js/graph/flot/jquery.flot.min.js', array( 'jquery' ), $affiliates_version );
+	wp_enqueue_script( 'flot-resize', AFFILIATES_PLUGIN_URL . 'js/graph/flot/jquery.flot.resize.min.js', array( 'jquery', 'flot' ), $affiliates_version );
+
 //	echo '
 //		<script type="text/javascript">
 //			var fooText = "' . __( 'Foo', AFFILIATES_PLUGIN_DOMAIN ) . '";
