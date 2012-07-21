@@ -291,7 +291,7 @@ function affiliates_admin_options() {
 		'<h3>' . __( 'Page generation', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 		'<p>' .
 		__( 'Press the button to generate an affiliate area.', AFFILIATES_PLUGIN_DOMAIN ) .
-		'<input class="generate" name="generate" type="submit" value="' . __( 'Generate', AFFILIATES_PLUGIN_DOMAIN ) .'" />' .
+		'<input class="generate button" name="generate" type="submit" value="' . __( 'Generate', AFFILIATES_PLUGIN_DOMAIN ) .'" />' .
 		wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_GEN_NONCE, true, false ) .
 		'</p>' .
 		$pages_generated_info.
@@ -396,7 +396,7 @@ function affiliates_admin_options() {
 		echo
 				'<p>' .
 					wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_NONCE, true, false ) .
-					'<input type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
+					'<input class="button" type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'</p>' .
 			'</div>' .
 		'</form>';
@@ -442,7 +442,7 @@ function affiliates_network_admin_options() {
 			'</ol>' .
 			'<p>' .
 			wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_NONCE, true, false ) .
-			'<input type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
+			'<input class="button" type="submit" name="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 			'</p>' .
 			'</div>' .
 			'</form>';

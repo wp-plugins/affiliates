@@ -833,7 +833,11 @@ function affiliates_suggest_referral( $post_id, $description = '', $data = null,
 
 		// add the referral
 		$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
-		$wpdb->query( $query );
+		if ( $wpdb->query( $query ) !== false ) {
+			if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
+				do_action( 'affiliates_referral', $referral_id );
+			}
+		}
 	}
 	return $affiliate_id;
 }
@@ -1147,11 +1151,11 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 		default:
 	}
 
-	$help .= '<p>';
-	$help .= __( 'If you require <em>support</em> or <em>customization</em> including <em>referrals integration</em> with your site, you may <a href="http://www.itthinx.com/" target="_blank">contact me here</a>.', AFFILIATES_PLUGIN_DOMAIN );
-	$help .= __( 'If you find this plugin useful, please consider making a donation:', AFFILIATES_PLUGIN_DOMAIN );
-	$help .= affiliates_donate( false, true );
-	$help .= '</p>';
+	if ( !defined( 'AFFILIATES_PRO_PLUGIN_DOMAIN' ) && !defined( 'AFFILIATES_ENTERPRISE_PLUGIN_DOMAIN' ) ) {
+		$help .= '<p>';
+		$help .= affiliates_donate( false, true );
+		$help .= '</p>';
+	}
 
 	if ( $show_affiliates_help ) {
 		return $help;
@@ -1168,11 +1172,8 @@ function affiliates_footer( $render = true ) {
 	$footer = '<div class="affiliates-footer">' .
 		'<p>' .
 		__( 'Thank you for using the <a href="http://www.itthinx.com/plugins/affiliates" target="_blank">Affiliates</a> plugin by <a href="http://www.itthinx.com" target="_blank">itthinx</a>.', AFFILIATES_PLUGIN_DOMAIN ) .
-		'&nbsp;' .
-		__( 'Please get in touch if you need support, consulting or customization.', AFFILIATES_PLUGIN_DOMAIN ) .
 		'</p>' .
 		'<p>' .
-		__( 'If you find this plugin useful, please consider making a donation:', AFFILIATES_PLUGIN_DOMAIN ) .
 		affiliates_donate( false ) .
 		'</p>' .
 		'</div>';
@@ -1190,20 +1191,7 @@ function affiliates_footer( $render = true ) {
  * @param boolean $render
  */
 function affiliates_donate( $render = true, $small = false ) {
-	$donate = '
-		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<input type="hidden" name="cmd" value="_donations">
-		<input type="hidden" name="business" value="itthinx@itthinx.com">
-		<input type="hidden" name="lc" value="US">
-		<input type="hidden" name="item_name" value="Support WordPress Plugins from itthinx">
-		<input type="hidden" name="item_number" value="WordPress Plugins">
-		<input type="hidden" name="no_note" value="0">
-		<input type="hidden" name="currency_code" value="EUR">
-		<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHostedGuest">
-		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-		<img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
-		</form>
-		';
+	$donate = '<a class="button" href="http://www.itthinx.com/shop/">Get Affiliates Pro</a>';
 	if ( $render ) {
 		echo $donate;
 	} else {

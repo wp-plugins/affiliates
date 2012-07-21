@@ -203,7 +203,8 @@ Many thanks to those who have contributed translations:
 
 * Lithuanian translation provided by Vincent G from [Host1Free](http://www.host1free.com/)
 * Hebrew translation provided by Yair from [temoni.org](http://www.temoni.org/)
-* Slovak translation provided by Cr3o from [životné poistenie](http://www.zivotnepoistenie24.sk/) 
+* Slovak translation provided by Cr3o from [životné poistenie](http://www.zivotnepoistenie24.sk/)
+* Portuguese translation provided by Carlos Gouveia from [iNovve](http://www.inovve.com/)
 
 If you want to add a translation, please [get in touch](http://www.itthinx.com/contact/).
 
@@ -394,6 +395,13 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.1.4 =
+* Improved usability of click-toggles on admin screens
+* GUI appearance improvements
+* Reduced footnote
+* Added affiliates_referral action
+* Added Portuguese translation.
+
 = 2.1.3 =
 * Added Slovak translation.
 
@@ -498,6 +506,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.4 =
+* GUI and other improvements including better click-toggle, buttons, referral action, ...
+* Added Portuguese translation.
 
 = 2.1.3 =
 * Added Slovak translation.
