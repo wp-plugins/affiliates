@@ -125,6 +125,7 @@ function affiliates_admin_options() {
 			if ( $pname !== get_option( 'aff_pname', AFFILIATES_PNAME ) ) {
 				$old_pname = get_option( 'aff_pname', $pname );
 				update_option( 'aff_pname', $pname );
+				affiliates_update_rewrite_rules();
 				echo '<div class="info">' .
 					'<p>' .
 					sprintf( __( 'The Affiliate URL parameter name <strong>has been changed</strong> from <em><strong>%s</strong></em> to <em><strong>%s</strong></em>.', AFFILIATES_PLUGIN_DOMAIN ), $old_pname, $pname ) .

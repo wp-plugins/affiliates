@@ -376,6 +376,8 @@ function affiliates_setup() {
 			$wpdb->query( "INSERT INTO $affiliates_table (name, from_date, type) VALUES ('" . AFFILIATES_DIRECT_NAME . "','$today','" . AFFILIATES_DIRECT_TYPE . "');" );
 		}
 	}
+
+	affiliates_update_rewrite_rules();
 }
 
 /**
@@ -547,6 +549,7 @@ function affiliates_cleanup( $delete = false ) {
 		$wpdb->query('DROP TABLE IF EXISTS ' . _affiliates_get_tablename( 'affiliates' ) );
 		$wpdb->query('DROP TABLE IF EXISTS ' . _affiliates_get_tablename( 'robots' ) );
 		$wpdb->query('DROP TABLE IF EXISTS ' . _affiliates_get_tablename( 'affiliates_users' ) );
+		flush_rewrite_rules();
 		$affiliates_options->flush_options();
 		delete_option( 'affiliates_plugin_version' );
 		delete_option( 'aff_cookie_timeout_days' );
@@ -574,7 +577,7 @@ add_filter( 'query_vars', 'affiliates_query_vars' );
 /**
  * Register the affiliate query variable.
  * In addition to existing query variables, we'll use affiliates in the URL to track referrals.
- * @see affiliates_rewrite_rules_array() for the rewrite rule that matches the affiliates id
+ * @see affiliates_update_rewrite_rules() for the rewrite rule that matches the affiliates id
  */
 function affiliates_query_vars( $query_vars ) {
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
@@ -582,33 +585,17 @@ function affiliates_query_vars( $query_vars ) {
 	return $query_vars;
 }
 
-add_filter( 'rewrite_rules_array', 'affiliates_rewrite_rules_array' );
-
 /**
- * BEWARE ! of the order in which rules are applied.
- * In our case, we need our rule to be placed *** in front of $rules ***.
- * @param array $rules current rules
+ * Add a rewrite rule for pretty links.
  */
-function affiliates_rewrite_rules_array( $rules ) {
+function affiliates_update_rewrite_rules() {
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
-	$rule = array(
-		// we could be more restrictive (if we wanted to)
-		//'affiliates/([0-9a-zA-Z]+)/?$' => 'index.php?affiliates=$matches[1]'
-		//'affiliates/([^/]+)/?$' => 'index.php?affiliates=$matches[1]'
- 		str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ) => 'index.php?' . $pname . '=$matches[1]'
+	add_rewrite_rule(
+		str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ),
+		'index.php?' . $pname . '=$matches[1]',
+		'top'
 	);
-	$rules = $rule + $rules ; // !
-	return $rules;
-}
-
-add_filter( 'wp_loaded', 'affiliates_wp_loaded' );
-
-/** 
- * Flushes the rewrite rules.
- */
-function affiliates_wp_loaded() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
+	flush_rewrite_rules();
 }
 
 add_filter( 'parse_request', 'affiliates_parse_request' );

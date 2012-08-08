@@ -395,6 +395,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.1.5 =
+* Added Javascript redirect for registraton form when headers were already sent and the redirect / redirect_to attributes are specified
+* Fixed rewrite rule handling
+
 = 2.1.4 =
 * Improved usability of click-toggles on admin screens
 * GUI appearance improvements
@@ -506,6 +510,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.5
+* Important performance improvement related to rewrite rule handling
+* Redirect improvement for registraton form
 
 = 2.1.4 =
 * GUI and other improvements including better click-toggle, buttons, referral action, ...

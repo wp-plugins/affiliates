@@ -226,21 +226,23 @@ class Affiliates_Registration {
 						$affiliate_id = self::store_affiliate( $affiliate_user_id, $userdata );
 						do_action( 'affiliates_stored_affiliate', $affiliate_id, $affiliate_user_id );
 					}
-					
-					$is_widget = isset( $options['is_widget'] ) && ( $options['is_widget'] === true || $options['is_widget'] == 'true' );
-					$redirect = isset( $options['redirect'] ) && ( $options['redirect'] === true || $options['redirect'] == 'true' );
+
+					$is_widget    = isset( $options['is_widget'] ) && ( $options['is_widget'] === true || $options['is_widget'] == 'true' );
+					$redirect     = isset( $options['redirect'] ) && ( $options['redirect'] === true || $options['redirect'] == 'true' );
+					$redirect_url = empty( $_REQUEST['redirect_to'] ) ? get_home_url( get_current_blog_id(), 'wp-login.php?checkemail=confirm' ) : $_REQUEST['redirect_to'];
+
 					if ( $redirect && !$is_widget && !headers_sent() ) {
-						if ( empty( $_REQUEST['redirect_to'] ) ) {
-							wp_safe_redirect( get_home_url( get_current_blog_id(), 'wp-login.php?checkemail=confirm' ) );
-						} else {
-							wp_safe_redirect( $_REQUEST['redirect_to'] );
-						}
+						wp_safe_redirect( $redirect_url );
 						exit();
 					} else {
 						$output .= '<p>' . __( 'Thanks for signing up!', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
 						if ( !$is_logged_in ) {
 							$output .= '<p>' . __( 'Please check your email for the confirmation link.', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
-							$output .= '<p>' . sprintf( __( 'Log in <a href="%s">here</a>.', AFFILIATES_PLUGIN_DOMAIN ), get_home_url( get_current_blog_id(), 'wp-login.php?checkemail=confirm' ) ) . '</p>';
+							if ( $redirect && !$is_widget ) {
+								$output .= '<script type="text/javascript">window.location="' . esc_url( $redirect_url ) . '";</script>';
+							} else {
+								$output .= '<p>' . sprintf( __( 'Log in <a href="%s">here</a>.', AFFILIATES_PLUGIN_DOMAIN ), get_home_url( get_current_blog_id(), 'wp-login.php?checkemail=confirm' ) ) . '</p>';
+							}
 						} else {
 							if ( isset( $options['registered_profile_link_url'] ) ) {
 								$output .= '<p>';
