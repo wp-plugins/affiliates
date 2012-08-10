@@ -504,6 +504,9 @@ function affiliates_update( $previous_version ) {
 			$result = false;
 		}
 	}
+	if ( !empty( $previous_version ) && strcmp( $previous_version, "2.1.5" ) < 0 ) {
+		affiliates_update_rewrite_rules();
+	}
 	return $result;
 }
 
