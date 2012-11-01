@@ -752,20 +752,42 @@ function affiliates_record_hit( $affiliate_id, $now = null, $type = null ) {
  * @þaram string $currency_id three letter currency code - if used, an $amount must be given
  * @return affiliate id if a valid referral is recorded, otherwise false
  */
-function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null ) {
+function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null, $type = null, $reference = null ) {
 	global $wpdb, $affiliates_options;
 	require_once( 'class-affiliates-service.php' );
 	$affiliate_id = Affiliates_Service::get_referrer_id();
+	if ( $affiliate_id ) {
+		$affiliate_id = affiliates_add_referral($affiliate_id, $post_id, $description, $data, $amount, $currency_id, $status, $type, $reference );
+	}
+	return $affiliate_id;
+}
+
+/**
+ * Store a referral.
+ * @param int $affiliate_id
+ * @param int  $post_id
+ * @param string $description
+ * @param array $data
+ * @param string $amount
+ * @param string $currency_id
+ * @param string $status
+ * @param string $type
+ * @param string $reference
+ * @return int
+ */
+function affiliates_add_referral( $affiliate_id, $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null, $type = null, $reference = null ) {
+	global $wpdb;
+
 	if ( $affiliate_id ) {
 
 		$current_user = wp_get_current_user();
 		$now = date('Y-m-d H:i:s', time() );
 		$table = _affiliates_get_tablename( 'referrals' );
-			
+
 		$columns = "(affiliate_id, post_id, datetime, description";
 		$formats = "(%d, %d, %s, %s";
 		$values = array( $affiliate_id, $post_id, $now, $description );
-			
+
 		if ( !empty( $current_user ) ) {
 			$columns .= ",user_id ";
 			$formats .= ",%d ";
@@ -817,15 +839,32 @@ function affiliates_suggest_referral( $post_id, $description = '', $data = null,
 			$formats .= ',%s ';
 			$values[] = get_option( 'aff_default_referral_status', AFFILIATES_REFERRAL_STATUS_ACCEPTED );
 		}
+			
+		if ( !empty( $type ) ) {
+			$columns  .= ',type ';
+			$formats  .= ',%s';
+			$values[] = $type;
+		}
+			
+		if ( !empty( $reference ) ) {
+			$columns  .= ',reference ';
+			$formats  .= ',%s';
+			$values[] = $reference;
+		}
 
 		$columns .= ")";
 		$formats .= ")";
 
 		// add the referral
-		$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
-		if ( $wpdb->query( $query ) !== false ) {
-			if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
-				do_action( 'affiliates_referral', $referral_id );
+		$keys = explode( ',', str_replace( ' ', '', substr( $columns, 1, strlen( $columns ) - 2 ) ) );
+		$referral_data = array_combine( $keys, $values );
+		$record_referral = apply_filters( 'affiliates_record_referral', true, $referral_data );
+		if ( $record_referral ) {
+			$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
+			if ( $wpdb->query( $query ) !== false ) {
+				if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
+					do_action( 'affiliates_referral', $referral_id );
+				}
 			}
 		}
 	}
@@ -1217,6 +1256,42 @@ function affiliates_get_affiliate( $affiliate_id ) {
 		ARRAY_A
 	);
 	return $affiliate;
+}
+
+/**
+ * Return the user id related to an affiliate.
+ * @param int $affiliate_id
+ * @return user_id 
+ */
+function affiliates_get_affiliate_user( $affiliate_id ) {
+	global $wpdb;
+	$table = _affiliates_get_tablename( 'affiliates_users' );
+	$user_id = $wpdb->get_var( $wpdb->prepare(
+		"SELECT user_id FROM $table WHERE affiliate_id = %d", intval( $affiliate_id )
+	) );
+	return $user_id;
+}
+
+/**
+ * Return the affiliate ids related to a user. 
+ * @param int $user_id
+ * @return array of int affiliate ids or null on failure
+ */
+function affiliates_get_user_affiliate( $user_id ) {
+	global $wpdb;
+	$result = null;
+	$affiliates_table = _affiliates_get_tablename( 'affiliates' );
+	$affiliates_users_table = _affiliates_get_tablename( 'affiliates_users' );
+	if ( $affiliates = $wpdb->get_results( $wpdb->prepare(
+		"SELECT $affiliates_table.affiliate_id FROM $affiliates_users_table LEFT JOIN $affiliates_table ON $affiliates_users_table.affiliate_id = $affiliates_table.affiliate_id WHERE $affiliates_users_table.user_id = %d AND $affiliates_table.status ='active'",
+		intval( $user_id )
+	) ) ) {
+		$result = array();
+		foreach( $affiliates as $affiliate ) {
+			$result[] = $affiliate->affiliate_id;
+		}
+	}
+	return $result;
 }
 
 /**

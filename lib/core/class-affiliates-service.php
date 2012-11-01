@@ -43,7 +43,7 @@ class Affiliates_Service {
 				$affiliate_id = affiliates_get_direct_id();
 			}
 		}
-		return $affiliate_id;
+		return apply_filters( 'affiliates_service_affiliate_id', $affiliate_id, $service );
 	}
 
 }
