@@ -395,6 +395,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.1.7 =
+* added additional data to affiliates_referral hook
+
 = 2.1.6 =
 * fixed character encoding issue for affiliate link when rendering code
 * added filter to service
@@ -517,6 +520,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.7 =
+* Several fixes and additions (see changelog)
 
 = 2.1.5
 * Important performance improvement related to rewrite rule handling
