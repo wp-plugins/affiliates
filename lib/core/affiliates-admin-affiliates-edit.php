@@ -107,7 +107,7 @@ function affiliates_admin_affiliates_edit( $affiliate_id ) {
 		'</div>'; // .manage-affiliates
 	
 		echo $output;
-	
+
 	affiliates_footer();
 } // function affiliates_admin_affiliates_edit
 

@@ -863,7 +863,21 @@ function affiliates_add_referral( $affiliate_id, $post_id, $description = '', $d
 			$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
 			if ( $wpdb->query( $query ) !== false ) {
 				if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
-					do_action( 'affiliates_referral', $referral_id );
+					do_action(
+						'affiliates_referral',
+						$referral_id,
+						array(
+							'affiliate_id' => $affiliate_id,
+							'post_id' => $post_id,
+							'description' => $description,
+							'data' => $data,
+							'amount' => $amount, 
+							'currency_id' => $currency_id,
+							'status' => $status,
+							'type' => $type,
+							'reference' => $reference
+						)
+					);
 				}
 			}
 		}
