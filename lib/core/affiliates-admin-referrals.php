@@ -539,7 +539,7 @@ function affiliates_admin_referrals() {
 				}
 				$data = unserialize( $data );
 				if ( $data ) {
-					$output .= '<tr>';
+					$output .= '<tr class="data ' . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
 					$output .= "<td colspan='$column_count'>";
 					$output .= '<div class="view-toggle">';
 					$output .= "<div class='expander'>$expander</div>";
@@ -589,8 +589,8 @@ function affiliates_admin_referrals() {
 					$description_view_style = ' style="display:none;" ';
 					$expander = AFFILIATES_EXPANDER_EXPAND;
 				}
-				$output .= "<tr id='referral-description-$i'>" .
-					'<td colspan="3">' .
+				$output .= sprintf( "<tr id='referral-description-%d' class='%s'>", $i, $i % 2 == 0 ? 'even' : 'odd' ) .
+					'<td colspan="6">' .
 						'<div class="view-toggle">' .
 							"<div class='expander'>$expander</div>" .
 							'<div class="view-toggle-label">' . __('Description', AFFILIATES_PLUGIN_DOMAIN ) . '</div>' .
