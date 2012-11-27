@@ -403,6 +403,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 = 2.1.8 =
 * added Spanish translation
+* improved referrals view
+* fixed wrong type of hook used for parse_request (was filter)
 
 = 2.1.7 =
 * added additional data to affiliates_referral hook
@@ -531,7 +533,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 2.1.8 =
-* Added Spanish translation.
+* Several improvements and added Spanish translation.
 
 = 2.1.7 =
 * Several fixes and additions (see changelog)
