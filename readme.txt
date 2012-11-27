@@ -50,6 +50,11 @@ Extended integrations are available:
 [for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce),
 [for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
 
+Other extensions:
+[Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales,
+[Affiliates Users](http://www.itthinx.com/plugins/affiliates-users/) to automatically create affiliate accounts for new users,
+[Affiliates by Username](http://www.itthinx.com/plugins/affiliates-by-username/) allows affiliate links to indicate usernames in addition to the affiliate IDs.
+
 Development and consulting services are available [on request](http://www.itthinx.com/contact/).
 
 **Features**
