@@ -601,15 +601,15 @@ function affiliates_update_rewrite_rules() {
 	flush_rewrite_rules();
 }
 
-add_filter( 'parse_request', 'affiliates_parse_request' );
+add_action( 'parse_request', 'affiliates_parse_request' );
 	
 /**
  * Looks in the query variables and sets a cookie with the affiliate id.
  * Hook into parse_request.
  * @param WP $wp the WordPress environment
- * @link http://es.php.net/manual/en/function.setcookie.php
+ * @link http://php.net/manual/en/function.setcookie.php
  */
-function affiliates_parse_request( $wp ) {
+function affiliates_parse_request( &$wp ) {
 
 	global $wpdb, $affiliates_options;
 

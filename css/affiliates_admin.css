@@ -142,10 +142,14 @@ div.details-hits {
 }
 
 .referrals-overview .odd {
-  background-color: #f9f9f9;
+  background-color: #fcfcfc;
 }
 .referrals-overview .even {
   background-color: #f3f3f3;
+}
+.referrals-overview .even .widefat,
+.referrals-overview .odd .widefat {
+	background-color: inherit;
 }
 
 .referrals-overview .view-toggle .expander,
