@@ -210,7 +210,7 @@ function affiliates_admin_options() {
 	$status_select .= "</select>";
 
 	$robots = '';
-	$db_robots = $wpdb->get_results( $wpdb->prepare( "SELECT name FROM $robots_table" ), OBJECT );
+	$db_robots = $wpdb->get_results( "SELECT name FROM $robots_table", OBJECT );
 	foreach ($db_robots as $db_robot ) {
 		$robots .= $db_robot->name . "\n";
 	}

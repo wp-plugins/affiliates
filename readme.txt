@@ -207,6 +207,7 @@ It is not intended to keep track of links to other sites that you as a member of
 Many thanks to those who have contributed translations:
 
 * Hebrew translation provided by Yair from [temoni.org](http://www.temoni.org/)
+* Indonesian translation provided by Ganis Irawan from [Bisnis Internet 101](http://www.bisnisin.com/)
 * Lithuanian translation provided by Vincent G from [Host1Free](http://www.host1free.com/)
 * Portuguese translation provided by Carlos Gouveia from [iNovve](http://www.inovve.com/)
 * Slovak translation provided by Cr3o from [životné poistenie](http://www.zivotnepoistenie24.sk/)
@@ -401,6 +402,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.1.9 =
+* added Indonesian translation
+* WP 3.5 compatible
+
 = 2.1.8 =
 * added Spanish translation
 * improved referrals view
@@ -531,6 +536,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.1.9 =
+* WordPress 3.5 compatible and Indonesian translation added.
 
 = 2.1.8 =
 * Several improvements and added Spanish translation.

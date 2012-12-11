@@ -467,7 +467,7 @@ class Affiliates_Registration {
 		);
 		$formats = array( '%s', '%s', '%s' );
 		if ( $wpdb->insert( $affiliates_table, $data, $formats ) ) {			
-			$affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT LAST_INSERT_ID()" ) );
+			$affiliate_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" );
 			// create association
 			if ( $wpdb->insert(
 				_affiliates_get_tablename( 'affiliates_users' ),

@@ -164,7 +164,7 @@ function affiliates_admin_affiliates_add_submit() {
 			}
 		}
 		if ( $wpdb->insert( $affiliates_table, $data_, $formats_ ) ) {
-			$affiliate_id = $wpdb->get_var( $wpdb->prepare( "SELECT LAST_INSERT_ID()" ) );
+			$affiliate_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" );
 		}
 			
 		// user association
