@@ -210,8 +210,12 @@ class Affiliates_Registration {
 				global $affiliate_user_id, $new_affiliate_registered;
 				if ( !isset( $affiliate_user_id ) ) {
 					if ( !$is_logged_in ) {
+						// allow plugins to be aware of new user account being created
+						do_action( 'affiliates_before_register_affiliate', $userdata );
+						// create the affiliate user account
 						$affiliate_user_id = self::register_affiliate( $userdata );
 						$new_affiliate_registered = true;
+						do_action( 'affiliates_after_register_affiliate', $userdata );
 					} else {
 						$affiliate_user_id = $user->ID;
 						$new_affiliate_registered = true;
@@ -408,7 +412,7 @@ class Affiliates_Registration {
 		$userdata['password']   = $user_pass;
 		$userdata['user_url']   = esc_url_raw( $userdata['user_url'] );
 		$userdata['user_url']   = preg_match( '/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $userdata['user_url'] ) ? $userdata['user_url'] : 'http://' . $userdata['user_url'];
-		
+
 		// create affiliate entry
 		$user_id = self::create_affiliate( $userdata );
 		
