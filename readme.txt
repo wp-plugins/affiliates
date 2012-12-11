@@ -398,7 +398,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 11. Affiliates Registration Widget - Lets visitors sign up to your affiliate program, fully automated. Also available as a shortcode to embed on pages.
 12. Affiliates Registration Widget - Visitor's view of the form. Also available as a shortcode to embed on pages.
 13. Affiliates Registration Widget - View of a visitor's successful form submission to join the site's affiliate program.
-14. Generated Affiliate Area page - This is what an affiliate sees on the page when logged in.
+14. Generated Affiliate Area page - This is the generated affiliate area that an affiliate sees on the page when logged in.
 
 == Changelog ==
 
