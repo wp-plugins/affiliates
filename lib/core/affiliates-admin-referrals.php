@@ -171,7 +171,7 @@ function affiliates_admin_referrals() {
 			$search = $_POST['search'];
 			$affiliates_options->update_option( 'referrals_search', $_POST['search'] );
 		} else {
-			$status = null;
+			$search = null;
 			$affiliates_options->delete_option( 'referrals_search' );
 		}
 		

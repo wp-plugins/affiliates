@@ -405,6 +405,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 = 2.1.9 =
 * added Indonesian translation
 * WP 3.5 compatible
+* fixed bug deleting search filter on referrals admin screen
 
 = 2.1.8 =
 * added Spanish translation
@@ -538,7 +539,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 2.1.9 =
-* WordPress 3.5 compatible and Indonesian translation added.
+* WordPress 3.5 compatible, fixes and Indonesian translation added.
 
 = 2.1.8 =
 * Several improvements and added Spanish translation.
