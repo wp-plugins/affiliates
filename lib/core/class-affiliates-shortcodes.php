@@ -28,6 +28,7 @@ class Affiliates_Shortcodes {
 	public static function init() {
 		add_shortcode( 'affiliates_id', array( __CLASS__, 'affiliates_id' ) );
 		add_shortcode( 'referrer_id', array( __CLASS__, 'referrer_id' ) );
+		add_shortcode( 'referrer_user', array( __CLASS__, 'referrer_user' ) );
 		add_shortcode( 'affiliates_is_affiliate', array( __CLASS__, 'affiliates_is_affiliate' ) );
 		add_shortcode( 'affiliates_is_not_affiliate', array( __CLASS__, 'affiliates_is_not_affiliate' ) );
 		add_shortcode( 'affiliates_hits', array( __CLASS__, 'affiliates_hits' ) );
@@ -83,6 +84,55 @@ class Affiliates_Shortcodes {
 		if ( $affiliate_id ) {
 			if ( $direct || $affiliate_id !== affiliates_get_direct_id() ) {
 				$output .= affiliates_encode_affiliate_id( $affiliate_id );
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Renders the referrer's username.
+	 * @param array $atts
+	 * @param string $content not used
+	 * @return string
+	 */
+	public static function referrer_user( $atts, $content = null ) {
+		$options = shortcode_atts(
+			array(
+				'direct'  => false,
+				'display' => 'user_login'
+			),
+			$atts
+		);
+		extract( $options );
+		$output = '';
+		require_once( 'class-affiliates-service.php' );
+		$affiliate_id = Affiliates_Service::get_referrer_id();
+		if ( $affiliate_id ) {
+			if ( $direct || $affiliate_id !== affiliates_get_direct_id() ) {
+				if ( $user_id = affiliates_get_affiliate_user( $affiliate_id ) ) {
+					if ( $user = get_user_by( 'id', $user_id ) ) {
+						switch( $display ) {
+							case 'user_login' :
+								$output .= $user->user_login;
+								break;
+							case 'user_nicename' :
+								$output .= $user->user_nicename;
+								break;
+							case 'user_email' :
+								$output .= $user->user_email;
+								break;
+							case 'user_url' :
+								$output .= $user->user_url;
+								break;
+							case 'display_name' :
+								$output .= $user->display_name;
+								break;
+							default :
+								$output .= $user->user_login;
+						}
+						$output = wp_strip_all_tags( $output );
+					}
+				}
 			}
 		}
 		return $output;
