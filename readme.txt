@@ -207,6 +207,7 @@ It is not intended to keep track of links to other sites that you as a member of
 Many thanks to those who have contributed translations:
 
 * Hebrew translation provided by Yair from [temoni.org](http://www.temoni.org/)
+* Italian translation provided by Alessandro Bergamin from [VoglioClienti.it](http://www.voglioclienti.it/)
 * Indonesian translation provided by Ganis Irawan from [Bisnis Internet 101](http://www.bisnisin.com/)
 * Lithuanian translation provided by Vincent G from [Host1Free](http://www.host1free.com/)
 * Portuguese translation provided by Carlos Gouveia from [iNovve](http://www.inovve.com/)
@@ -402,6 +403,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.2.0 =
+* added [referrer_user] shortcode
+* added Italian translation
+
 = 2.1.9 =
 * added Indonesian translation
 * WP 3.5 compatible
@@ -537,6 +542,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.2.0 =
+* New features and Italian translation added.
 
 = 2.1.9 =
 * WordPress 3.5 compatible, fixes and Indonesian translation added.
