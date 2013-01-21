@@ -47,8 +47,8 @@ function affiliates_admin_affiliates() {
 	if ( !current_user_can( AFFILIATES_ADMINISTER_AFFILIATES ) ) {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 	}
-				
-	if ( !$wp_rewrite->using_permalinks() ) {			
+	
+	if ( !$wp_rewrite->using_permalinks() ) {
 		$output .= '<p class="warning">' .
 			sprintf( __( 'Your site is not using pretty <a href="%s">permalinks</a>. You will only be able to use URL parameter based <span class="affiliate-link">affiliate links</span> but not pretty <span class="affiliate-permalink">affiliate permalinks</span>, unless you change your permalink settings.', AFFILIATES_PLUGIN_DOMAIN ), get_admin_url( null, 'options-permalink.php') ) .
 			'</p>';

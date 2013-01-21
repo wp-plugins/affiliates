@@ -18,10 +18,12 @@
  * @package affiliates
  * @since affiliates 1.0.0
  */	
-	// Shows referrals by date
 
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-date-helper.php');
 
+/**
+ * Referrals screen.
+ */
 function affiliates_admin_referrals() {
 	
 	global $wpdb, $affiliates_options;
@@ -30,6 +32,26 @@ function affiliates_admin_referrals() {
 	
 	if ( !current_user_can( AFFILIATES_ACCESS_AFFILIATES ) ) {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
+	}
+	
+	// $_GET actions
+	if ( isset( $_GET['action'] ) ) {
+		switch ( $_GET['action'] ) {
+			case 'edit' :
+				require_once( AFFILIATES_CORE_LIB . '/affiliates-admin-referral-edit.php');
+				if ( isset( $_GET['referral_id'] ) ) {
+					return affiliates_admin_referral_edit( intval( $_GET['referral_id'] ) );
+				} else {
+					return affiliates_admin_referral_edit();
+				}
+				break;
+			case 'remove' :
+				if ( isset( $_GET['referral_id'] ) ) {
+					require_once( AFFILIATES_CORE_LIB . '/affiliates-admin-referral-remove.php');
+					return affiliates_admin_referral_remove( $_GET['referral_id'] );
+				}
+				break;
+		}
 	}
 	
 	if (
@@ -222,13 +244,24 @@ function affiliates_admin_referrals() {
 	
 	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$current_url = remove_query_arg( 'paged', $current_url );
-		
+	
 	$output .=
 		'<div>' .
-			'<h2>' .
-				__( 'Referrals', AFFILIATES_PLUGIN_DOMAIN ) .
-			'</h2>' .
+		'<h2>' .
+		__( 'Referrals', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</h2>' .
 		'</div>';
+	
+	$output .= '<div class="manage add">';
+	$output .= sprintf(
+		'<a title="%s" class="add button" href="%s"><img class="icon" alt="%s" src="%s" /><span class="label">%s</span></a>',
+		__( 'Click to add a referral manually', AFFILIATES_PLUGIN_DOMAIN ),
+		esc_url( add_query_arg( 'action', 'edit', $current_url ) ),
+		__( 'Add', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_PLUGIN_URL .'images/add.png',
+		__( 'Add', AFFILIATES_PLUGIN_DOMAIN)
+	);
+	$output .= '</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
 	
@@ -355,7 +388,9 @@ function affiliates_admin_referrals() {
 		'name'        => __( 'Affiliate', AFFILIATES_PLUGIN_DOMAIN ),
 		'amount'      => __( 'Amount', AFFILIATES_PLUGIN_DOMAIN ),
 		'currency_id' => __( 'Currency', AFFILIATES_PLUGIN_DOMAIN ),
-		'status'      => __( 'Status', AFFILIATES_PLUGIN_DOMAIN )
+		'status'      => __( 'Status', AFFILIATES_PLUGIN_DOMAIN ),
+		'edit'        => __( '', AFFILIATES_PLUGIN_DOMAIN ),
+		'remove'      => __( '', AFFILIATES_PLUGIN_DOMAIN ),
 	);
 	
 	$column_count = count( $column_display_names );
@@ -516,7 +551,7 @@ function affiliates_admin_referrals() {
 				$output .= "<option value='$status_key' $selected>$status_value</option>";
 			}
 			$output .= "</select>";
-			$output .= '<input type="submit" value="' . __( 'Set', AFFILIATES_PLUGIN_DOMAIN ) . '"/>';
+			$output .= '<input class="button" type="submit" value="' . __( 'Set', AFFILIATES_PLUGIN_DOMAIN ) . '"/>';
 			$output .= '<input name="affiliate_id" type="hidden" value="' . esc_attr( $result->affiliate_id ) . '"/>';
 			$output .= '<input name="post_id" type="hidden" value="' . esc_attr( $result->post_id ) . '"/>';
 			$output .= '<input name="datetime" type="hidden" value="' . esc_attr( $result->datetime ) . '"/>';
@@ -525,7 +560,21 @@ function affiliates_admin_referrals() {
 			$output .= "</div>";
 			$output .= "</form>";
 			$output .= "</td>";
-			
+
+			$output .= '<td class="edit">';
+			$edit_url = add_query_arg( 'referral_id', $result->referral_id, add_query_arg( 'action', 'edit', $current_url ) );
+			$output .= sprintf( '<a href="%s">', esc_url( add_query_arg( 'paged', $paged, $edit_url ) ) );
+			$output .= sprintf( '<img src="%s" alt="%s"/>', AFFILIATES_PLUGIN_URL . 'images/edit.png', __( 'Edit', AFFILIATES_PLUGIN_DOMAIN ) );
+			$output .= '</a>';
+			$output .= '</td>';
+
+			$output .= '<td class="remove">';
+			$remove_url = add_query_arg( 'referral_id', $result->referral_id, add_query_arg( 'action', 'remove', $current_url ) );
+			$output .= sprintf( '<a href="%s">', esc_url( add_query_arg( 'paged', $paged, $remove_url ) ) );
+			$output .= sprintf( '<img src="%s" alt="%s"/>', AFFILIATES_PLUGIN_URL . 'images/remove.png', __( 'Remove', AFFILIATES_PLUGIN_DOMAIN ) );
+			$output .= '</a>';
+			$output .= '</td>';
+
 			$output .= '</tr>';
 			
 			$data = $result->data;
@@ -590,7 +639,7 @@ function affiliates_admin_referrals() {
 					$expander = AFFILIATES_EXPANDER_EXPAND;
 				}
 				$output .= sprintf( "<tr id='referral-description-%d' class='%s'>", $i, $i % 2 == 0 ? 'even' : 'odd' ) .
-					'<td colspan="6">' .
+					'<td colspan="' . $column_count . '">' .
 						'<div class="view-toggle">' .
 							"<div class='expander'>$expander</div>" .
 							'<div class="view-toggle-label">' . __('Description', AFFILIATES_PLUGIN_DOMAIN ) . '</div>' .
