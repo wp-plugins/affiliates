@@ -862,24 +862,42 @@ function affiliates_add_referral( $affiliate_id, $post_id, $description = '', $d
 		$referral_data = array_combine( $keys, $values );
 		$record_referral = apply_filters( 'affiliates_record_referral', true, $referral_data );
 		if ( $record_referral ) {
-			$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
-			if ( $wpdb->query( $query ) !== false ) {
-				if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
-					do_action(
-						'affiliates_referral',
-						$referral_id,
-						array(
-							'affiliate_id' => $affiliate_id,
-							'post_id' => $post_id,
-							'description' => $description,
-							'data' => $data,
-							'amount' => $amount, 
-							'currency_id' => $currency_id,
-							'status' => $status,
-							'type' => $type,
-							'reference' => $reference
-						)
-					);
+
+			// duplicate?
+			$is_duplicate = false;
+			if ( !get_option( 'aff_duplicates', false ) ) {
+				if ( $wpdb->get_results( $wpdb->prepare(
+					"SELECT * FROM $table WHERE affiliate_id = %d AND amount = %s AND currency_id = %s AND type = %s AND reference = %s",
+					$affiliate_id,
+					$amount,
+					$currency_id,
+					$type,
+					$reference
+				) ) ) {
+					$is_duplicate = true;
+				} 
+			}
+
+			if ( !$is_duplicate ) {
+				$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
+				if ( $wpdb->query( $query ) !== false ) {
+					if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
+						do_action(
+							'affiliates_referral',
+							$referral_id,
+							array(
+								'affiliate_id' => $affiliate_id,
+								'post_id' => $post_id,
+								'description' => $description,
+								'data' => $data,
+								'amount' => $amount, 
+								'currency_id' => $currency_id,
+								'status' => $status,
+								'type' => $type,
+								'reference' => $reference
+							)
+						);
+					}
 				}
 			}
 		}

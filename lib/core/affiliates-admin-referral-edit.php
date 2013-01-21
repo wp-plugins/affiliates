@@ -79,6 +79,9 @@ function affiliates_admin_referral_edit( $referral_id = null ) {
 						$output .= '<br/>';
 						$output .= '<div class="info">' . __( 'The referral has been created.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
 						$saved = true;
+					} else {
+						$output .= '<br/>';
+						$output .= '<div class="warning">' . __( 'The referral has not been created. Duplicate?', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
 					}
 				} else {
 					// update the referral

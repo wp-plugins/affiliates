@@ -178,22 +178,29 @@ function affiliates_admin_options() {
 					update_option( 'aff_delete_data', false );
 				}
 			}
-			
+			// direct referrals?
 			if ( !empty( $_POST['use-direct'] ) ) {
 				update_option( 'aff_use_direct', true );
 			} else {
 				update_option( 'aff_use_direct', false );
 			}
-			
+			// default status
 			if ( !empty( $_POST['status'] ) && ( Affiliates_Utility::verify_referral_status_transition( $_POST['status'], $_POST['status'] ) ) ) {
 				update_option( 'aff_default_referral_status', $_POST['status'] );
 			} else {
 				update_option( 'aff_default_referral_status', AFFILIATES_REFERRAL_STATUS_ACCEPTED );
 			}
+			// allow duplicates?
+			if ( !empty( $_POST['duplicates'] ) ) {
+				update_option( 'aff_duplicates', true );
+			} else {
+				update_option( 'aff_duplicates', false );
+			}
 		}
 	}
 	
 	$use_direct = get_option( 'aff_use_direct', true );
+	$duplicates = get_option( 'aff_duplicates', false );
 	
 	$timeout = get_option( 'aff_cookie_timeout_days', AFFILIATES_COOKIE_TIMEOUT_DAYS );
 	
@@ -339,6 +346,18 @@ function affiliates_admin_options() {
 				'<h3>' . __( 'Default referral status', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
 					$status_select .
+				'</p>' .
+				
+				'<h3>' . __( 'Duplicate referrals', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+				'<p>' .
+				'<label>' .
+				'<input name="duplicates" type="checkbox" ' . ( $duplicates ? 'checked="checked"' : '' ) . '/>' .
+				' ' .
+				__( 'Allow duplicate referrals', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
+				'</p>' .
+				'<p class="description">' .
+				__( 'Allow to record duplicate referrals for the same affiliate (based on amount, currency, internal type and reference).', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 					
 				'<h3>' . __( 'Robots') . '</h3>' .
