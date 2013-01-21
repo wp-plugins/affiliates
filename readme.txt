@@ -407,6 +407,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * added [referrer_user] shortcode
 * added Italian translation
 * added features to manually add, edit and remove referrals
+* added option to search in referral descriptions too
 
 = 2.1.9 =
 * added Indonesian translation

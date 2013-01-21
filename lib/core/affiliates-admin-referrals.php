@@ -111,6 +111,7 @@ function affiliates_admin_referrals() {
 	$affiliate_id         = $affiliates_options->get_option( 'referrals_affiliate_id', null );
 	$status               = $affiliates_options->get_option( 'referrals_status', null );
 	$search               = $affiliates_options->get_option( 'referrals_search', null );
+	$search_description   = $affiliates_options->get_option( 'referrals_search_description', null );
 	$expanded             = $affiliates_options->get_option( 'referrals_expanded', null );
 	$expanded_description = $affiliates_options->get_option( 'referrals_expanded_description', null );
 	$expanded_data        = $affiliates_options->get_option( 'referrals_expanded_data', null );
@@ -131,6 +132,7 @@ function affiliates_admin_referrals() {
 		$affiliate_id = null;
 		$status = null;
 		$search = null;
+		$search_description = null;
 		$expanded = null;
 		$expanded_data = null;
 		$expanded_description = null;
@@ -195,6 +197,13 @@ function affiliates_admin_referrals() {
 		} else {
 			$search = null;
 			$affiliates_options->delete_option( 'referrals_search' );
+		}
+		if ( !empty( $_POST['search_description'] ) ) {
+			$search_description = true;
+			$affiliates_options->update_option( 'referrals_search_description', true );
+		} else {
+			$search_description = false;
+			$affiliates_options->delete_option( 'referrals_search_description' );
 		}
 		
 		// expanded details?
@@ -310,7 +319,7 @@ function affiliates_admin_referrals() {
 	if ( $from_date || $thru_date || $affiliate_id || $status || $search ) {
 		$filters = " WHERE ";
 	} else {
-		$filters = '';			
+		$filters = '';
 	}
 	$filter_params = array();
 	if ( $from_date && $thru_date ) {
@@ -342,8 +351,14 @@ function affiliates_admin_referrals() {
 		if ( $from_date || $thru_date || $affiliate_id || $status ) {
 			$filters .= " AND ";
 		}
-		$filters .= " r.data LIKE '%%%s%%' ";
-		$filter_params[] = $search;
+		if ( $search_description ) {
+			$filters .= " ( r.data LIKE '%%%s%%' OR r.description LIKE '%%%s%%' ) ";
+			$filter_params[] = $search;
+			$filter_params[] = $search;
+		} else {
+			$filters .= " r.data LIKE '%%%s%%' ";
+			$filter_params[] = $search;
+		}
 	}
 	
 	// how many are there ?
@@ -444,7 +459,13 @@ function affiliates_admin_referrals() {
 				$affiliates_select .
 				$status_select .
 				' <label class="search-filter" for="search" title="Search in data">' . __( 'Search', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
-				' <input class="search-filter" name="search" type="text" value="' . esc_attr( $search ) . '"/>'.
+				' <input class="search-filter" name="search" type="text" value="' . esc_attr( $search ) . '"/>' .
+				' ' .
+				sprintf( '<label class="search-description-filter" title="%s">', __( 'Also search in descriptions', AFFILIATES_PLUGIN_DOMAIN ) ) .
+				'<input class="search-description-filter" name="search_description" type="checkbox" ' . ( $search_description ? 'checked="checked"' : '' ) . '/>' .
+				' ' .
+				__( 'Descriptions', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
 				'</p>
 				<p>' .
 				'<label class="from-date-filter" for="from_date">' . __('From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
