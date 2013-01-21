@@ -559,6 +559,8 @@ function affiliates_cleanup( $delete = false ) {
 		delete_option( 'aff_use_direct' );
 		delete_option( 'aff_id_encoding' );
 		delete_option( 'aff_default_referral_status' );
+		delete_option( 'aff_registration' );
+		delete_option( 'aff_notify_admin' );
 		delete_option( 'aff_delete_data' );
 		delete_option( 'aff_delete_network_data' );
 		delete_option( 'aff_pname' );

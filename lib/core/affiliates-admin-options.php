@@ -47,9 +47,9 @@ function affiliates_admin_options() {
 	
 	echo
 		'<div>' .
-			'<h2>' .
-				__( 'Affiliates options', AFFILIATES_PLUGIN_DOMAIN ) .
-			'</h2>' .
+		'<h2>' .
+		__( 'Affiliates options', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</h2>' .
 		'</div>';
 	
 	$pages_generated_info = '';
@@ -103,7 +103,13 @@ function affiliates_admin_options() {
 			} else {
 				update_option( 'aff_registration', false );
 			}
-			
+
+			if ( !empty( $_POST['notify_admin'] ) ) {
+				update_option( 'aff_notify_admin', true );
+			} else {
+				update_option( 'aff_notify_admin', false );
+			}
+
 			$pname = !empty( $_POST['pname'] ) ? trim( $_POST['pname'] ) : get_option( 'aff_pname', AFFILIATES_PNAME );
 			$forbidden_names = array();
 			if ( !empty( $wp->public_query_vars ) ) {
@@ -216,6 +222,7 @@ function affiliates_admin_options() {
 	}
 	
 	$registration = get_option( 'aff_registration', get_option( 'users_can_register', false ) );
+	$notify_admin = get_option( 'aff_notify_admin', get_option( 'aff_notify_admin', true ) );
 	
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 	
@@ -345,8 +352,18 @@ function affiliates_admin_options() {
 
 				'<h3>' . __( 'Affiliate registration', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
+					'<label>' .
 					'<input name="registration" type="checkbox" ' . ( $registration ? 'checked="checked"' : '' ) . '/>' .
-					'<label for="registration">' . __( 'Allow affiliate registration', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+					' ' .
+					__( 'Allow affiliate registration', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</label>' .
+				'</p>' .
+				'<p>' .
+					'<label>' .
+					'<input name="notify_admin" type="checkbox" ' . ( $notify_admin ? 'checked="checked"' : '' ) . '/>' .
+					' ' .
+					__( 'Notify the site admin when a new affiliate is registered', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</label>' .
 				'</p>' .
 
 				'<h3>' . __( 'Affiliate URL parameter name', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .

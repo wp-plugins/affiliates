@@ -573,7 +573,9 @@ class Affiliates_Registration {
 		$message .= sprintf(__( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$message .= sprintf(__( 'E-mail: %s' ), $user_email ) . "\r\n";
 	
-		@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New Affiliate Registration' ), $blogname ), $message );
+		if ( get_option( 'aff_notify_admin', true ) ) {
+			@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New Affiliate Registration' ), $blogname ), $message );
+		}
 	}
 }
 
