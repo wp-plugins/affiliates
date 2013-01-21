@@ -866,14 +866,29 @@ function affiliates_add_referral( $affiliate_id, $post_id, $description = '', $d
 			// duplicate?
 			$is_duplicate = false;
 			if ( !get_option( 'aff_duplicates', false ) ) {
-				if ( $wpdb->get_results( $wpdb->prepare(
-					"SELECT * FROM $table WHERE affiliate_id = %d AND amount = %s AND currency_id = %s AND type = %s AND reference = %s",
-					$affiliate_id,
-					$amount,
-					$currency_id,
-					$type,
-					$reference
-				) ) ) {
+				$query = "SELECT * FROM $table WHERE affiliate_id = %d";
+				$args = array( $affiliate_id );
+				if ( !empty( $amount ) ) {
+					$query .= " AND amount = %s";
+					$args[] = $amount;
+				}
+				if ( !empty( $currency_id ) ) {
+					$query .= " AND currency_id = %s";
+					$args[] = $currency_id;
+				}
+				if ( !empty( $type ) ) {
+					$query .= " AND type = %s";
+					$args[] = $type;
+				}
+				if ( !empty( $reference ) ) {
+					$query .= " AND reference = %s";
+					$args[] = $reference;
+				}
+				if ( is_array( $data ) && !empty( $data ) ) {
+					$query .= " AND data = %s";
+					$args[] = serialize( $data );
+				}
+				if ( $wpdb->get_results( $wpdb->prepare( $query, $args ) ) ) {
 					$is_duplicate = true;
 				} 
 			}
