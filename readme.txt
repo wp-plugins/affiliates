@@ -49,6 +49,7 @@ Extended integrations are available:
 [for TheCartPress](http://www.itthinx.com/plugins/affiliates-thecartpress/),
 [for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce),
 [for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
+ and [Affiliates Enterprise](http://www.itthinx.com/plugins/affiliates-enterprise)
 
 Other extensions:
 [Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales,
