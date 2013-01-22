@@ -239,7 +239,7 @@ function affiliates_admin_affiliates() {
 				
 	$output .=
 		'<div class="manage">' .
-			"<a title='" . __( 'Click to add a new affiliate', AFFILIATES_PLUGIN_DOMAIN ) . "' class='add' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', AFFILIATES_PLUGIN_DOMAIN) . "' src='". AFFILIATES_PLUGIN_URL ."images/add.png'/><span class='label'>" . __( 'New Affiliate', AFFILIATES_PLUGIN_DOMAIN) . "</span></a>" .
+			"<a title='" . __( 'Click to add a new affiliate', AFFILIATES_PLUGIN_DOMAIN ) . "' class='button add' href='" . esc_url( $current_url ) . "&action=add'><img class='icon' alt='" . __( 'Add', AFFILIATES_PLUGIN_DOMAIN) . "' src='". AFFILIATES_PLUGIN_URL ."images/add.png'/><span class='label'>" . __( 'New Affiliate', AFFILIATES_PLUGIN_DOMAIN) . "</span></a>" .
 		'</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
