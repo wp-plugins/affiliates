@@ -137,7 +137,8 @@ function affiliates_admin_referrals() {
 		$expanded_data = null;
 		$expanded_description = null;
 		$show_inoperative = null;
-	} else if ( !isset( $_POST['action'] ) ) {
+	} else if ( !isset( $_POST['action'] ) && isset( $_POST['submitted'] ) ) {
+
 		// filter by date(s)
 		if ( !empty( $_POST['from_date'] ) ) {
 			$from_date = date( 'Y-m-d', strtotime( $_POST['from_date'] ) );
@@ -158,14 +159,6 @@ function affiliates_admin_referrals() {
 				$thru_date = null;
 				$affiliates_options->delete_option( 'referrals_thru_date' );
 			}
-		}
-		// We now have the desired dates from the user's point of view, i.e. in her timezone.
-		// If supported, adjust the dates for the site's timezone:
-		if ( $from_date ) {
-			$from_datetime = DateHelper::u2s( $from_date );
-		}
-		if ( $thru_date ) {
-			$thru_datetime = DateHelper::u2s( $thru_date, 24*3600 );
 		}
 
 		// filter by affiliate id
@@ -207,35 +200,33 @@ function affiliates_admin_referrals() {
 		}
 		
 		// expanded details?
-		if ( !empty( $_POST['submitted'] ) ) {
-			if ( !empty( $_POST['expanded'] ) ) {
-				$expanded = true;
-				$affiliates_options->update_option( 'referrals_expanded', true );
-			} else {
-				$expanded = false;
-				$affiliates_options->delete_option( 'referrals_expanded' );
-			}
-			if ( !empty( $_POST['expanded_data'] ) ) {
-				$expanded_data = true;
-				$affiliates_options->update_option( 'referrals_expanded_data', true );
-			} else {
-				$expanded_data = false;
-				$affiliates_options->delete_option( 'referrals_expanded_data' );
-			}
-			if ( !empty( $_POST['expanded_description'] ) ) {
-				$expanded_description = true;
-				$affiliates_options->update_option( 'referrals_expanded_description', true );
-			} else {
-				$expanded_description = false;
-				$affiliates_options->delete_option( 'referrals_expanded_description' );
-			}
-			if ( !empty( $_POST['show_inoperative'] ) ) {
-				$show_inoperative = true;
-				$affiliates_options->update_option( 'referrals_show_inoperative', true );
-			} else {
-				$show_inoperative = false;
-				$affiliates_options->delete_option( 'referrals_show_inoperative' );
-			}
+		if ( !empty( $_POST['expanded'] ) ) {
+			$expanded = true;
+			$affiliates_options->update_option( 'referrals_expanded', true );
+		} else {
+			$expanded = false;
+			$affiliates_options->delete_option( 'referrals_expanded' );
+		}
+		if ( !empty( $_POST['expanded_data'] ) ) {
+			$expanded_data = true;
+			$affiliates_options->update_option( 'referrals_expanded_data', true );
+		} else {
+			$expanded_data = false;
+			$affiliates_options->delete_option( 'referrals_expanded_data' );
+		}
+		if ( !empty( $_POST['expanded_description'] ) ) {
+			$expanded_description = true;
+			$affiliates_options->update_option( 'referrals_expanded_description', true );
+		} else {
+			$expanded_description = false;
+			$affiliates_options->delete_option( 'referrals_expanded_description' );
+		}
+		if ( !empty( $_POST['show_inoperative'] ) ) {
+			$show_inoperative = true;
+			$affiliates_options->update_option( 'referrals_show_inoperative', true );
+		} else {
+			$show_inoperative = false;
+			$affiliates_options->delete_option( 'referrals_show_inoperative' );
 		}
 	}
 	
@@ -322,6 +313,14 @@ function affiliates_admin_referrals() {
 		$filters = '';
 	}
 	$filter_params = array();
+	// We have the desired dates from the user's point of view, i.e. in her timezone.
+	// If supported, adjust the dates for the site's timezone:
+	if ( $from_date ) {
+		$from_datetime = DateHelper::u2s( $from_date );
+	}
+	if ( $thru_date ) {
+		$thru_datetime = DateHelper::u2s( $thru_date, 24*3600 );
+	}
 	if ( $from_date && $thru_date ) {
 		$filters .= " datetime >= %s AND datetime < %s ";
 		$filter_params[] = $from_datetime;
