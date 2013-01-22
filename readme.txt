@@ -408,7 +408,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * added Italian translation
 * added features to manually add, edit and remove referrals
 * added option to search in referral descriptions too
-* fixed filter application in Referrals screen
+* fixed sticky filter application in referral screens (Visits & Referrals, Affiliates & Referrals, Referrals)
 
 = 2.1.9 =
 * added Indonesian translation
