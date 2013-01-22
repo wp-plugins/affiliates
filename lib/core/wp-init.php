@@ -862,38 +862,7 @@ function affiliates_add_referral( $affiliate_id, $post_id, $description = '', $d
 		$referral_data = array_combine( $keys, $values );
 		$record_referral = apply_filters( 'affiliates_record_referral', true, $referral_data );
 		if ( $record_referral ) {
-
-			// duplicate?
-			$is_duplicate = false;
-			if ( !get_option( 'aff_duplicates', false ) ) {
-				$query = "SELECT * FROM $table WHERE affiliate_id = %d";
-				$args = array( $affiliate_id );
-				if ( !empty( $amount ) ) {
-					$query .= " AND amount = %s";
-					$args[] = $amount;
-				}
-				if ( !empty( $currency_id ) ) {
-					$query .= " AND currency_id = %s";
-					$args[] = $currency_id;
-				}
-				if ( !empty( $type ) ) {
-					$query .= " AND type = %s";
-					$args[] = $type;
-				}
-				if ( !empty( $reference ) ) {
-					$query .= " AND reference = %s";
-					$args[] = $reference;
-				}
-				if ( is_array( $data ) && !empty( $data ) ) {
-					$query .= " AND data = %s";
-					$args[] = serialize( $data );
-				}
-				if ( $wpdb->get_results( $wpdb->prepare( $query, $args ) ) ) {
-					$is_duplicate = true;
-				} 
-			}
-
-			if ( !$is_duplicate ) {
+			if ( !affiliates_is_duplicate_referral( compact( 'affiliate_id', 'amount', 'currency_id', 'type', 'reference', 'data' ) ) ) {
 				$query = $wpdb->prepare( "INSERT INTO $table $columns VALUES $formats", $values );
 				if ( $wpdb->query( $query ) !== false ) {
 					if ( $referral_id = $wpdb->get_var( "SELECT LAST_INSERT_ID()" ) ) {
@@ -918,6 +887,66 @@ function affiliates_add_referral( $affiliate_id, $post_id, $description = '', $d
 		}
 	}
 	return $affiliate_id;
+}
+
+/**
+ * Determines whether a referral is considered as a duplicate of an existing
+ * one. Semantics: Based on the option aff_duplicates, if the option allows
+ * duplicates, no referral will be considered as a duplicate. If the option
+ * does not allow duplicates, a duplicate is identified as such based on the
+ * amount of attribute available: affiliate_id, amount, currency_id, type,
+ * referemce and data.
+ * 
+ * @param array $atts referral attributes: affiliate_id (required) and others
+ */
+function affiliates_is_duplicate_referral( $atts ) {
+
+	global $wpdb;
+
+	extract( $atts );
+
+	$is_duplicate = false;
+	if ( !get_option( 'aff_duplicates', false ) ) {
+		if ( isset( $affiliate_id ) ) {
+			$table = _affiliates_get_tablename( 'referrals' );
+			$query = "SELECT * FROM $table WHERE affiliate_id = %d";
+			$args = array( $affiliate_id );
+			if ( !empty( $amount ) ) {
+				$query .= " AND amount = %s";
+				$args[] = $amount;
+			} else {
+				$query .= " AND ( amount IS NULL OR amount = '' ) ";
+			}
+			if ( !empty( $currency_id ) ) {
+				$query .= " AND currency_id = %s";
+				$args[] = $currency_id;
+			} else {
+				$query .= " AND ( currency_id IS NULL OR currency_id = '' ) ";
+			}
+			if ( !empty( $type ) ) {
+				$query .= " AND type = %s";
+				$args[] = $type;
+			} else {
+				$query .= " AND ( type IS NULL OR type = '' ) ";
+			}
+			if ( !empty( $reference ) ) {
+				$query .= " AND reference = %s";
+				$args[] = $reference;
+			} else {
+				$query .= " AND ( reference IS NULL OR reference = '' ) ";
+			}
+			if ( !empty( $data ) && is_array( $data ) ) {
+				$query .= " AND data = %s";
+				$args[] = serialize( $data );
+			} else {
+				$query .= " AND ( data IS NULL OR data = '' ) ";
+			}
+			if ( $wpdb->get_results( $wpdb->prepare( $query, $args ) ) ) {
+				$is_duplicate = true;
+			}
+		}
+	}
+	return apply_filters( 'affiliates_is_duplicate_referral', $is_duplicate, $atts );
 }
 
 /**
