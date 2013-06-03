@@ -569,12 +569,12 @@ class Affiliates_Registration {
 		// we want to reverse this for the plain text arena of emails.
 		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	
-		$message  = sprintf(__( 'New affiliate registration on your site %s:' ), $blogname ) . "\r\n\r\n";
-		$message .= sprintf(__( 'Username: %s' ), $user_login ) . "\r\n\r\n";
-		$message .= sprintf(__( 'E-mail: %s' ), $user_email ) . "\r\n";
+		$message  = sprintf( __( 'New affiliate registration on your site %s:', AFFILIATES_PLUGIN_DOMAIN ), $blogname ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Username: %s', AFFILIATES_PLUGIN_DOMAIN ), $user_login ) . "\r\n\r\n";
+		$message .= sprintf( __( 'E-mail: %s', AFFILIATES_PLUGIN_DOMAIN ), $user_email ) . "\r\n";
 	
 		if ( get_option( 'aff_notify_admin', true ) ) {
-			@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New Affiliate Registration' ), $blogname ), $message );
+			@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New Affiliate Registration', AFFILIATES_PLUGIN_DOMAIN ), $blogname ), $message );
 		}
 	}
 }

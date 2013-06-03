@@ -144,7 +144,18 @@ function affiliates_admin_options() {
 					'</p>' .
 				'</div>';
 			}
-			
+
+			$redirect = !empty( $_POST['redirect'] );
+			if ( $redirect ) {
+				if ( get_option( 'aff_redirect', null ) === null ) {
+					add_option( 'aff_redirect', 'yes', '', 'no' );
+				} else {
+					update_option( 'aff_redirect', 'yes' );
+				}
+			} else {
+				delete_option( 'aff_redirect' );
+			}
+
 			$encoding_id = $_POST['id_encoding'];
 			if ( key_exists( $encoding_id, affiliates_get_id_encodings() ) ) {
 				// important: must use normal update_option/get_option otherwise we'd have a per-user encoding
@@ -233,6 +244,8 @@ function affiliates_admin_options() {
 	
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 	
+	$redirect = get_option( 'aff_redirect', false );
+	
 	$id_encoding = get_option( 'aff_id_encoding', AFFILIATES_NO_ID_ENCODING );
 	$id_encoding_select = '';
 	$encodings = affiliates_get_id_encodings();
@@ -319,7 +332,7 @@ function affiliates_admin_options() {
 	echo
 		'<form action="" name="options" method="post">' .		
 			'<div>' .
-				'<h3>' . __( 'Referral timeout') . '</h3>' .
+				'<h3>' . __( 'Referral timeout', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
 					'<input class="timeout" name="timeout" type="text" value="' . esc_attr( intval( $timeout ) ) . '" />' .
 					'<label for="timeout">' . __( 'Days', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
@@ -397,6 +410,18 @@ function affiliates_admin_options() {
 				'</p>' .
 				'<p class="description warning">' .
 				__( 'CAUTION: If you change this setting and have distributed affiliate links or permalinks, make sure that these are updated. Unless the incoming affiliate links reflect the current URL parameter name, no affiliate hits, visits or referrals will be recorded.', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</p>' .
+				
+				'<h3>' . __( 'Redirection', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
+				'<p>' .
+				'<label>' .
+				sprintf( '<input class="redirect" name="redirect" type="checkbox" %s/>', $redirect ? ' checked="checked" ' : '' ) .
+				' ' .
+				__( 'Redirect', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
+				'</p>' .
+				'<p class="description">' .
+				 __( 'Redirect to destination without Affiliate URL parameter, after a hit on an affiliate link has been detected.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 				
 				'<h3>' . __( 'Affiliate ID encoding', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .

@@ -84,22 +84,40 @@ function affiliates_admin_referral_edit( $referral_id = null ) {
 						$output .= '<div class="warning">' . __( 'The referral has not been created. Duplicate?', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
 					}
 				} else {
-					// update the referral
-					$referrals_table = _affiliates_get_tablename( 'referrals' );
-					if ( $wpdb->query( $wpdb->prepare(
-						"UPDATE $referrals_table SET affiliate_id = %d, datetime = %s, description = %s, amount = %s, currency_id = %s, status = %s, reference = %s WHERE referral_id = %d",
-						intval( $affiliate_id ),
-						$datetime,
-						$description,
-						$amount,
-						$currency_id,
-						$status,
-						$reference,
-						intval( $referral_id )
-					) ) ) {
-						$output .= '<br/>';
-						$output .= '<div class="info">' . __( 'The referral has been saved.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
-						$saved = true;
+					if ( class_exists( 'Affiliates_Referral_WordPress' ) ) {
+						try {
+							$r = new Affiliates_Referral_WordPress( $referral_id );
+							if ( $r->update( array(
+								'affiliate_id' => intval( $affiliate_id ),
+								'datetime'     => $datetime,
+								'description'  => $description,
+								'amount'       => $amount,
+								'currency_id'  => $currency_id,
+								'status'       => $status,
+								'reference'    => $reference
+							) ) ) {
+								$output .= '<br/>';
+								$output .= '<div class="info">' . __( 'The referral has been saved.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+								$saved = true;
+							}
+						} catch ( Exception $ex ) {
+							$output .= '<br/>';
+							$output .= '<div class="error">' . __( 'The referral could not be saved.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+						}
+					} else {
+						if ( affiliates_update_referral( $referral_id, array(
+							'affiliate_id' => intval( $affiliate_id ),
+							'datetime'     => $datetime,
+							'description'  => $description,
+							'amount'       => $amount,
+							'currency_id'  => $currency_id,
+							'status'       => $status,
+							'reference'    => $reference
+						) ) ) {
+							$output .= '<br/>';
+							$output .= '<div class="info">' . __( 'The referral has been saved.', AFFILIATES_PLUGIN_DOMAIN ) . '</div>';
+							$saved = true;
+						}
 					}
 				}
 			}
@@ -173,7 +191,7 @@ function affiliates_admin_referral_edit( $referral_id = null ) {
 	$output .= '<span class="title">' . __( 'Description', AFFILIATES_PLUGIN_DOMAIN ) . '</span>';
 	$output .= ' ';
 	$output .= '<textarea name="description">';
-	$output .= $description;
+	$output .= stripslashes( $description );
 	$output .= '</textarea>';
 	$output .= '</label>';
 	$output .= '</p>';

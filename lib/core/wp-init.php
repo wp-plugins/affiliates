@@ -563,6 +563,7 @@ function affiliates_cleanup( $delete = false ) {
 		delete_option( 'aff_notify_admin' );
 		delete_option( 'aff_delete_data' );
 		delete_option( 'aff_delete_network_data' );
+		delete_option( 'aff_redirect' );
 		delete_option( 'aff_pname' );
 	}
 }
@@ -574,7 +575,7 @@ add_action( 'init', 'affiliates_init' );
  * Loads the plugin's translations.
  */
 function affiliates_init() {
-	load_plugin_textdomain( AFFILIATES_PLUGIN_DOMAIN, null, 'affiliates/lib/core/languages' );
+	load_plugin_textdomain( AFFILIATES_PLUGIN_DOMAIN, null, AFFILIATES_PLUGIN_NAME . '/lib/core/languages' );
 }
 
 add_filter( 'query_vars', 'affiliates_query_vars' );
@@ -636,14 +637,16 @@ function affiliates_parse_request( &$wp ) {
 		);
 		affiliates_record_hit( $affiliate_id );
 
-		// we could use this to avoid ending up on the blog listing page
-		//unset( $wp->query_vars['affiliates'] );
-		// but we use a redirect so that we end up on the desired url without the affiliate id dangling on the url
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$current_url = remove_query_arg( $pname, $current_url );
-		$current_url = ereg_replace( str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ), '', $current_url);
-		wp_redirect($current_url);
-		exit; // "wp_redirect() does not exit automatically and should almost always be followed by exit." @see http://codex.wordpress.org/Function_Reference/wp_redirect  
+		if ( get_option( 'aff_redirect', false ) !== false ) {
+			// we could use this to avoid ending up on the blog listing page
+			//unset( $wp->query_vars['affiliates'] );
+			// but we use a redirect so that we end up on the desired url without the affiliate id dangling on the url
+			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$current_url = remove_query_arg( $pname, $current_url );
+			$current_url = ereg_replace( str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ), '', $current_url);
+			wp_redirect($current_url);
+			exit; // "wp_redirect() does not exit automatically and should almost always be followed by exit." @see http://codex.wordpress.org/Function_Reference/wp_redirect
+		}  
 	}
 }
 
@@ -948,6 +951,93 @@ function affiliates_is_duplicate_referral( $atts ) {
 	}
 	return apply_filters( 'affiliates_is_duplicate_referral', $is_duplicate, $atts );
 }
+
+/**
+ * Update the referral.
+ * @param array $attributes to update, supports: affiliate_id, post_id, datetime, description, amount, currency_id, status, reference
+ * @return array with keys, values and old_values or null if nothing was updated
+ */
+function affiliates_update_referral( $referral_id, $attributes ) {
+	global $wpdb;
+
+	$result = null;
+
+	$referral = null;
+	$referrals_table = _affiliates_get_tablename( 'referrals' );
+	if ( $referrals = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $referrals_table WHERE referral_id = %d", intval( $referral_id) ) ) ) {
+		if ( count( $referrals ) > 0 ) {
+			$referral = $referrals[0];
+		}
+	}
+
+	if ( $referral !== null ) {
+		$set        = array();
+		$keys       = array();
+		$values     = array();
+		$old_values = array();
+		foreach( $attributes as $key => $value ) {
+			$current_value = isset( $referral->$key ) ? $referral->$key : null;
+			if ( $current_value !== $value ) {
+				switch( $key ) {
+					case 'affiliate_id' :
+					case 'post_id' :
+						$set[]        = " $key = %d ";
+						$keys[]       = $key;
+						$values[]     = intval( $value );
+						$old_values[] = $current_value;
+						break;
+					case 'datetime' :
+					case 'description' :
+					case 'reference' :
+						$set[]        = " $key = %s ";
+						$keys[]       = $key;
+						$values[]     = $value;
+						$old_values[] = $current_value;
+						break;
+					case 'status' :
+						// Just check that this is a valid status:
+						if ( !empty( $value ) && Affiliates_Utility::verify_referral_status_transition( $value, $value ) ) {
+							$set[]        = " $key = %s ";
+							$keys[]       = $key;
+							$values[]     = $value;
+							$old_values[] = $current_value;
+						}
+						break;
+					case 'amount' :
+						if ( $value = Affiliates_Utility::verify_referral_amount( $value ) ) {
+							$set[]        = " $key = %s ";
+							$keys[]       = $key;
+							$values[]     = $value;
+							$old_values[] = $current_value;
+						}
+						break;
+					case 'currency_id' :
+						if ( $value =  Affiliates_Utility::verify_currency_id( $value ) ) {
+							$set[]        = " $key = %s ";
+							$keys[]       = $key;
+							$values[]     = $value;
+							$old_values[] = $current_value;
+						}
+						break;
+				}
+			}
+		}
+		if ( count( $set ) > 0 ) {
+			$set = implode( ' , ', $set );
+			if ( $wpdb->query( $wpdb->prepare( "UPDATE $referrals_table SET $set WHERE referral_id = %d", array_merge( $values, array( intval( $referral_id ) ) ) ) ) ) {
+				$result = array(
+					'keys'       => $keys,
+					'values'     => $values,
+					'old_values' => $old_values
+				);
+				do_action( 'affiliates_updated_referral', intval( $referral_id ), $keys, $values, $old_values );
+			}
+		}
+	}
+	return $result;
+}
+
+
 
 /**
  * Returns an array of possible id encodings.

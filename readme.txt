@@ -32,6 +32,7 @@ Referrals are stored and attributed to an affiliate, for example if clients plac
 
 These integrations are based on the Affiliates plugin and can be downloaded directly. To use Affiliates together with an e-commerce plugin, you need to install the Affiliates plugin, the e-commerce plugin of your choice and the integration plugin:
 
+- Integration with [Ecwid](http://wordpress.org/extend/plugins/ecwid-shopping-cart/) : [Download](http://wordpress.org/extend/plugins/affiliates-ecwid-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-ecwid-light)
 - Integration with [eShop](http://wordpress.org/extend/plugins/eshop) : [Download](http://wordpress.org/extend/plugins/affiliates-eshop-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-eshop-light)
 - Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Download](http://wordpress.org/extend/plugins/affiliates-jigoshop-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
 - Integration with [WooCommerce](http://wordpress.org/extend/plugins/woocommerce) : [Download](http://wordpress.org/extend/plugins/affiliates-woocommerce-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
@@ -55,6 +56,7 @@ Other extensions:
 [Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales,
 [Affiliates Users](http://www.itthinx.com/plugins/affiliates-users/) to automatically create affiliate accounts for new users,
 [Affiliates by Username](http://www.itthinx.com/plugins/affiliates-by-username/) allows affiliate links to indicate usernames in addition to the affiliate IDs.
+[Affiliates Share](http://www.itthinx.com/plugins/affiliates-share/) makes it easy for affiliates to share content.
 
 Development and consulting services are available [on request](http://www.itthinx.com/contact/).
 
@@ -208,9 +210,10 @@ It is not intended to keep track of links to other sites that you as a member of
 Many thanks to those who have contributed translations:
 
 * Hebrew translation provided by Yair from [temoni.org](http://www.temoni.org/)
-* Italian translation provided by Alessandro Bergamin from [VoglioClienti.it](http://www.voglioclienti.it/)
+* Italian translation provided by Alessandro Bergamin from [VoglioClienti.it](http://www.voglioclienti.it/) and Roberto Castaldo from [InArte](http://www.inarte.it)
 * Indonesian translation provided by Ganis Irawan from [Bisnis Internet 101](http://www.bisnisin.com/)
 * Lithuanian translation provided by Vincent G from [Host1Free](http://www.host1free.com/)
+* Polish translation provided by [BizExpert](http://4business4you.com) 
 * Portuguese translation provided by Carlos Gouveia from [iNovve](http://www.inovve.com/)
 * Slovak translation provided by Cr3o from [životné poistenie](http://www.zivotnepoistenie24.sk/)
 * Spanish translation provided by David Perez from [Closemarketing](http://www.closemarketing.es/)
@@ -404,6 +407,15 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.2.1 =
+* added revised Italian translation by Roberto Castaldo
+* added Polish translation
+* added missing language domain on some labels
+* fixed using correct path for load_plugin_textdomain()
+* added the if_empty attribute to the [affiliates_referrals] shortcode
+* added new hook affiliates_updated_referral and referral update function
+* added option to redirect after affiliate hit, now disabled by default
+
 = 2.2.0 =
 * added [referrer_user] shortcode
 * added Italian translation
@@ -546,6 +558,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+* New features, translations and fixes. Redirection after affiliate link hits is now optional and disabled by default.
 
 = 2.2.0 =
 * New features and Italian translation added.

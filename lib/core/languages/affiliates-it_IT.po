@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: Affiliates\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-27 12:45+0100\n"
-"PO-Revision-Date: 2013-01-13 07:22+0100\n"
-"Last-Translator: Alessandro Bergamin <>VoglioClienti.it>\n"
-"Language-Team: itthinx <>\n"
+"PO-Revision-Date: 2013-03-19 09:20+0100\n"
+"Last-Translator: Rob <nonsoloarte@gmailcom>\n"
+"Language-Team: itthinx\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Bookmarks: -1,-1,175,70,-1,-1,-1,-1,-1,-1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-pagination.php:136
 #, php-format
@@ -48,7 +49,7 @@ msgstr "%10d in attesa"
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin.php:446
 #, php-format
 msgid "%10d Rejected"
-msgstr "%10d Riiutato"
+msgstr "%10d Rifiutato"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin.php:449
 #, php-format
@@ -74,22 +75,21 @@ msgid ""
 "* Date is given for the server's time zone : %s, which has an offset of %s "
 "hours with respect to GMT."
 msgstr ""
-"* Date is given for the server's time zone : %s, which has an offset of %s "
-"hours with respect to GMT."
+"* Il valore della Data è restituito dal fuso orario del Server : %s, che ha "
+"un offset di %s ore rispetto al GMT."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-pagination.php:92
 #, php-format
 msgid "1 item"
 msgid_plural "%s items"
-msgstr[0] "1 ítem"
-msgstr[1] "%s ítems"
+msgstr[0] "1 articolo"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1135
 msgid ""
 "<em>All time</em> includes data from any affiliates, including deleted "
 "affiliates."
 msgstr ""
-"<em>Sempre</em> includi i dati di tutti gli affiliati,inclusi quelli "
+"<em>Sempre</em> includi i dati di tutti gli affiliati, inclusi quelli "
 "cancellati."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1133
@@ -99,7 +99,7 @@ msgid ""
 "as those that have been deleted."
 msgstr ""
 "<em>Da affiliati operativi:</em> includi affiliati che sono attualmente "
-"attivi. Questo escludera gli inattivi e i cancellati."
+"attivi. Questo escluderà gli inattivi e i cancellati."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1134
 msgid ""
@@ -117,13 +117,14 @@ msgid ""
 "function. See the <a href=\"http://www.itthinx.com/plugins/affiliates\" "
 "target=\"_blank\">documentation</a> for more information."
 msgstr ""
-"<em>Referrals</em> are recorded by request through the use of an API "
-"function. See the <a href=\"http://www.itthinx.com/plugins/affiliates\" "
-"target=\"_blank\">documentation</a> for more information."
+"<em>I Riferimenti</em> sono registrati attraverso l'uso di una funzione API. "
+"Vedi <a href=\"http://www.itthinx.com/plugins/affiliates\" target=\"_blank"
+"\">documentation</a> per ulteriori informaioni."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1139
 msgid "<em>Visits</em> are unique and daily requests for affiliate links."
-msgstr "<em>Visits</em> are unique and daily requests for affiliate links."
+msgstr ""
+"<em>Visite</em> sono richieste uniche giornaliere per i link di affiliazione."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-registration.php:320
 #, php-format
@@ -139,7 +140,9 @@ msgstr ""
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
-msgstr "<strong>ERRORE</strong>: Non abbiamo potuto registrarti."
+msgstr ""
+"<strong>ERRORE</strong>: Non abbiamo potuto registrarti. Contatta il <a href="
+"\"mailto:%s\">Webmaster</a>!"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-registration.php:376
 msgid "<strong>ERROR</strong>: Please enter a username."
@@ -180,7 +183,7 @@ msgstr "<strong>Referenze:</strong>"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:382
 msgid "A minimum set of permissions will be preserved."
-msgstr "Un set minimo di permessi sara preservato"
+msgstr "Un set minimo di permessi sarà preservato"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-referrals.php:383
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-referrals.php:389
@@ -374,7 +377,7 @@ msgstr ""
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-registration.php:150
 #, php-format
 msgid "By signing up, you indicate that you have read and agree to the %s."
-msgstr "Iscrivendoti dichiari di accettare i %s."
+msgstr "Iscrivendoti dichiari di aver letto e di accettare il nostro %s."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:394
 msgid ""
@@ -385,12 +388,13 @@ msgid ""
 "enabling this option you agree to be solely responsible for any loss of data "
 "or any other consequences thereof."
 msgstr ""
-"PRECAUCIÓN: Si esta opción está activa, mientras el plubin está desactivado, "
-"TODOS los datos de Afiliados y de Referencias serán BORRADOS. Si quieres "
-"conservar datos sobre afiliados y sus referencias y vas a desactivar el "
-"plugin, asegúrate de que haces backup de tus datos y no habilitas esta "
-"opción. Habilitándola estás de acuerdo y eres responsable de toda la pérdida "
-"de datos y sus consecuencias."
+"ATTENZIONE: Se questa opzione è attiva, mentre il plugin è disabilitato, "
+"tutti i dati e riferimenti affiliati verranno eliminati. Se si desidera "
+"conservare i dati sugli iscritti e dei loro riferimenti e disattivare il "
+"plugin, assicurarsi di eseguire il backup dei dati e non abilitare questa "
+"opzione. Se abiliti questa opzione  sei d'accordo che noi non siamo "
+"responsabili ma che sei tu l'unico responsabile per qualsiasi perdita di "
+"dati e conseguenze."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:439
 msgid ""
@@ -398,9 +402,9 @@ msgid ""
 "<strong>ALL affiliate and referral data will be DELETED on all sites of the "
 "network</strong>."
 msgstr ""
-"PRECAUCIÓN: Si esta opción se activa cuando el plugin se desactiva en la "
-"red, <strong>TODOS los datos de afiliados y referencias serán ELIMINADOS en "
-"todos los sitios de la red</strong>!"
+"ATTENZIONE: Se questa opzione è attiva quando il plugin è disattivato in "
+"rete, tutti i Dati degli affiliati <strong> e i riferimenti saranno rimossi "
+"da tutti i siti web </ strong>!"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:363
 msgid ""
@@ -409,10 +413,10 @@ msgid ""
 "links reflect the current URL parameter name, no affiliate hits, visits or "
 "referrals will be recorded."
 msgstr ""
-"PRECAUCIÓN: Si modificas esta opción y has distribuido enlaces afiliados o "
-"permalinks, asegura de que éstos lo actualizan. A menos que los enlaces de "
-"afiliados de entrada reflejen el actual parámetro de nombre de URL, no serán "
-"registrados clics, visitas o referencias de afiliados."
+"ATTENZIONE: Se si modifica questa impostazione e hai distribuito link di "
+"affiliazione o permalink, assicurarsi che questi vengono aggiornati. A meno "
+"che i link di affiliazione in entrata riflettono l'attuale nome del "
+"parametro URL, altrimenti ne visite ne riferimenti verranno registrati."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:374
 msgid ""
@@ -421,10 +425,11 @@ msgid ""
 "links reflect the current encoding, no affiliate hits, visits or referrals "
 "will be recorded."
 msgstr ""
-"PRECAUCIÓN: Si modificas esta opción y has distribuido enlaces afiliados o "
-"permalinks, asegura que éstos son actualizados. A menos que los enlaces de "
-"afiliados de entrada usen la codificación actual, no serán registrados "
-"clics, visitas o referencias de afiliados."
+"ATTENZIONE: Se si modifica questa impostazione e hai distribuito link di "
+"affiliazione o permalink, assicurarsi che questi vengono aggiornati. A meno "
+"che i link di affiliazione in entrata riflettono la codifica corrente, si "
+"rischierebbe che i dati degli affiliati, pagine e riferimenti, non vengono "
+"registrati."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-affiliates-edit.php:103
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-affiliates-add.php:79
@@ -462,7 +467,7 @@ msgstr "Valuta"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-contact.php:317
 msgid "Currency - 3 letter code, e.g. USD, EUR:"
-msgstr "Valuta -  lettere, es USD EUR:"
+msgstr "Valuta -  lettere, es. USD, EUR:"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-referrals.php:546
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-referrals.php:567
@@ -654,16 +659,16 @@ msgid ""
 "If this option is enabled, whenever a referral is suggested and no affiliate "
 "is attributable to it, the referral will be attributed to Direct."
 msgstr ""
-"If this option is enabled, whenever a referral is suggested and no affiliate "
-"is attributable to it, the referral will be attributed to Direct."
+"Se l'opzione è attivata, ogni volta che un riferimento è suggerito e non "
+"affiliato è attribuibile ad esso, il rinvio sarà attribuito a Direct."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:317
 msgid ""
 "If you enter 0, referrals will only be valid until the visitor closes the "
 "browser (session)."
 msgstr ""
-"If you enter 0, referrals will only be valid until the visitor closes the "
-"browser (session)."
+"Se si immette 0, i riferimenti saranno validi solo fino a quando il "
+"visitatore chiude il browser (sessione)."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:384
 msgid "If you lock yourself out, please ask an administrator to help."
@@ -971,21 +976,25 @@ msgstr ""
 msgid ""
 "The Affiliates plugin provides the <em>Affiliates Contact</em> widget that "
 "can be used to record lead referrals."
-msgstr "."
+msgstr ""
+"Il plugin Affiliati fornisce il contatto <em> Affiliati </ em> widget che "
+"può essere utilizzato per registrare i riferimenti."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1164
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1174
 msgid ""
 "The affiliate information is removed once a visitor has landed on your site."
 msgstr ""
-"Le informazioni dell affilliato e rimossa quando il visitatore lascia il "
+"Le informazioni dell' affilliato e rimossa quando il visitatore lascia il "
 "sito."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1125
 msgid ""
 "The complete documentation is available on the <a href=\"http://www.itthinx."
 "com/plugins/affiliates\" target=\"_blank\">Affiliates plugin page</a>"
-msgstr "."
+msgstr ""
+"La documentazione completa è disponibile su <a href=\"http://www.itthinx.com/"
+"plugins/affiliates\" target=\"_blank\"> Affiliati plugin </ a>"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-options.php:357
 #, php-format
@@ -1008,9 +1017,9 @@ msgid ""
 "affiliate link, a suggested referral will be valid until one day after she "
 "or he clicked that affiliate link."
 msgstr ""
-"The default value is 1. In this case, if a visitor comes to your site via an "
-"affiliate link, a suggested referral will be valid until one day after she "
-"or he clicked that affiliate link."
+"Il valore predefinito è 1. In questo caso, se un visitatore accede al sito "
+"tramite un link di affiliazione, un riferimento sarà valido fino al giorno "
+"dopo per chi ha cliccato quel link di affiliazione."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-affiliates.php:483
 #, php-format
@@ -1116,8 +1125,7 @@ msgid ""
 "To serve as an example on how to use the API provided by the Affiliates "
 "plugin"
 msgstr ""
-"To serve as an example on how to use the API provided by the Affiliates "
-"plugin"
+"Serve come un esempio di come utilizzare l'API fornita dal plugin Affiliati"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/wp-init.php:1144
 #, php-format
@@ -1136,8 +1144,9 @@ msgid ""
 "Unless the incoming affiliate links reflect the current Affiliate URL "
 "parameter name, no affiliate hits, visits or referrals will be recorded."
 msgstr ""
-"Unless the incoming affiliate links reflect the current Affiliate URL "
-"parameter name, no affiliate hits, visits or referrals will be recorded."
+"A meno che i link di affiliazione in entrata riflettono l'attuale URL del "
+"nome del parametro di affiliazione, senza riferimenti, visite o rinvii verrà "
+"registrato."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-affiliates-edit.php:96
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/affiliates-admin-hits.php:335
@@ -1196,8 +1205,8 @@ msgid ""
 "Write part of the title or the post ID. If left empty, no terms disclaimer "
 "will be shown."
 msgstr ""
-"Write part of the title or the post ID. If left empty, no terms disclaimer "
-"will be shown."
+"Scrivi un titolo o l'ID post. Se lasciato vuoto non sarà mostrato nessun "
+"termine di condizione"
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-registration.php:109
 msgid "You are already registered as an affiliate."
@@ -1217,7 +1226,11 @@ msgid ""
 "permalinks</span>, unless you change your permalink settings."
 msgstr ""
 "Il tuo sito non utilizza <a href=\"%s\">permalinks</a>. Potrai utilizzare "
-"solo i paramentri URL con link affiliato."
+"solo i paramentri URL con link affiliato. Sarai in grado di utilizzare il "
+"parametro URL in base <span link di affiliazione class=\"affiliate-link\"> "
+"</ span>, ma non  <span class=\"affiliate-permalink\"> permalink "
+"affiliazione </ span>, a meno che non si modificano le impostazioni "
+"permalink."
 
 #: /var/www/aff/wp-content/plugins/affiliates/lib/core/class-affiliates-registration.php:572
 #, php-format

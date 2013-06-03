@@ -323,7 +323,8 @@ class Affiliates_Shortcodes {
 				'until'    => null,
 				'show'     => 'count',
 				'currency' => null,
-				'for'      => null
+				'for'      => null,
+				'if_empty' => null
 			),
 			$atts
 		);
@@ -354,15 +355,26 @@ class Affiliates_Shortcodes {
 						break;
 					case 'total' :
 						if ( $totals = self::get_total( $affiliate_id, $from, $until, $status ) ) {
-							$output .= '<ul>';
-							foreach ( $totals as $currency_id => $total ) {
-								$output .= '<li>';
-								$output .= $currency_id;
-								$output .= '&nbsp;';
-								$output .= $total;
-								$output .= '</li>';
+							if ( count( $totals ) > 0 ) {
+								$output .= '<ul>';
+								foreach ( $totals as $currency_id => $total ) {
+									$output .= '<li>';
+									$output .= $currency_id;
+									$output .= '&nbsp;';
+									$output .= $total;
+									$output .= '</li>';
+								}
+								$output .= '</ul>';
 							}
-							$output .= '</ul>';
+						}
+						if ( !$totals || count( $totals ) === 0 ) {
+							if ( $if_empty !== null ) {
+								$output .= '<ul>';
+								$output .= '<li>';
+								$output .= wp_filter_nohtml_kses( $if_empty );
+								$output .= '</li>';
+								$output .= '</ul>';
+							}
 						}
 						break;
 				}
