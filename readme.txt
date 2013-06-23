@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.0
-Tested up to: 3.5
+Tested up to: 3.5.2
 Stable tag: 2.2.0
 License: GPLv3
 
@@ -407,6 +407,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.3.0 =
+* WordPress 3.5.2 compatibility tests passed
+
 = 2.2.1 =
 * added revised Italian translation by Roberto Castaldo
 * added Polish translation
@@ -558,6 +561,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.3.0 =
+* WordPress 3.5.2 compatibility tests passed
 
 = 2.2.1 =
 * New features, translations and fixes. Redirection after affiliate link hits is now optional and disabled by default.
