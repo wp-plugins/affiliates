@@ -98,17 +98,11 @@ function affiliates_admin_options() {
 				}
 			}
 
-			if ( !empty( $_POST['registration'] ) ) {
-				update_option( 'aff_registration', true );
-			} else {
-				update_option( 'aff_registration', false );
-			}
+			delete_option( 'aff_registration' );
+			add_option( 'aff_registration', !empty( $_POST['registration'] ), '', 'no' );
 
-			if ( !empty( $_POST['notify_admin'] ) ) {
-				update_option( 'aff_notify_admin', true );
-			} else {
-				update_option( 'aff_notify_admin', false );
-			}
+			delete_option( 'aff_notify_admin' );
+			add_option( 'aff_notify_admin', !empty( $_POST['notify_admin'] ), '', 'no' );
 
 			$pname = !empty( $_POST['pname'] ) ? trim( $_POST['pname'] ) : get_option( 'aff_pname', AFFILIATES_PNAME );
 			$forbidden_names = array();
@@ -183,11 +177,8 @@ function affiliates_admin_options() {
 			_affiliates_assure_capabilities();
 
 			if ( !affiliates_is_sitewide_plugin() ) {
-				if ( !empty( $_POST['delete-data'] ) ) {
-					update_option( 'aff_delete_data', true );
-				} else {
-					update_option( 'aff_delete_data', false );
-				}
+				delete_option( 'aff_delete_data' );
+				add_option( 'aff_delete_data', !empty( $_POST['delete-data'] ), '', 'no' );
 			}
 			// direct referrals?
 			delete_option( 'aff_use_direct' );
@@ -313,6 +304,7 @@ function affiliates_admin_options() {
 		'<h3>' . __( 'Page generation', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 		'<p>' .
 		__( 'Press the button to generate an affiliate area.', AFFILIATES_PLUGIN_DOMAIN ) .
+		' ' .
 		'<input class="generate button" name="generate" type="submit" value="' . __( 'Generate', AFFILIATES_PLUGIN_DOMAIN ) .'" />' .
 		wp_nonce_field( 'admin', AFFILIATES_ADMIN_OPTIONS_GEN_NONCE, true, false ) .
 		'</p>' .
@@ -328,8 +320,11 @@ function affiliates_admin_options() {
 			'<div>' .
 				'<h3>' . __( 'Referral timeout', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
+					'<label>' .
 					'<input class="timeout" name="timeout" type="text" value="' . esc_attr( intval( $timeout ) ) . '" />' .
-					'<label for="timeout">' . __( 'Days', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+					' ' .
+					__( 'Days', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</label>' .
 				'</p>' .
 				'<p class="description">' .
 					__( 'This is the number of days since a visitor accessed your site via an affiliate link, for which a suggested referral will be valid.', AFFILIATES_PLUGIN_DOMAIN ) .
@@ -445,11 +440,14 @@ function affiliates_admin_options() {
 			echo
 				'<h3>' . __( 'Deactivation and data persistence', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
+					'<label>' .
 					'<input name="delete-data" type="checkbox" ' . ( $delete_data ? 'checked="checked"' : '' ) . '/>' .
-					'<label for="delete-data">' . __( 'Delete all plugin data on deactivation', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+					' ' .
+					__( 'Delete all plugin data on deactivation', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</label>' .
 				'</p>' .
 				'<p class="description warning">' .
-						__( 'CAUTION: If this option is active while the plugin is deactivated, ALL affiliate and referral data will be DELETED. If you want to retrieve data about your affiliates and their referrals and are going to deactivate the plugin, make sure to back up your data or do not enable this option. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', AFFILIATES_PLUGIN_DOMAIN ) .
+					__( 'CAUTION: If this option is active while the plugin is deactivated, ALL affiliate and referral data will be DELETED. If you want to retrieve data about your affiliates and their referrals and are going to deactivate the plugin, make sure to back up your data or do not enable this option. By enabling this option you agree to be solely responsible for any loss of data or any other consequences thereof.', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>';
 		}
 		echo
