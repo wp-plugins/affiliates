@@ -190,11 +190,8 @@ function affiliates_admin_options() {
 				}
 			}
 			// direct referrals?
-			if ( !empty( $_POST['use-direct'] ) ) {
-				update_option( 'aff_use_direct', true );
-			} else {
-				update_option( 'aff_use_direct', false );
-			}
+			delete_option( 'aff_use_direct' );
+			add_option( 'aff_use_direct', !empty( $_POST['use-direct'] ), '', 'no' );
 			// default status
 			if ( !empty( $_POST['status'] ) && ( Affiliates_Utility::verify_referral_status_transition( $_POST['status'], $_POST['status'] ) ) ) {
 				update_option( 'aff_default_referral_status', $_POST['status'] );
@@ -202,11 +199,8 @@ function affiliates_admin_options() {
 				update_option( 'aff_default_referral_status', AFFILIATES_REFERRAL_STATUS_ACCEPTED );
 			}
 			// allow duplicates?
-			if ( !empty( $_POST['duplicates'] ) ) {
-				update_option( 'aff_duplicates', true );
-			} else {
-				update_option( 'aff_duplicates', false );
-			}
+			delete_option( 'aff_duplicates' );
+			add_option( 'aff_duplicates', !empty( $_POST['duplicates'] ), '', 'no' );
 		}
 	}
 	
@@ -349,8 +343,11 @@ function affiliates_admin_options() {
 					
 				'<h3>' . __( 'Direct referrals', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
+					'<label>' .
 					'<input name="use-direct" type="checkbox" ' . ( $use_direct ? 'checked="checked"' : '' ) . '/>' .
-					'<label for="use-direct">' . __( 'Store direct referrals', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+					' ' .
+					__( 'Store direct referrals', AFFILIATES_PLUGIN_DOMAIN ) .
+					'</label>' .
 				'</p>' .
 				'<p class="description">' .
 					__( 'If this option is enabled, whenever a referral is suggested and no affiliate is attributable to it, the referral will be attributed to Direct.', AFFILIATES_PLUGIN_DOMAIN ) .
