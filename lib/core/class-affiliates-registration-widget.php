@@ -118,8 +118,8 @@ class Affiliates_Registration_Widget extends WP_Widget {
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
-			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', AFFILIATES_PLUGIN_DOMAIN ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
 		</p>
 		<?php
 		
@@ -127,7 +127,7 @@ class Affiliates_Registration_Widget extends WP_Widget {
 		// post_id
 		$terms_post_id = isset( $instance['terms_post_id'] ) ? $instance['terms_post_id'] : '';
 		echo "<p>";
-		echo '<label class="title" title="' . __( "Terms and conditions", AFFILIATES_PLUGIN_DOMAIN ) . '" for="' .$this->get_field_id( 'terms_post_id' ) . '">' . __( 'Terms Page or Post ID' ) . '</label>'; 
+		echo '<label class="title" title="' . __( "Terms and conditions", AFFILIATES_PLUGIN_DOMAIN ) . '" for="' .$this->get_field_id( 'terms_post_id' ) . '">' . __( 'Terms Page or Post ID', AFFILIATES_PLUGIN_DOMAIN ) . '</label>'; 
 		echo '<input class="widefat" id="' . $this->get_field_id( 'terms_post_id' ) . '" name="' . $this->get_field_name( 'terms_post_id' ) . '" type="text" value="' . esc_attr( $terms_post_id ) . '" />';
 		echo '<br/>';
 		echo '<span class="description">' . __( "Write part of the title or the post ID. If left empty, no terms disclaimer will be shown.", AFFILIATES_PLUGIN_DOMAIN ) . '</span>';

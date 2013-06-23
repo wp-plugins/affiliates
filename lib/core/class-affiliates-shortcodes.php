@@ -511,7 +511,7 @@ class Affiliates_Shortcodes {
 	 */
 	function affiliates_logout( $atts, $content = null ) {
 		if ( is_user_logged_in() ) {
-			return '<a href="' . esc_url( wp_logout_url() ) .'">' . __( 'Log out' ) . '</a>';
+			return '<a href="' . esc_url( wp_logout_url() ) .'">' . __( 'Log out', AFFILIATES_PLUGIN_DOMAIN ) . '</a>';
 		} else {
 			return '';
 		}

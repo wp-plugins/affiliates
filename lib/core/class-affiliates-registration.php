@@ -377,22 +377,22 @@ class Affiliates_Registration {
 	
 		// Check the username
 		if ( $sanitized_user_login == '' ) {
-			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Please enter a username.' ) );
+			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Please enter a username.', AFFILIATES_PLUGIN_DOMAIN ) );
 		} elseif ( ! validate_username( $userdata['user_login'] ) ) {
-			$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.' ) );
+			$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.', AFFILIATES_PLUGIN_DOMAIN ) );
 			$sanitized_user_login = '';
 		} elseif ( username_exists( $sanitized_user_login ) ) {
-			$errors->add( 'username_exists', __( '<strong>ERROR</strong>: This username is already registered, please choose another one.' ) );
+			$errors->add( 'username_exists', __( '<strong>ERROR</strong>: This username is already registered, please choose another one.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	
 		// Check the e-mail address
 		if ( $user_email == '' ) {
-			$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please type your e-mail address.' ) );
+			$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please type your e-mail address.', AFFILIATES_PLUGIN_DOMAIN ) );
 		} elseif ( ! is_email( $user_email ) ) {
-			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ) );
+			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.', AFFILIATES_PLUGIN_DOMAIN ) );
 			$user_email = '';
 		} elseif ( email_exists( $user_email ) ) {
-			$errors->add( 'email_exists', __( '<strong>ERROR</strong>: This email is already registered, please choose another one.' ) );
+			$errors->add( 'email_exists', __( '<strong>ERROR</strong>: This email is already registered, please choose another one.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
 	
 		do_action( 'register_post', $sanitized_user_login, $user_email, $errors );

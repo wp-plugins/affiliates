@@ -373,7 +373,7 @@ function affiliates_admin_options() {
 				__( 'Allow to record duplicate referrals for the same affiliate (based on amount, currency, internal type and reference).', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</p>' .
 					
-				'<h3>' . __( 'Robots') . '</h3>' .
+				'<h3>' . __( 'Robots', AFFILIATES_PLUGIN_DOMAIN ) . '</h3>' .
 				'<p>' .
 					//'<label for="robots">' . __( 'Robots', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 					'<textarea id="robots" name="robots" rows="10" cols="45">' . wp_filter_nohtml_kses( $robots ) . '</textarea>' .

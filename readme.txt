@@ -407,6 +407,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.4.0 =
+* addded missing text domains on labels
+
 = 2.3.0 =
 * WordPress 3.5.2 compatibility tests passed
 

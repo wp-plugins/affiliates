@@ -306,15 +306,15 @@ class Affiliates_Contact extends WP_Widget {
 		$currency_id = isset( $instance['currency_id'] ) ? esc_attr( $instance['currency_id'] ) : '';
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', AFFILIATES_PLUGIN_DOMAIN ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'amount' ); ?>"><?php _e( 'Amount (use . for decimals):' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'amount' ); ?>"><?php _e( 'Amount (use . for decimals):', AFFILIATES_PLUGIN_DOMAIN ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'amount' ); ?>" name="<?php echo $this->get_field_name( 'amount' ); ?>" type="text" value="<?php echo $amount; ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'currency_id' ); ?>"><?php _e( 'Currency - 3 letter code, e.g. USD, EUR:' ); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'currency_id' ); ?>"><?php _e( 'Currency - 3 letter code, e.g. USD, EUR:', AFFILIATES_PLUGIN_DOMAIN ); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'currency_id' ); ?>" name="<?php echo $this->get_field_name( 'currency_id' ); ?>" type="text" value="<?php echo $currency_id; ?>" />
 		</p>
 		<p>

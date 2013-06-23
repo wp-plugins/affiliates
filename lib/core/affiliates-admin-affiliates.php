@@ -480,7 +480,7 @@ function affiliates_admin_affiliates() {
 			$output .= "<td class='affiliate-name'>" . stripslashes( wp_filter_nohtml_kses( $result->name ) ) . $name_suffix . "</td>";
 			$output .= "<td class='affiliate-email'>" . $result->email;
 			if ( isset( $result->email ) && isset( $result->user_email ) && strcmp( $result->email, $result->user_email ) !== 0 ) {
-				$output .= '<span title="' . sprintf( __( 'There are different email addresses on record for the affiliate and the associated user. This might be ok, but if in doubt please check. The email address on file for the user is %s'), $result->user_email ) . '" class="warning"> [&nbsp;!&nbsp]</span>';
+				$output .= '<span title="' . sprintf( __( 'There are different email addresses on record for the affiliate and the associated user. This might be ok, but if in doubt please check. The email address on file for the user is %s', AFFILIATES_PLUGIN_DOMAIN ), $result->user_email ) . '" class="warning"> [&nbsp;!&nbsp]</span>';
 			}
 			$output .= "</td>";
 			$output .= "<td class='affiliate-user-login'>";
