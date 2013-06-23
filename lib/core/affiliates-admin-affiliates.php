@@ -381,10 +381,16 @@ function affiliates_admin_affiliates() {
 				'<input class="datefield from-date-filter" name="from_date" type="text" value="' . esc_attr( $from_date ) . '"/>'.
 				'<label class="thru-date-filter" for="thru_date">' . __( 'Until', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="datefield thru-date-filter" name="thru_date" type="text" class="datefield" value="' . esc_attr( $thru_date ) . '"/>'.
-				'<label class="show-inoperative-filter" for="show_inoperative">' . __( 'Include inoperative affiliates', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
-				'<input class="show-inoperative-filter" name="show_inoperative" type="checkbox" ' . ( $show_inoperative ? 'checked="checked"' : '' ) . '/>' .
-				'<label class="show-deleted-filter" for="show_deleted">' . __( 'Include removed affiliates', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
-				'<input class="show-deleted-filter" name="show_deleted" type="checkbox" ' . ( $show_deleted ? 'checked="checked"' : '' ) . '/>' .
+				'<label class="show-inoperative-filter">' .
+					'<input class="show-inoperative-filter" name="show_inoperative" type="checkbox" ' . ( $show_inoperative ? 'checked="checked"' : '' ) . '/>' .
+					' ' .
+					__( 'Include inoperative affiliates', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
+				'<label class="show-deleted-filter">' .
+					'<input class="show-deleted-filter" name="show_deleted" type="checkbox" ' . ( $show_deleted ? 'checked="checked"' : '' ) . '/>' .
+					' ' .
+					__( 'Include removed affiliates', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
 				'</p>
 				<p>' .
 				wp_nonce_field( 'admin', AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE, true, false ) .

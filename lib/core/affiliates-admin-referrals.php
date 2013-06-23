@@ -475,14 +475,26 @@ function affiliates_admin_referrals() {
 				<p>' .
 				wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false ) .
 				'<input class="button" type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
-				'<label class="expanded-filter" for="expanded">' . __( 'Expand details', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded" type="checkbox" ' . ( $expanded ? 'checked="checked"' : '' ) . '/>' .
-				'<label class="expanded-filter" for="expanded_description">' . __( 'Expand descriptions', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				' ' .
+				__( 'Expand details', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
+				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded_description" type="checkbox" ' . ( $expanded_description ? 'checked="checked"' : '' ) . '/>' .
-				'<label class="expanded-filter" for="expanded_data">' . __( 'Expand data', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				' ' .
+				__( 'Expand descriptions', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
+				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded_data" type="checkbox" ' . ( $expanded_data ? 'checked="checked"' : '' ) . '/>' .
-				'<label class="show-inoperative-filter" for="show_inoperative">' . __( 'Include inoperative affiliates', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				' ' .
+				__( 'Expand data', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
+				'<label class="show-inoperative-filter">' .
 				'<input class="show-inoperative-filter" name="show_inoperative" type="checkbox" ' . ( $show_inoperative ? 'checked="checked"' : '' ) . '/>' .
+				' ' .
+				__( 'Include inoperative affiliates', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
 				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
 				'</p>' .
