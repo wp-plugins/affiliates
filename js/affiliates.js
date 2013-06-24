@@ -46,4 +46,10 @@ jQuery(document).ready(function(){
 		jQuery(this).click(clickToggler);
 	});
 
+	/* filter highlighting */
+	jQuery('.filters input[type="text"], .filters input[type="checkbox"], .filters input[type="radio"], .filters textarea, .filters select').each( function() {
+		if ( jQuery(this).val() !== '' ) {
+			this.className += ' active-filter';
+		}
+	});
 });

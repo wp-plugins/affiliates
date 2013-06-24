@@ -411,6 +411,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * addded missing text domains on labels
 * fixed some options not being saved under certain conditions
 * fixed cookie expiration for 0 days 
+* GUI improvements (labels/checkboxes)
+* GUI improvements (highlight active filters)
 
 = 2.3.0 =
 * WordPress 3.5.2 compatibility tests passed

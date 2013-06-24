@@ -343,3 +343,8 @@ div.referral span.title {
 div.referral.remove span.title {
 	font-weight: bold;
 }
+.filters input.active-filter,
+.filters select.active-filter,
+.filters textarea.active-filter {
+	background-color: #ffc;
+}
