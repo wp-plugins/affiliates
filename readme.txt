@@ -56,6 +56,7 @@ Extended integrations are available for:
 
 Other extensions:
 
+- [Affiliates Excluded](http://www.itthinx.com/plugins/affiliates-excluded/) when you do not want to credit an affiliate with auto-referrals
 - [Affiliates Extra Fields](http://www.itthinx.com/plugins/affiliates-extra-fields/) provides an extended affiliate registration form you can use to add additional fields
 - [Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales
 - [Affiliates Users](http://www.itthinx.com/plugins/affiliates-users/) to automatically create affiliate accounts for new users
