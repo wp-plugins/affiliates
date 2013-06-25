@@ -32,31 +32,35 @@ Referrals are stored and attributed to an affiliate, for example if clients plac
 
 These integrations are based on the Affiliates plugin and can be downloaded directly. To use Affiliates together with an e-commerce plugin, you need to install the Affiliates plugin, the e-commerce plugin of your choice and the integration plugin:
 
-- Integration with [Ecwid](http://wordpress.org/extend/plugins/ecwid-shopping-cart/) : [Download](http://wordpress.org/extend/plugins/affiliates-ecwid-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-ecwid-light)
-- Integration with [eShop](http://wordpress.org/extend/plugins/eshop) : [Download](http://wordpress.org/extend/plugins/affiliates-eshop-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-eshop-light)
-- Integration with [Jigoshop](http://wordpress.org/extend/plugins/jigoshop) : [Download](http://wordpress.org/extend/plugins/affiliates-jigoshop-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
-- Integration with [WooCommerce](http://wordpress.org/extend/plugins/woocommerce) : [Download](http://wordpress.org/extend/plugins/affiliates-woocommerce-light) | [Plugin page](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
+- [Ecwid](http://www.itthinx.com/plugins/affiliates-ecwid-light)
+- [eShop](http://www.itthinx.com/plugins/affiliates-eshop-light)
+- [Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
+- [Ready! Ecommerce](http://www.itthinx.com/plugins/affiliates-ready-light/)
+- [WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
 
 **Extensions / Integrations with Affiliates Pro**
 
-Extended integrations are available:
-[for Contact Form 7](http://www.itthinx.com/plugins/affiliates-pro-contact-form-7),
-[for Easy Digital Downloads](http://www.itthinx.com/plugins/affiliates-pro-for-easy-digital-downloads/),
-[for Ecwid](http://www.itthinx.com/plugins/affiliates-ecwid),
-[for eShop](http://www.itthinx.com/plugins/affiliates-eshop),
-[for Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop),
-[for PayPal](http://www.itthinx.com/plugins/affiliates-pro-paypal),
-[for s2Member](http://www.itthinx.com/plugins/affiliates-s2member),
-[for TheCartPress](http://www.itthinx.com/plugins/affiliates-thecartpress/),
-[for WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce),
-[for WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
- and [Affiliates Enterprise](http://www.itthinx.com/plugins/affiliates-enterprise)
+Extended integrations are available for:
+
+- [Contact Form 7](http://www.itthinx.com/plugins/affiliates-pro-contact-form-7)
+- [Easy Digital Downloads](http://www.itthinx.com/plugins/affiliates-pro-for-easy-digital-downloads/)
+- [Ecwid](http://www.itthinx.com/plugins/affiliates-ecwid)
+- [eShop](http://www.itthinx.com/plugins/affiliates-eshop)
+- [Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop)
+- [PayPal](http://www.itthinx.com/plugins/affiliates-pro-paypal)
+- [s2Member](http://www.itthinx.com/plugins/affiliates-s2member)
+- [TheCartPress](http://www.itthinx.com/plugins/affiliates-thecartpress/)
+- [WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce)
+- [WP e-Commerce](http://www.itthinx.com/plugins/affiliates-wp-e-commerce)
+- [Affiliates Enterprise](http://www.itthinx.com/plugins/affiliates-enterprise)
 
 Other extensions:
-[Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales,
-[Affiliates Users](http://www.itthinx.com/plugins/affiliates-users/) to automatically create affiliate accounts for new users,
-[Affiliates by Username](http://www.itthinx.com/plugins/affiliates-by-username/) allows affiliate links to indicate usernames in addition to the affiliate IDs.
-[Affiliates Share](http://www.itthinx.com/plugins/affiliates-share/) makes it easy for affiliates to share content.
+
+- [Affiliates Extra Fields](http://www.itthinx.com/plugins/affiliates-extra-fields/) provides an extended affiliate registration form you can use to add additional fields
+- [Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales
+- [Affiliates Users](http://www.itthinx.com/plugins/affiliates-users/) to automatically create affiliate accounts for new users
+- [Affiliates by Username](http://www.itthinx.com/plugins/affiliates-by-username/) allows affiliate links to indicate usernames in addition to the affiliate IDs
+- [Affiliates Share](http://www.itthinx.com/plugins/affiliates-share/) makes it easy for affiliates to share content
 
 Development and consulting services are available [on request](http://www.itthinx.com/contact/).
 
