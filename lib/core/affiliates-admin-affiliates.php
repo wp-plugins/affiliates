@@ -102,6 +102,7 @@ function affiliates_admin_affiliates() {
 		isset( $_POST['clear_filters'] ) ||
 		isset( $_POST['affiliate_id'] ) ||
 		isset( $_POST['affiliate_name'] ) ||
+		isset( $_POST['affiliates_email'] ) ||
 		isset( $_POST['affiliate_user_login'] ) ||
 		isset( $_POST['show_deleted'] ) ||
 		isset( $_POST['show_inoperative'] )
@@ -118,6 +119,7 @@ function affiliates_admin_affiliates() {
 	$thru_datetime        = null;
 	$affiliate_id         = $affiliates_options->get_option( 'affiliates_affiliate_id', null );
 	$affiliate_name       = $affiliates_options->get_option( 'affiliates_affiliate_name', null );
+	$affiliate_email      = $affiliates_options->get_option( 'affiliates_affiliate_email', null );
 	$affiliate_user_login = $affiliates_options->get_option( 'affiliates_affiliate_user_login', null );
 	$show_deleted         = $affiliates_options->get_option( 'affiliates_show_deleted', false );
 	$show_inoperative     = $affiliates_options->get_option( 'affiliates_show_inoperative', false );
@@ -127,6 +129,7 @@ function affiliates_admin_affiliates() {
 		$affiliates_options->delete_option( 'affiliates_thru_date' );
 		$affiliates_options->delete_option( 'affiliates_affiliate_id' );
 		$affiliates_options->delete_option( 'affiliates_affiliate_name' );
+		$affiliates_options->delete_option( 'affiliates_affiliate_email' );
 		$affiliates_options->delete_option( 'affiliates_affiliate_user_login' );
 		$affiliates_options->delete_option( 'affiliates_show_deleted' );
 		$affiliates_options->delete_option( 'affiliates_show_inoperative' );
@@ -136,6 +139,7 @@ function affiliates_admin_affiliates() {
 		$thru_datetime = null;
 		$affiliate_id = null;
 		$affiliate_name = null;
+		$affiliate_email = null;
 		$affiliate_user_login = null;
 		$show_deleted = false;
 		$show_inoperative = false;
@@ -151,6 +155,18 @@ function affiliates_admin_affiliates() {
 		} else {
 			$affiliate_name = null;
 			$affiliates_options->delete_option( 'affiliates_affiliate_name' );
+		}
+		if ( !empty( $_POST['affiliate_email'] ) ) {
+			$affiliate_email = trim( $_POST['affiliate_email'] );
+			if ( strlen( $affiliate_email ) > 0 ) {
+				$affiliates_options->update_option( 'affiliates_affiliate_email', $affiliate_email );
+			} else {
+				$affiliate_email = null;
+				$affiliates_options->delete_option( 'affiliates_affiliate_email' );
+			}
+		} else {
+			$affiliate_email = null;
+			$affiliates_options->delete_option( 'affiliates_affiliate_email' );
 		}
 		if ( !empty( $_POST['affiliate_user_login'] ) ) {
 			$affiliate_user_login = trim( $_POST['affiliate_user_login'] );
@@ -301,6 +317,10 @@ function affiliates_admin_affiliates() {
 		$filters[] = " $affiliates_table.name LIKE '%%%s%%' ";
 		$filter_params[] = $affiliate_name;
 	}
+	if ( $affiliate_email ) {
+		$filters[] = " $affiliates_table.email LIKE '%%%s%%' ";
+		$filter_params[] = $affiliate_email;
+	}
 	if ( $affiliate_user_login ) {
 		$filters[] = " $wpdb->users.user_login LIKE '%%%s%%' ";
 		$filter_params[] = $affiliate_user_login;
@@ -373,6 +393,8 @@ function affiliates_admin_affiliates() {
 				'<input class="affiliate-id-filter" name="affiliate_id" type="text" value="' . esc_attr( $affiliate_id ) . '"/>' .
 				'<label class="affiliate-name-filter" for="affiliate_name">' . __( 'Affiliate Name', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="affiliate-name-filter" name="affiliate_name" type="text" value="' . $affiliate_name . '"/>' .
+				'<label class="affiliate-email-filter" for="affiliate_email">' . __( 'Affiliate Email', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'<input class="affiliate-email-filter" name="affiliate_email" type="text" value="' . $affiliate_email . '"/>' .
 				'<label class="affiliate-user-login-filter" for="affiliate_user_login">' . __( 'Affiliate Username', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 				'<input class="affiliate-user-login-filter" name="affiliate_user_login" type="text" value="' . $affiliate_user_login . '" />' .
 				'</p>' .
