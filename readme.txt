@@ -418,6 +418,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * fixed cookie expiration for 0 days 
 * GUI improvements (labels/checkboxes)
 * GUI improvements (highlight active filters)
+* Example contact form now produces a reference for referrals
 
 = 2.3.0 =
 * WordPress 3.5.2 compatibility tests passed

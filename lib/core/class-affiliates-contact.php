@@ -173,7 +173,7 @@ class Affiliates_Contact extends WP_Widget {
 				$affiliate = null;
 				if ( function_exists('affiliates_suggest_referral') ) {
 					$post_id = get_the_ID();
-					$affiliate_id = affiliates_suggest_referral( $post_id, $description, $data, $amount, $currency_id );
+					$affiliate_id = affiliates_suggest_referral( $post_id, $description, $data, $amount, $currency_id, null, null, 'ACF' . md5( time() ) );
 					if ( $affiliate_id ) {
 						$affiliate = affiliates_get_affiliate( $affiliate_id );
 						// Now you could send an email to the affiliate ...
