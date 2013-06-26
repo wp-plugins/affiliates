@@ -419,6 +419,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * GUI improvements (labels/checkboxes)
 * GUI improvements (highlight active filters)
 * Example contact form now produces a reference for referrals
+* added affiliate email search filter
 
 = 2.3.0 =
 * WordPress 3.5.2 compatibility tests passed
