@@ -667,11 +667,8 @@ function affiliates_record_hit( $affiliate_id, $now = null, $type = null ) {
 	global $wpdb;
 	// add a hit
 	// @todo check/store IPv6 addresses
-	$http_user_agent = $_SERVER['HTTP_USER_AGENT'];
-	$robots_table    = _affiliates_get_tablename( 'robots' );
-	$robots_query    = $wpdb->prepare( "SELECT name FROM $robots_table WHERE %s LIKE concat('%%',name,'%%')", $http_user_agent );
-	$got_robots      = $wpdb->get_results( $robots_query );
-		
+	//$http_user_agent = $_SERVER['HTTP_USER_AGENT'];
+
 	$table    = _affiliates_get_tablename( 'hits' );
 	if ( $now == null ) {
 		$now = time();
@@ -705,6 +702,9 @@ function affiliates_record_hit( $affiliate_id, $now = null, $type = null ) {
 		$values[] = $user_id;
 	}
 	if ( AFFILIATES_RECORD_ROBOT_HITS ) {
+		$robots_table    = _affiliates_get_tablename( 'robots' );
+		$robots_query    = $wpdb->prepare( "SELECT name FROM $robots_table WHERE %s LIKE concat('%%',name,'%%')", $http_user_agent );
+		$got_robots      = $wpdb->get_results( $robots_query );
 		if ( !empty( $got_robots ) ) {
 			$columns .= ',is_robot';
 			$formats .= ',%d';
