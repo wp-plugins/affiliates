@@ -420,6 +420,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.4.0.1 =
+* WordPress 3.6 compatibility checked
+
 = 2.4.0 =
 * addded missing text domains on labels
 * fixed some options not being saved under certain conditions
@@ -584,6 +587,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.4.0.1 =
+* WordPress 3.6 compatibility checked
+
+= 2.4.0 =
+* Several fixes and improvements.
 
 = 2.3.0 =
 * WordPress 3.5.2 compatibility tests passed
