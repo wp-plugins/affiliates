@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.5.1
-Tested up to: 3.5.2
+Tested up to: 3.6
 Stable tag: 2.4.0
 License: GPLv3
 
@@ -58,10 +58,14 @@ Other extensions:
 
 - [Affiliates Excluded](http://www.itthinx.com/plugins/affiliates-excluded/) when you do not want to credit an affiliate with auto-referrals
 - [Affiliates Extra Fields](http://www.itthinx.com/plugins/affiliates-extra-fields/) provides an extended affiliate registration form you can use to add additional fields
+- [Affiliates Is Referred](https://github.com/itthinx/affiliates-is-referred) adds shortcodes to show content conditionally based on whether a visitor was referred (or not) by an affiliate.
 - [Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) handles product commissions for product partners and affiliates on product sales
 - [Affiliates Users](http://www.itthinx.com/plugins/affiliates-users/) to automatically create affiliate accounts for new users
 - [Affiliates by Username](http://www.itthinx.com/plugins/affiliates-by-username/) allows affiliate links to indicate usernames in addition to the affiliate IDs
 - [Affiliates Share](http://www.itthinx.com/plugins/affiliates-share/) makes it easy for affiliates to share content
+- [Affiliates 2 MailChimp](http://eggemplo.com/plugins/affiliates2mailchimp/) subscribes affiliates to a MailChimp list.
+
+Additional resources can be found on [GitHub](https://github.com/itthinx).
 
 Development and consulting services are available [on request](http://www.itthinx.com/contact/).
 
@@ -86,12 +90,6 @@ Development and consulting services are available [on request](http://www.itthin
 
     Affiliates can sign up automatically and can also be added manually with or without user accounts.
 
-* Documentation and Support
-
-    - Please refer to the [Documentation](http://www.itthinx.com/documentation/affiliates/) pages.
-    - [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro.
-    - If you need help or want to ask a question, please leave a comment on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates/).
-
 * Feedback is welcome
 
     Do you have feature requests or want to provide feedback? Please get in touch, the Affiliates plugins evolve with your needs.
@@ -106,6 +104,14 @@ Development and consulting services are available [on request](http://www.itthin
 
     Upload/install and activate the plugin from your WordPress Dashboard.
 
+
+### Documentation and Support ###
+
+- Please refer to the [Support](http://www.itthinx.com/support/) and [Documentation](http://www.itthinx.com/documentation/affiliates/) pages.
+- [Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro.
+- [itthinx's channel](http://www.youtube.com/itthinx) on YouTube.
+- [API](http://api.itthinx.com/affiliates/) Affiliates plugin API.
+- If you need help or want to ask a question, please leave a comment on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates/).
 
 __Feedback__ is welcome!
 If you need help, have problems, want to leave feedback or want to provide constructive criticism, please do so here at the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates).
@@ -211,6 +217,8 @@ This option is useful if you just need to start clean while you run tests.
 It is not intended to keep track of links to other sites that you as a member of an affiliate program may have.
 
 ### Translations ###
+
+Translation templates are available in the [affiliates-translations](https://github.com/itthinx/affiliates-translations) repository on GitHub. If you translate the plugin, please contribute your translation!
 
 Many thanks to those who have contributed translations:
 
@@ -694,31 +702,3 @@ Warning: call_user_func_array() [function.call-user-func-array]: First argument 
 
 = 1.0.0 =
 There is no need to upgrade yet.
-
-== API ==
-
-	function affiliates_suggest_referral( $post_id, $description = '', $data = null, $amount = null, $currency_id = null, $status = null )
-	
-Suggest to record a referral. This function is used to actually store referrals and associated information.
-
-**Parameters:**
-	
-- **int $post_id** the referral post id; where the transaction or referral originates
-
-- **string $description** the referral description
-
-- **string|array $data** (optional) additional information that should be stored along with the referral
-
-- **string $amount** (optional) referral amount - if used, a $currency_id must be given
-
-- **string $currency_id** (optional) three letter currency code - if used, an $amount must be given
-
-- **string $status** (optional) the referral status, if none given the default will be used
-	 
-**Returns:**
-	
-- affiliate id if a valid referral is recorded, otherwise `false`
-
-Full documentation is accessible on the [Affiliates plugin page](http://www.itthinx.com/plugins/affiliates) and [Affiliates Documentation](http://www.itthinx.com/documentation/affiliates).
-
-[Videos](http://www.itthinx.com/plugins/affiliates-pro/videos/) : A collection of videos showing features available in the free Affiliates plugin and additional features available in Affiliates Pro and Enterprise.
