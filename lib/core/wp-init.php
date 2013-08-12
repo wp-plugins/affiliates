@@ -578,7 +578,7 @@ function affiliates_init() {
 	load_plugin_textdomain( AFFILIATES_PLUGIN_DOMAIN, null, AFFILIATES_PLUGIN_NAME . '/lib/core/languages' );
 }
 
-add_filter( 'query_vars', 'affiliates_query_vars' );
+add_filter( 'query_vars', 'affiliates_query_vars', 999 ); // filter acts late to avoid being messed with by others
 
 /**
  * Register the affiliate query variable.
@@ -642,11 +642,9 @@ function affiliates_parse_request( &$wp ) {
 			COOKIE_DOMAIN
 		);
 		affiliates_record_hit( $affiliate_id );
-
+		unset( $wp->query_vars[$pname] ); // we use this to avoid ending up on the blog listing page
 		if ( get_option( 'aff_redirect', false ) !== false ) {
-			// we could use this to avoid ending up on the blog listing page
-			//unset( $wp->query_vars['affiliates'] );
-			// but we use a redirect so that we end up on the desired url without the affiliate id dangling on the url
+			// use a redirect so that we end up on the desired url without the affiliate id dangling on the url
 			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$current_url = remove_query_arg( $pname, $current_url );
 			$current_url = ereg_replace( str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ), '', $current_url);

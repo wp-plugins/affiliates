@@ -420,6 +420,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.4.1 =
+* Improved URL parameter handling: filter acts late to add query var; parameter is unset in $wp->query_vars to avoid ending up on the blog page.
+
 = 2.4.0.1 =
 * WordPress 3.6 compatibility checked
 
@@ -587,6 +590,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.4.1 =
+* Improves handling of the URL parameter recognition process and makes it more robst with respect to potential conflicts caused by other plugins.
 
 = 2.4.0.1 =
 * WordPress 3.6 compatibility checked
