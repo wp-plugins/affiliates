@@ -81,6 +81,7 @@ class Affiliates_Utility {
 	static function captcha_get( $value ) {
 		$style = 'display:none;';
 		$field = '<input name="' . Affiliates_Utility::$captcha_field_id . '" id="' . Affiliates_Utility::$captcha_field_id . '" class="' . Affiliates_Utility::$captcha_field_id . ' field" style="' . $style . '" value="' . esc_attr( $value ) . '" type="text"/>';
+		$field = apply_filters( 'affiliates_captcha_get', $field, $value );
 		return $field;
 	}
 
@@ -95,6 +96,7 @@ class Affiliates_Utility {
 		if ( empty( $field_value ) ) {
 			$result = true;
 		}
+		$result = apply_filters( 'affiliates_captcha_validate', $result, $field_value );
 		return $result;
 	}
 	

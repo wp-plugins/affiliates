@@ -420,6 +420,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.4.2 =
+* Added captcha filters affiliates_captcha_get and affiliates_captcha_validate.
+
 = 2.4.1 =
 * Improved URL parameter handling: filter acts late to add query var; parameter is unset in $wp->query_vars to avoid ending up on the blog page.
 
@@ -590,6 +593,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.4.2 =
+* Added captcha filters to allow to use alternatives.
 
 = 2.4.1 =
 * Improves handling of the URL parameter recognition process and makes it more robst with respect to potential conflicts caused by other plugins.
