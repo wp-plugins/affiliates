@@ -647,7 +647,8 @@ function affiliates_parse_request( &$wp ) {
 			// use a redirect so that we end up on the desired url without the affiliate id dangling on the url
 			$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$current_url = remove_query_arg( $pname, $current_url );
-			$current_url = ereg_replace( str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ), '', $current_url);
+			$current_url = preg_replace( '#' . str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ) . '#', '', $current_url);
+			// note that we must use delimiters other than / as these are used in AFFILIATES_REGEX_PATTERN
 			wp_redirect($current_url);
 			exit; // "wp_redirect() does not exit automatically and should almost always be followed by exit." @see http://codex.wordpress.org/Function_Reference/wp_redirect
 		}  

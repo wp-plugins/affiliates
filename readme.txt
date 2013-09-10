@@ -422,6 +422,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 = 2.4.2 =
 * Added captcha filters affiliates_captcha_get and affiliates_captcha_validate.
+* Replaced use of deprecated ereg_replace with preg_replace.
 
 = 2.4.1 =
 * Improved URL parameter handling: filter acts late to add query var; parameter is unset in $wp->query_vars to avoid ending up on the blog page.
@@ -595,7 +596,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 2.4.2 =
-* Added captcha filters to allow to use alternatives.
+* Internal improvements: Added captcha filters to allow to use alternatives; replaced use of deprecated PHP function;
 
 = 2.4.1 =
 * Improves handling of the URL parameter recognition process and makes it more robst with respect to potential conflicts caused by other plugins.
