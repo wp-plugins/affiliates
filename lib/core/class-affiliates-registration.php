@@ -196,6 +196,8 @@ class Affiliates_Registration {
 				$error = true;
 			}
 			
+			$error = apply_filters( 'affiliates_registration_error_validate', $error );
+			
 			if ( !$error ) {
 				
 				$userdata = array(
@@ -326,6 +328,8 @@ class Affiliates_Registration {
 				}
 			}
 			
+			$output .= apply_filters( 'affiliates_registration_before_fields', '' );
+			
 			$output .= '<label ' . $first_name_class . ' id="affiliates-registration-form' . $ext . '-first-name-label" for="first_name">' . __( 'First Name', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
 			$output .= '<input ' . $field_disabled . ' id="affiliates-registration-form' . $ext . '-first-name" name="first_name" type="text" value="' . esc_attr( $first_name ) . '"/>';
 			
@@ -340,6 +344,8 @@ class Affiliates_Registration {
 			
 			$output .= '<label ' . $url_class . ' id="affiliates-registration-form' . $ext . '-url-label" for="url">' . __( 'Website', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
 			$output .= '<input ' . $field_disabled . ' id="affiliates-registration-form' . $ext . '-url" name="url" type="text" value="' . esc_attr( $url ) . '"/>';
+			
+			$output .= apply_filters( 'affiliates_registration_after_fields', '' );
 			
 			if ( isset( $terms ) ) {
 				$output .= '<p class="terms">' . $terms . '</p>';
