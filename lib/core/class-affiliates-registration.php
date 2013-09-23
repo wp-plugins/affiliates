@@ -580,7 +580,11 @@ class Affiliates_Registration {
 		$message .= sprintf( __( 'E-mail: %s', AFFILIATES_PLUGIN_DOMAIN ), $user_email ) . "\r\n";
 	
 		if ( get_option( 'aff_notify_admin', true ) ) {
-			@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New Affiliate Registration', AFFILIATES_PLUGIN_DOMAIN ), $blogname ), $message );
+			@wp_mail(
+				apply_filters( 'affiliates_admin_email', get_option( 'admin_email' ) ),
+				apply_filters( 'affiliates_new_affiliate_registration_subject', sprintf( __( '[%s] New Affiliate Registration', AFFILIATES_PLUGIN_DOMAIN ), $blogname ) ),
+				apply_filters( 'affiliates_new_affiliate_registration_message', $message )
+			);
 		}
 	}
 }
