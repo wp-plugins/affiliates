@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.5.1
-Tested up to: 3.6
+Tested up to: 3.6.1
 Stable tag: 2.4.2
 License: GPLv3
 
@@ -32,10 +32,12 @@ Referrals are stored and attributed to an affiliate, for example if clients plac
 
 These integrations are based on the Affiliates plugin and can be downloaded directly. To use Affiliates together with an e-commerce plugin, you need to install the Affiliates plugin, the e-commerce plugin of your choice and the integration plugin:
 
+- [Contact Form 7](http://wordpress.org/plugins/affiliates-contact-form-7)
 - [Ecwid](http://www.itthinx.com/plugins/affiliates-ecwid-light)
 - [eShop](http://www.itthinx.com/plugins/affiliates-eshop-light)
 - [Jigoshop](http://www.itthinx.com/plugins/affiliates-jigoshop-light)
 - [Ready! Ecommerce](http://www.itthinx.com/plugins/affiliates-ready-light/)
+- [WP e-Commerce](http://wordpress.org/plugins/affiliates-wp-e-commerce)
 - [WooCommerce](http://www.itthinx.com/plugins/affiliates-woocommerce-light)
 
 **Extensions / Integrations with Affiliates Pro**
