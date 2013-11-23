@@ -650,7 +650,9 @@ function affiliates_parse_request( &$wp ) {
 			$current_url = preg_replace( '#' . str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ) . '#', '', $current_url);
 			// note that we must use delimiters other than / as these are used in AFFILIATES_REGEX_PATTERN
 			$status = apply_filters( 'affiliates_redirect_status_code', 302 );
+			$status = intval( $status );
 			switch( $status ) {
+				case 300 :
 				case 301 :
 				case 302 :
 				case 303 :
