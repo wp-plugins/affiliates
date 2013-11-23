@@ -49,17 +49,8 @@ class Affiliates_Registration {
 		add_shortcode( 'affiliates_registration', array( 'Affiliates_Registration', 'add_shortcode' ) );
 		add_action( 'wp_print_styles', array( 'Affiliates_Registration', 'print_styles' ) );
 
-		add_action( 'init', array( __CLASS__, 'wp_init' ) );
-
 		// delete affiliate when user is deleted
 		add_action( 'deleted_user', array( 'Affiliates_Registration', 'deleted_user' ) );
-	}
-
-	/**
-	 * Late init for translation.
-	 */
-	public static function wp_init() {
-		self::$submit_button_label = __( 'Sign Up', AFFILIATES_PLUGIN_DOMAIN );
 	}
 
 	/**
@@ -90,6 +81,8 @@ class Affiliates_Registration {
 	 * @return string rendered registration form
 	 */
 	static function render_form( $options = array() ) {
+		
+		self::$submit_button_label = __( 'Sign Up', AFFILIATES_PLUGIN_DOMAIN );
 		
 		$output = '';
 		$ext = ''; // currently not relevant		
