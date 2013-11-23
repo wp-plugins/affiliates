@@ -45,15 +45,23 @@ class Affiliates_Registration {
 	/**
 	 * Class initialization.
 	 */
-	static function init() {
+	public static function init() {
 		add_shortcode( 'affiliates_registration', array( 'Affiliates_Registration', 'add_shortcode' ) );
 		add_action( 'wp_print_styles', array( 'Affiliates_Registration', 'print_styles' ) );
-		self::$submit_button_label = __( 'Sign Up', AFFILIATES_PLUGIN_DOMAIN );
-		
+
+		add_action( 'init', array( __CLASS__, 'wp_init' ) );
+
 		// delete affiliate when user is deleted
 		add_action( 'deleted_user', array( 'Affiliates_Registration', 'deleted_user' ) );
 	}
-	
+
+	/**
+	 * Late init for translation.
+	 */
+	public static function wp_init() {
+		self::$submit_button_label = __( 'Sign Up', AFFILIATES_PLUGIN_DOMAIN );
+	}
+
 	/**
 	 * Enqueues required stylesheets.
 	 */
@@ -322,9 +330,7 @@ class Affiliates_Registration {
 			if ( $is_logged_in ) {
 				$field_disabled = ' disabled="disabled" ';
 				if ( empty( $first_name ) || empty( $last_name ) ) {
-					$output .= '<p>';
-					$output .= sprintf( __( '<p>Please fill in the required information in your <a href="%s">profile</a> first.</p>' ), esc_url( admin_url( "profile.php" ) ) );
-					$output .= '</p>';
+					$output .= sprintf( __( '<p>Please fill in the required information in your <a href="%s">profile</a> first.</p>', AFFILIATES_PLUGIN_DOMAIN ), esc_url( admin_url( "profile.php" ) ) );
 				}
 			}
 			

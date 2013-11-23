@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.5.1
-Tested up to: 3.6.1
+Tested up to: 3.7.1
 Stable tag: 2.4.2
 License: GPLv3
 
@@ -422,6 +422,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.4.3 =
+* Fixed missing translation domain on label in registration form.
+* Fixed translation of submit button not taken into account.
+
 = 2.4.2 =
 * Added captcha filters affiliates_captcha_get and affiliates_captcha_validate.
 * Replaced use of deprecated ereg_replace with preg_replace.
@@ -598,6 +602,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.4.3 =
+* WordPress 3.7.1 compatibility checked and some minor fixes.
 
 = 2.4.2 =
 * Improvements: Added captcha filters to allow to use alternatives; replaced use of deprecated PHP function; new registration form filters added; new affiliate registration email filters added. 
