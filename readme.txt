@@ -426,6 +426,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Fixed missing translation domain on label in registration form.
 * Fixed translation of submit button not taken into account.
 * Added the affiliates_registration_profile_url filter.
+* Added the affiliates_redirect_status_code filter.
 
 = 2.4.2 =
 * Added captcha filters affiliates_captcha_get and affiliates_captcha_validate.
@@ -605,7 +606,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 2.4.3 =
-* WordPress 3.7.1 compatibility checked and some minor fixes.
+* WordPress 3.7.1 compatibility checked and some minor fixes and improvements.
 
 = 2.4.2 =
 * Improvements: Added captcha filters to allow to use alternatives; replaced use of deprecated PHP function; new registration form filters added; new affiliate registration email filters added. 

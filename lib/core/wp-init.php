@@ -649,7 +649,20 @@ function affiliates_parse_request( &$wp ) {
 			$current_url = remove_query_arg( $pname, $current_url );
 			$current_url = preg_replace( '#' . str_replace( AFFILIATES_PNAME, $pname, AFFILIATES_REGEX_PATTERN ) . '#', '', $current_url);
 			// note that we must use delimiters other than / as these are used in AFFILIATES_REGEX_PATTERN
-			wp_redirect($current_url);
+			$status = apply_filters( 'affiliates_redirect_status_code', 302 );
+			switch( $status ) {
+				case 301 :
+				case 302 :
+				case 303 :
+				case 304 :
+				case 305 :
+				case 306 :
+				case 307 :
+					break;
+				default :
+					$status = 302;
+			}
+			wp_redirect( $current_url, $status );
 			exit; // "wp_redirect() does not exit automatically and should almost always be followed by exit." @see http://codex.wordpress.org/Function_Reference/wp_redirect
 		}  
 	}
