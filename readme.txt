@@ -425,6 +425,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 = 2.4.3 =
 * Fixed missing translation domain on label in registration form.
 * Fixed translation of submit button not taken into account.
+* Added the affiliates_registration_profile_url filter.
 
 = 2.4.2 =
 * Added captcha filters affiliates_captcha_get and affiliates_captcha_validate.
