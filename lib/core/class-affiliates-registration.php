@@ -323,7 +323,10 @@ class Affiliates_Registration {
 			if ( $is_logged_in ) {
 				$field_disabled = ' disabled="disabled" ';
 				if ( empty( $first_name ) || empty( $last_name ) ) {
-					$output .= sprintf( __( '<p>Please fill in the required information in your <a href="%s">profile</a> first.</p>', AFFILIATES_PLUGIN_DOMAIN ), esc_url( admin_url( "profile.php" ) ) );
+					$output .= sprintf(
+						__( '<p>Please fill in the required information in your <a href="%s">profile</a> first.</p>', AFFILIATES_PLUGIN_DOMAIN ),
+						esc_url( apply_filters( 'affiliates_registration_profile_url', admin_url( "profile.php" ) ) )
+					);
 				}
 			}
 			
