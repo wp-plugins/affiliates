@@ -570,16 +570,15 @@ function affiliates_admin_affiliates() {
 				);
 			$output .= "</td>";
 			$output .= '</tr>';
-			
-			$output .= '<tr class="' . $class_deleted . $class_inoperative . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
-			$totals = array();
-			$totals[AFFILIATES_REFERRAL_STATUS_CLOSED]   = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_CLOSED );
-			$totals[AFFILIATES_REFERRAL_STATUS_ACCEPTED] = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_ACCEPTED );
-			$totals[AFFILIATES_REFERRAL_STATUS_PENDING]  = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_PENDING );
-			$totals[AFFILIATES_REFERRAL_STATUS_REJECTED] = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_REJECTED );
-			$output .= '<td colspan="9">';
 
 			if ( $show_totals ) {
+				$output .= '<tr class="' . $class_deleted . $class_inoperative . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
+				$totals = array();
+				$totals[AFFILIATES_REFERRAL_STATUS_CLOSED]   = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_CLOSED );
+				$totals[AFFILIATES_REFERRAL_STATUS_ACCEPTED] = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_ACCEPTED );
+				$totals[AFFILIATES_REFERRAL_STATUS_PENDING]  = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_PENDING );
+				$totals[AFFILIATES_REFERRAL_STATUS_REJECTED] = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_REJECTED );
+				$output .= '<td colspan="' . count( $column_display_names ) . '">';
 				$output .= '<table class="affiliate-referral-totals">';
 				$output .= '<thead>';
 				$output .= '<tr>';
@@ -630,7 +629,7 @@ function affiliates_admin_affiliates() {
 			}
 		}
 	} else {
-		$output .= '<tr><td colspan="9">' . __('There are no results.', AFFILIATES_PLUGIN_DOMAIN ) . '</td></tr>';
+		$output .= '<tr><td colspan="' . count( $column_display_names ) . '">' . __('There are no results.', AFFILIATES_PLUGIN_DOMAIN ) . '</td></tr>';
 	}
 		
 	$output .= '</tbody>';
