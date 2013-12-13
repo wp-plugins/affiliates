@@ -426,6 +426,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * WordPress 3.8 compatibility checked
 * Improved the Links column displayed in the Manage Affiliates section.
 * Added option to display accumulated referral totals in the Manage Affiliates section (enabled by default).
+* Fixed filter nonce checks in Manage Affiliates section.
+* Improved filter labels in Manage Affiliates section.
 
 = 2.4.3 =
 * Fixed missing translation domain on label in registration form.

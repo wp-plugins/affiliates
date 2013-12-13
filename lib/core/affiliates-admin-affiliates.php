@@ -97,17 +97,7 @@ function affiliates_admin_affiliates() {
 	//
 	// affiliate table
 	//
-	if (
-		isset( $_POST['from_date'] ) ||
-		isset( $_POST['thru_date'] ) ||
-		isset( $_POST['clear_filters'] ) ||
-		isset( $_POST['affiliate_id'] ) ||
-		isset( $_POST['affiliate_name'] ) ||
-		isset( $_POST['affiliates_email'] ) ||
-		isset( $_POST['affiliate_user_login'] ) ||
-		isset( $_POST['show_deleted'] ) ||
-		isset( $_POST['show_inoperative'] )
-	) {
+	if ( isset( $_POST['clear_filters'] ) || isset( $_POST['submitted'] ) ) {
 		if ( !wp_verify_nonce( $_POST[AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE], 'admin' ) ) {
 			wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 		}
@@ -395,20 +385,38 @@ function affiliates_admin_affiliates() {
 			'<label class="description" for="setfilters">' . __( 'Filters', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
 				'<p>' .
-				'<label class="affiliate-id-filter" for="affiliate_id">' . __( 'Affiliate Id', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
-				'<input class="affiliate-id-filter" name="affiliate_id" type="text" value="' . esc_attr( $affiliate_id ) . '"/>' .
-				'<label class="affiliate-name-filter" for="affiliate_name">' . __( 'Affiliate Name', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'<label class="affiliate-id-filter">' .
+					__( 'Affiliate Id', AFFILIATES_PLUGIN_DOMAIN ) .
+					' ' .
+					'<input class="affiliate-id-filter" name="affiliate_id" type="text" value="' . esc_attr( $affiliate_id ) . '"/>' .
+				'</label>' .
+				'<label class="affiliate-name-filter">' .
+				__( 'Affiliate Name', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="affiliate-name-filter" name="affiliate_name" type="text" value="' . $affiliate_name . '"/>' .
-				'<label class="affiliate-email-filter" for="affiliate_email">' . __( 'Affiliate Email', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				 '</label>' .
+				'<label class="affiliate-email-filter">' .
+				__( 'Affiliate Email', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="affiliate-email-filter" name="affiliate_email" type="text" value="' . $affiliate_email . '"/>' .
-				'<label class="affiliate-user-login-filter" for="affiliate_user_login">' . __( 'Affiliate Username', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				 '</label>' .
+				'<label class="affiliate-user-login-filter">' .
+				__( 'Affiliate Username', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="affiliate-user-login-filter" name="affiliate_user_login" type="text" value="' . $affiliate_user_login . '" />' .
+				 '</label>' .
 				'</p>' .
 				'<p>' .
-				'<label class="from-date-filter" for="from_date">' . __( 'From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'<label class="from-date-filter">' .
+				__( 'From', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="datefield from-date-filter" name="from_date" type="text" value="' . esc_attr( $from_date ) . '"/>'.
-				'<label class="thru-date-filter" for="thru_date">' . __( 'Until', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				 '</label>' .
+				'<label class="thru-date-filter">' .
+				__( 'Until', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="datefield thru-date-filter" name="thru_date" type="text" class="datefield" value="' . esc_attr( $thru_date ) . '"/>'.
+				 '</label>' .
 				'<label class="show-inoperative-filter">' .
 					'<input class="show-inoperative-filter" name="show_inoperative" type="checkbox" ' . ( $show_inoperative ? 'checked="checked"' : '' ) . '/>' .
 					' ' .
@@ -543,7 +551,7 @@ function affiliates_admin_affiliates() {
 				"</td>";
 			$output .= "<td class='links'>";
 			$encoded_id = affiliates_encode_affiliate_id( $result->affiliate_id );
-			$output .= 
+			$output .=
 				__( 'Link', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
 				'<span class="affiliate-link">' . get_bloginfo('url') . '?' . $pname . '=' . $encoded_id . '</span>' .
@@ -622,7 +630,7 @@ function affiliates_admin_affiliates() {
 			}
 		}
 	} else {
-		$output .= '<tr><td colspan="10">' . __('There are no results.', AFFILIATES_PLUGIN_DOMAIN ) . '</td></tr>';
+		$output .= '<tr><td colspan="9">' . __('There are no results.', AFFILIATES_PLUGIN_DOMAIN ) . '</td></tr>';
 	}
 		
 	$output .= '</tbody>';
