@@ -392,7 +392,7 @@ class Affiliates_Shortcodes {
 	 * @param string $status
 	 * @return array of totals indexed by currency_id or false on error
 	 */
-	private static function get_total( $affiliate_id, $from_date = null , $thru_date = null, $status = null ) {
+	public static function get_total( $affiliate_id, $from_date = null , $thru_date = null, $status = null ) {
 		global $wpdb;
 		$referrals_table = _affiliates_get_tablename( 'referrals' );
 		$where = " WHERE affiliate_id = %d";

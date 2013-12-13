@@ -42,7 +42,7 @@ include_once( AFFILIATES_CORE_LIB . '/class-affiliates-utility.php' );
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-contact.php' );
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-registration.php' );
 include_once( AFFILIATES_CORE_LIB . '/class-affiliates-registration-widget.php' );
-include_once( AFFILIATES_CORE_LIB . '/class-affiliates-shortcodes.php' );
+include_once( AFFILIATES_CORE_LIB . '/class-affiliates-shortcodes.php' ); // don't make it conditional on is_admin(), get_total() is used in Manage Affiliates
 
 add_action( 'widgets_init', 'affiliates_widgets_init' );
 

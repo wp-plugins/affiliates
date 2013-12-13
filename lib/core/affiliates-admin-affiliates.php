@@ -50,7 +50,8 @@ function affiliates_admin_affiliates() {
 	
 	if ( !$wp_rewrite->using_permalinks() ) {
 		$output .= '<p class="warning">' .
-			sprintf( __( 'Your site is not using pretty <a href="%s">permalinks</a>. You will only be able to use URL parameter based <span class="affiliate-link">affiliate links</span> but not pretty <span class="affiliate-permalink">affiliate permalinks</span>, unless you change your permalink settings.', AFFILIATES_PLUGIN_DOMAIN ), get_admin_url( null, 'options-permalink.php') ) .
+			'* ' .
+			sprintf( __( 'Your site is not using pretty <a href="%s">permalinks</a>. You will only be able to use URL parameter based <span class="affiliate-link">affiliate links</span> but not pretty <span class="affiliate-permalink">affiliate permalinks</span>, unless you change your permalink settings.', AFFILIATES_PLUGIN_DOMAIN ), esc_url( get_admin_url( null, 'options-permalink.php') ) ) .
 			'</p>';
 	}
 	
@@ -123,6 +124,7 @@ function affiliates_admin_affiliates() {
 	$affiliate_user_login = $affiliates_options->get_option( 'affiliates_affiliate_user_login', null );
 	$show_deleted         = $affiliates_options->get_option( 'affiliates_show_deleted', false );
 	$show_inoperative     = $affiliates_options->get_option( 'affiliates_show_inoperative', false );
+	$show_totals          = $affiliates_options->get_option( 'affiliates_show_totals', true );
 	
 	if ( isset( $_POST['clear_filters'] ) ) {
 		$affiliates_options->delete_option( 'affiliates_from_date' );
@@ -133,6 +135,7 @@ function affiliates_admin_affiliates() {
 		$affiliates_options->delete_option( 'affiliates_affiliate_user_login' );
 		$affiliates_options->delete_option( 'affiliates_show_deleted' );
 		$affiliates_options->delete_option( 'affiliates_show_inoperative' );
+		$affiliates_options->delete_option( 'affiliates_show_totals' );
 		$from_date = null;
 		$from_datetime = null;
 		$thru_date = null;
@@ -143,6 +146,7 @@ function affiliates_admin_affiliates() {
 		$affiliate_user_login = null;
 		$show_deleted = false;
 		$show_inoperative = false;
+		$show_totals = true;
 	} else if ( isset( $_POST['submitted'] ) ) {
 		if ( !empty( $_POST['affiliate_name'] ) ) {
 			$affiliate_name = trim( $_POST['affiliate_name'] );
@@ -184,6 +188,8 @@ function affiliates_admin_affiliates() {
 		$affiliates_options->update_option( 'affiliates_show_deleted', $show_deleted );
 		$show_inoperative = isset( $_POST['show_inoperative'] );
 		$affiliates_options->update_option( 'affiliates_show_inoperative', $show_inoperative );
+		$show_totals = isset( $_POST['show_totals'] );
+		$affiliates_options->update_option( 'affiliates_show_totals', $show_totals );
 		// filter by date(s)
 		if ( !empty( $_POST['from_date'] ) ) {
 			$from_date = date( 'Y-m-d', strtotime( $_POST['from_date'] ) );
@@ -413,6 +419,11 @@ function affiliates_admin_affiliates() {
 					' ' .
 					__( 'Include removed affiliates', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
+				'<label class="show-totals-filter">' .
+					'<input class="show-totals-filter" name="show_totals" type="checkbox" ' . ( $show_totals ? 'checked="checked"' : '' ) . '/>' .
+					' ' .
+					__( 'Show accumulated referral totals', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</label>' .
 				'</p>
 				<p>' .
 				wp_nonce_field( 'admin', AFFILIATES_ADMIN_AFFILIATES_FILTER_NONCE, true, false ) .
@@ -536,7 +547,7 @@ function affiliates_admin_affiliates() {
 				__( 'Link', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
 				'<span class="affiliate-link">' . get_bloginfo('url') . '?' . $pname . '=' . $encoded_id . '</span>' .
-				' &nbsp; ' .
+				'<br/>' .
 				__( 'URL Parameter', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
 				 '<span class="affiliate-link-param">' . '?' . $pname . '=' . $encoded_id . '</span>' .
@@ -545,14 +556,70 @@ function affiliates_admin_affiliates() {
 				': ' .
 				'<span class="affiliate-permalink">' . get_bloginfo('url') . '/' . $pname . '/' . $encoded_id . '</span>' .
 				( $wp_rewrite->using_permalinks() ? '' :
-					'<span class="warning">' .
-					'&nbsp;' .
-					sprintf( __( 'you need to adjust your <a href="%s">permalink settings</a>.', AFFILIATES_PLUGIN_DOMAIN ), get_admin_url( null, 'options-permalink.php') ) .
+					' ' .
+					sprintf( '<span class="warning" title="%s" style="cursor:help;padding:0 2px;">*</span>', __( 'Pretty URLs only work with appropriate permalink settings, this is not a requirement and most affiliate links will be using the URL parameter anyhow when linking to different pages on the site.', AFFILIATES_PLUGIN_DOMAIN ) ) .
 					'</span>'
-					) ;
+				);
 			$output .= "</td>";
-			
 			$output .= '</tr>';
+			
+			$output .= '<tr class="' . $class_deleted . $class_inoperative . ( $i % 2 == 0 ? 'even' : 'odd' ) . '">';
+			$totals = array();
+			$totals[AFFILIATES_REFERRAL_STATUS_CLOSED]   = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_CLOSED );
+			$totals[AFFILIATES_REFERRAL_STATUS_ACCEPTED] = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_ACCEPTED );
+			$totals[AFFILIATES_REFERRAL_STATUS_PENDING]  = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_PENDING );
+			$totals[AFFILIATES_REFERRAL_STATUS_REJECTED] = Affiliates_Shortcodes::get_total( $result->affiliate_id, null, null, AFFILIATES_REFERRAL_STATUS_REJECTED );
+			$output .= '<td colspan="9">';
+
+			if ( $show_totals ) {
+				$output .= '<table class="affiliate-referral-totals">';
+				$output .= '<thead>';
+				$output .= '<tr>';
+				foreach( $totals as $status => $total ) {
+					if ( $total ) {
+						$output .= '<th>';
+						$output .= '<strong>';
+						switch( $status ) {
+							case AFFILIATES_REFERRAL_STATUS_CLOSED :
+								$output .= sprintf( __( '<span style="cursor:help" title="%s">Closed</span>', AFFILIATES_PLUGIN_DOMAIN ), esc_attr( __( 'Accumulated total for closed referrals (commissions paid).', AFFILIATES_PLUGIN_DOMAIN ) ) );
+								break;
+							case AFFILIATES_REFERRAL_STATUS_ACCEPTED :
+								$output .= sprintf( __( '<span style="cursor:help" title="%s">Accepted</span>', AFFILIATES_PLUGIN_DOMAIN ), esc_attr( __( 'Accumulated total for accepted referrals (commissions unpaid).', AFFILIATES_PLUGIN_DOMAIN ) ) );
+								break;
+							case AFFILIATES_REFERRAL_STATUS_PENDING :
+								$output .= sprintf( __( '<span style="cursor:help" title="%s">Pending</span>', AFFILIATES_PLUGIN_DOMAIN ), esc_attr( __( 'Accumulated total for pending referrals.', AFFILIATES_PLUGIN_DOMAIN ) ) );
+								break;
+							case AFFILIATES_REFERRAL_STATUS_REJECTED :
+								$output .= sprintf( __( '<span style="cursor:help" title="%s">Rejected</span>', AFFILIATES_PLUGIN_DOMAIN ), esc_attr( __( 'Accumulated total for rejected referrals.', AFFILIATES_PLUGIN_DOMAIN ) ) );
+								break;
+						}
+						$output .= '</strong>';
+						$output .= '</th>';
+					}
+				}
+				$output .= '</thead>';
+				$output .= '</tr>';
+				$output .= '<tbody>';
+				$output .= '<tr>';
+				foreach( $totals as $status => $total ) {
+					if ( $total ) {
+						$output .= '<td>';
+						$output .= '<ul>';
+						foreach( $total as $currency => $amount ) {
+							$output .= '<li>';
+							$output .= sprintf( __( '%1$s %2$s', AFFILIATES_PLUGIN_DOMAIN ), $currency, $amount ); // translators: first is a three-letter currency code, second is a monetary amount
+							$output .= '</li>';
+						}
+						$output .= '</ul>';
+						$output .= '</td>';
+					}
+				}
+				$output .= '</tr>';
+				$output .= '<tbody>';
+				$output .= '</table>';
+				$output .= '</td>';
+				$output .= '</tr>';
+			}
 		}
 	} else {
 		$output .= '<tr><td colspan="10">' . __('There are no results.', AFFILIATES_PLUGIN_DOMAIN ) . '</td></tr>';
