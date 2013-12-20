@@ -455,7 +455,7 @@ class Affiliates_Shortcodes {
 							$output .= '&nbsp;';
 							$output .= apply_filters( 'affiliates_earnings_display_total', number_format_i18n( $total, apply_filters( 'affiliates_earnings_decimals', 2 ) ), $total, $currency_id );
 						} else {
-							$output .= __( 'None', AFFILIATES_PLUGIN_DOMAIN );
+							$output .= apply_filters( 'affiliates_earnings_display_total_none', __( 'None', AFFILIATES_PLUGIN_DOMAIN ) );
 						}
 						$output .= '</td>';
 
