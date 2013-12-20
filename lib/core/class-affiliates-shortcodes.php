@@ -414,54 +414,59 @@ class Affiliates_Shortcodes {
 
 				$referrals_table = _affiliates_get_tablename( 'referrals' );
 				if ( $range = $wpdb->get_row( "SELECT MIN(datetime) from_datetime, MAX(datetime) thru_datetime FROM $referrals_table WHERE affiliate_id IN (" . implode( ',', $affiliate_ids ) . ")") ) {
-
-					$t = strtotime( $range->from_datetime );
-					$eom = strtotime( date( 'Y-m-t 23:59:59', time() ) );
-					while ( $t < $eom ) {
-						$from = date( 'Y-m', $t ) . '-01 00:00:00';
-						$thru = date( 'Y-m-t', strtotime( $from ) );
-						$sums = array();
-						foreach( $affiliate_ids as $affiliate_id ) {
-							if ( $totals = self::get_total( $affiliate_id, $from, $thru ) ) {
-								if ( count( $totals ) > 0 ) {
-									foreach ( $totals as $currency_id => $total ) {
-										$sums[$currency_id] = isset( $sums[$currency_id] ) ? bcadd( $sums[$currency_id], $total, AFFILIATES_REFERRAL_AMOUNT_DECIMALS ) : $total;
+					if ( !empty( $range->from_datetime ) ) { // Covers for NULL when no referrals recorded yet, too.
+						$t = strtotime( $range->from_datetime );
+						$eom = strtotime( date( 'Y-m-t 23:59:59', time() ) );
+						while ( $t < $eom ) {
+							$from = date( 'Y-m', $t ) . '-01 00:00:00';
+							$thru = date( 'Y-m-t', strtotime( $from ) );
+							$sums = array();
+							foreach( $affiliate_ids as $affiliate_id ) {
+								if ( $totals = self::get_total( $affiliate_id, $from, $thru ) ) {
+									if ( count( $totals ) > 0 ) {
+										foreach ( $totals as $currency_id => $total ) {
+											$sums[$currency_id] = isset( $sums[$currency_id] ) ? bcadd( $sums[$currency_id], $total, AFFILIATES_REFERRAL_AMOUNT_DECIMALS ) : $total;
+										}
 									}
 								}
 							}
-						}
-
-						$output .= '<tr>';
-
-						// month & year
-						$output .= '<td>';
-						$output .= date( __( 'F Y', AFFILIATES_PLUGIN_DOMAIN ), strtotime( $from ) ); // translators: date format; month and year for earnings display
-						$output .= '</td>';
-
-						// earnings
-						$output .= '<td>';
-						if ( count( $sums ) > 1 ) {
-							$output .= '<ul>';
-							foreach ( $sums as $currency_id => $total ) {
-								$output .= '<li>';
+	
+							$output .= '<tr>';
+	
+							// month & year
+							$output .= '<td>';
+							$output .= date( __( 'F Y', AFFILIATES_PLUGIN_DOMAIN ), strtotime( $from ) ); // translators: date format; month and year for earnings display
+							$output .= '</td>';
+	
+							// earnings
+							$output .= '<td>';
+							if ( count( $sums ) > 1 ) {
+								$output .= '<ul>';
+								foreach ( $sums as $currency_id => $total ) {
+									$output .= '<li>';
+									$output .= apply_filters( 'affiliates_earnings_display_currency', $currency_id );
+									$output .= '&nbsp;';
+									$output .= apply_filters( 'affiliates_earnings_display_total', number_format_i18n( $total, apply_filters( 'affiliates_earnings_decimals', 2 ) ), $total, $currency_id );
+									$output .= '</li>';
+								}
+								$output .= '</ul>';
+							} else if ( count( $sums ) > 0 ) {
 								$output .= apply_filters( 'affiliates_earnings_display_currency', $currency_id );
 								$output .= '&nbsp;';
 								$output .= apply_filters( 'affiliates_earnings_display_total', number_format_i18n( $total, apply_filters( 'affiliates_earnings_decimals', 2 ) ), $total, $currency_id );
-								$output .= '</li>';
+							} else {
+								$output .= apply_filters( 'affiliates_earnings_display_total_none', __( 'None', AFFILIATES_PLUGIN_DOMAIN ) );
 							}
-							$output .= '</ul>';
-						} else if ( count( $sums ) > 0 ) {
-							$output .= apply_filters( 'affiliates_earnings_display_currency', $currency_id );
-							$output .= '&nbsp;';
-							$output .= apply_filters( 'affiliates_earnings_display_total', number_format_i18n( $total, apply_filters( 'affiliates_earnings_decimals', 2 ) ), $total, $currency_id );
-						} else {
-							$output .= apply_filters( 'affiliates_earnings_display_total_none', __( 'None', AFFILIATES_PLUGIN_DOMAIN ) );
+							$output .= '</td>';
+	
+							$output .= '</tr>';
+	
+							$t = strtotime( '+1 month', $t );
 						}
+					} else {
+						$output .= '<td colspan="2">';
+						$output .= apply_filters( 'affiliates_earnings_display_total_no_earnings', __( 'There are no earnings yet.', AFFILIATES_PLUGIN_DOMAIN ) );
 						$output .= '</td>';
-
-						$output .= '</tr>';
-
-						$t = strtotime( '+1 month', $t );
 					}
 				}
 
