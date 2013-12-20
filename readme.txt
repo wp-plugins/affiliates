@@ -422,6 +422,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.5.0 =
+* Dashboard widget added.
+
 = 2.4.4 =
 * WordPress 3.8 compatibility checked
 * Improved the Links column displayed in the Manage Affiliates section.
@@ -611,6 +614,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.5.0 =
+* New dashboard widget added showing referral totals.
 
 = 2.4.4 =
 * Added display of accumulated totals and clearer link display in the Manage Affiliates section. WordPress 3.8 compatibility checked.
