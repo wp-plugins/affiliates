@@ -423,7 +423,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Changelog ==
 
 = 2.5.0 =
-* Dashboard widget added.
+* New affiliates dashboard widget added.
+* New shortcode [affiliates_earnings] showing affiliate earnings per month.
 
 = 2.4.4 =
 * WordPress 3.8 compatibility checked
@@ -616,7 +617,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 2.5.0 =
-* New dashboard widget added showing referral totals.
+* This release provides a new dashboard widget showing referral totals and a new shortcode [affiliates_earnings] showing affiliate earnings per month.
 
 = 2.4.4 =
 * Added display of accumulated totals and clearer link display in the Manage Affiliates section. WordPress 3.8 compatibility checked.

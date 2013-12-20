@@ -39,7 +39,9 @@ class Affiliates_Dashboard_Widget {
 	 * Dashboard setup hook.
 	 */
 	public static function wp_dashboard_setup() {
-		wp_add_dashboard_widget( 'affiliates_dashboard_widget', 'Affiliates', array( __CLASS__, 'render' ) );
+		if ( current_user_can( AFFILIATES_ACCESS_AFFILIATES ) ) {
+			wp_add_dashboard_widget( 'affiliates_dashboard_widget', 'Affiliates', array( __CLASS__, 'render' ) );
+		}
 	}
 
 	/**

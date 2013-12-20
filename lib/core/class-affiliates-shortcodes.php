@@ -19,9 +19,9 @@
 * @since affiliates 1.3.0
 */
 class Affiliates_Shortcodes {
-	
+
 	// var $url_options = array();
-	
+
 	/**
 	 * Add shortcodes.
 	 */
@@ -34,6 +34,7 @@ class Affiliates_Shortcodes {
 		add_shortcode( 'affiliates_hits', array( __CLASS__, 'affiliates_hits' ) );
 		add_shortcode( 'affiliates_visits', array( __CLASS__, 'affiliates_visits' ) );
 		add_shortcode( 'affiliates_referrals', array( __CLASS__, 'affiliates_referrals' ) );
+		add_shortcode( 'affiliates_earnings', array( __CLASS__, 'affiliates_earnings' ) );
 		add_shortcode( 'affiliates_url', array( __CLASS__, 'affiliates_url' ) );
 		add_shortcode( 'affiliates_login_redirect', array( __CLASS__, 'affiliates_login_redirect' ) );
 		add_shortcode( 'affiliates_logout', array( __CLASS__, 'affiliates_logout' ) );
@@ -146,18 +147,18 @@ class Affiliates_Shortcodes {
 	 * @param string $content this is rendered for affiliates
 	 */
 	public static function affiliates_is_affiliate( $atts, $content = null ) {
-		
+
 		remove_shortcode( 'affiliates_is_affiliate' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_is_affiliate', array( __CLASS__, 'affiliates_is_affiliate' ) );
-		
+
 		$output = "";
 		if ( affiliates_user_is_affiliate( get_current_user_id() ) ) {
 			$output .= $content;
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Non-Affiliate content shortcode.
 	 *
@@ -165,18 +166,18 @@ class Affiliates_Shortcodes {
 	 * @param string $content this is rendered for non-affiliates
 	 */
 	public static function affiliates_is_not_affiliate( $atts, $content = null ) {
-		
+
 		remove_shortcode( 'affiliates_is_not_affiliate' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_is_not_affiliate', array( __CLASS__, 'affiliates_is_not_affiliate' ) );
-		
+
 		$output = "";
 		if ( !affiliates_user_is_affiliate( get_current_user_id() ) ) {
 			$output .= $content;
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Adjust from und until dates from UTZ to STZ and take into account the
 	 * for option which will adjust the from date to that of the current
@@ -221,7 +222,7 @@ class Affiliates_Shortcodes {
 			}
 		}
 	}
-	
+
 	/**
 	 * Hits shortcode - renders the number of hits.
 	 * 
@@ -230,15 +231,15 @@ class Affiliates_Shortcodes {
 	 */
 	public static function affiliates_hits( $atts, $content = null ) {
 		global $wpdb;
-		
+
 		include_once( AFFILIATES_CORE_LIB . '/class-affiliates-date-helper.php');
-		
+
 		remove_shortcode( 'affiliates_hits' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_hits', array( __CLASS__, 'affiliates_hits' ) );
-		
+
 		$output = "";
-		
+
 		$options = shortcode_atts(
 			array(
 				'from'  => null,
@@ -268,15 +269,15 @@ class Affiliates_Shortcodes {
 	 *
 	 * @param array $atts attributes
 	 * @param string $content not used
-	 */	
+	 */
 	public static function affiliates_visits( $atts, $content = null ) {
-		
+
 		global $wpdb;
-		
+
 		remove_shortcode( 'affiliates_visits' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_visits', array( __CLASS__, 'affiliates_visits' ) );
-		
+
 		$output = "";
 		$options = shortcode_atts(
 			array(
@@ -301,7 +302,7 @@ class Affiliates_Shortcodes {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Referrals shortcode - renders referral information.
 	 *
@@ -310,11 +311,11 @@ class Affiliates_Shortcodes {
 	 */
 	public static function affiliates_referrals( $atts, $content = null ) {
 		global $wpdb;
-		
+
 		remove_shortcode( 'affiliates_referrals' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_referrals', array( __CLASS__, 'affiliates_referrals' ) );
-		
+
 		$output = "";
 		$options = shortcode_atts(
 			array(
@@ -382,7 +383,97 @@ class Affiliates_Shortcodes {
 		}
 		return $output;
 	}
-	
+
+	/**
+	 * Shows monthly earnings.
+	 * 
+	 * Note that we don't do any s2u or u2s date adjustments here.
+	 * 
+	 * @param array $atts not used; this shortcode does not accept any arguments
+	 * @param string $content not used
+	 */
+	public static function affiliates_earnings( $atts, $content = null ) {
+		global $wpdb;
+		$output = '';
+		$user_id = get_current_user_id();
+		if ( $user_id && affiliates_user_is_affiliate( $user_id ) ) {
+			if ( $affiliate_ids = affiliates_get_user_affiliate( $user_id ) ) {
+
+				$output .= '<table class="affiliates-earnings">';
+				$output .= '<thead>';
+				$output .= '<tr>';
+				$output .= '<th>';
+				$output .= __( 'Month', AFFILIATES_PLUGIN_DOMAIN );
+				$output .= '</th>';
+				$output .= '<th>';
+				$output .= __( 'Earnings', AFFILIATES_PLUGIN_DOMAIN );
+				$output .= '</th>';
+				$output .= '</tr>';
+				$output .= '</thead>';
+				$output .= '<tbody>';
+
+				$referrals_table = _affiliates_get_tablename( 'referrals' );
+				if ( $range = $wpdb->get_row( "SELECT MIN(datetime) from_datetime, MAX(datetime) thru_datetime FROM $referrals_table WHERE affiliate_id IN (" . implode( ',', $affiliate_ids ) . ")") ) {
+
+					$t = strtotime( $range->from_datetime );
+					$eom = strtotime( date( 'Y-m-t 23:59:59', time() ) );
+					while ( $t < $eom ) {
+						$from = date( 'Y-m', $t ) . '-01 00:00:00';
+						$thru = date( 'Y-m-t', strtotime( $from ) );
+						$sums = array();
+						foreach( $affiliate_ids as $affiliate_id ) {
+							if ( $totals = self::get_total( $affiliate_id, $from, $thru ) ) {
+								if ( count( $totals ) > 0 ) {
+									foreach ( $totals as $currency_id => $total ) {
+										$sums[$currency_id] = isset( $sums[$currency_id] ) ? bcadd( $sums[$currency_id], $total, AFFILIATES_REFERRAL_AMOUNT_DECIMALS ) : $total;
+									}
+								}
+							}
+						}
+
+						$output .= '<tr>';
+
+						// month & year
+						$output .= '<td>';
+						$output .= date( __( 'F Y', AFFILIATES_PLUGIN_DOMAIN ), strtotime( $from ) ); // translators: date format; month and year for earnings display
+						$output .= '</td>';
+
+						// earnings
+						$output .= '<td>';
+						if ( count( $sums ) > 1 ) {
+							$output .= '<ul>';
+							foreach ( $sums as $currency_id => $total ) {
+								$output .= '<li>';
+								$output .= apply_filters( 'affiliates_earnings_display_currency', $currency_id );
+								$output .= '&nbsp;';
+								$output .= apply_filters( 'affiliates_earnings_display_total', number_format_i18n( $total, apply_filters( 'affiliates_earnings_decimals', 2 ) ), $total, $currency_id );
+								$output .= '</li>';
+							}
+							$output .= '</ul>';
+						} else if ( count( $sums ) > 0 ) {
+							$output .= apply_filters( 'affiliates_earnings_display_currency', $currency_id );
+							$output .= '&nbsp;';
+							$output .= apply_filters( 'affiliates_earnings_display_total', number_format_i18n( $total, apply_filters( 'affiliates_earnings_decimals', 2 ) ), $total, $currency_id );
+						} else {
+							$output .= __( 'None', AFFILIATES_PLUGIN_DOMAIN );
+						}
+						$output .= '</td>';
+
+						$output .= '</tr>';
+
+						$t = strtotime( '+1 month', $t );
+					}
+				}
+
+				$output .= '</tbody>';
+				$output .= '</table>';
+
+			}
+		}
+		return $output;
+
+	}
+
 	/**
 	 * Retrieve totals for an affiliate.
 	 * 
@@ -441,7 +532,7 @@ class Affiliates_Shortcodes {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * URL shortcode - renders the affiliate url.
 	 *
@@ -450,13 +541,13 @@ class Affiliates_Shortcodes {
 	 */
 	public static function affiliates_url( $atts, $content = null ) {
 		global $wpdb;
-		
+
 		$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
-		
+
 		remove_shortcode( 'affiliates_url' );
 		$content = do_shortcode( $content );
 		add_shortcode( 'affiliates_url', array( __CLASS__, 'affiliates_url' ) );
-		
+
 		$output = "";
 		$user_id = get_current_user_id();
 		if ( $user_id && affiliates_user_is_affiliate( $user_id ) ) {
@@ -482,7 +573,7 @@ class Affiliates_Shortcodes {
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Renders a login form that can redirect to a url or the current page.
 	 * 
@@ -501,7 +592,7 @@ class Affiliates_Shortcodes {
 		}
 		return $form;
 	}
-	
+
 	/**
 	 * Renders a link to log out.
 	 * 
