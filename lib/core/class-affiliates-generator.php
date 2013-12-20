@@ -46,7 +46,7 @@ class Affiliates_Generator {
 <code>&lt;a href="[affiliates_url]"&gt;Affiliate link&lt;/a&gt;</code></p>
 <p>Tip: You should change the text <em>Affiliate link</em> to something more attractive.</p>
 <h3>Performance</h3>
-<h4>Earnings</h4>
+<h4>Total Earnings</h4>
 <h5>Commissions pending payment</h5>
 [affiliates_referrals show="total" status="accepted"]
 <h5>Commissions paid</h5>
@@ -56,6 +56,8 @@ class Affiliates_Generator {
 <li>Accepted referrals pending payment: [affiliates_referrals status="accepted"]</li>
 <li>Referrals paid: [affiliates_referrals status="closed"]</li>
 </ul>
+<h4>Monthly Earnings</h4>
+[affiliates_earnings]
 [affiliates_logout]
 [/affiliates_is_affiliate]
 ';
