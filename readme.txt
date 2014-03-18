@@ -426,6 +426,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 = 2.5.1 =
 * Added the French translation.
 * Improved UI elements for filter sections.
+* Improved UI for add/edit affiliate.
 
 = 2.5.0 =
 * New affiliates dashboard widget added.
