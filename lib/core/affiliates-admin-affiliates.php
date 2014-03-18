@@ -408,7 +408,6 @@ function affiliates_admin_affiliates() {
 				' ' .
 				'<input class="affiliate-user-login-filter" name="affiliate_user_login" type="text" value="' . $affiliate_user_login . '" />' .
 				'</label>' .
-				' ' .
 				'</div>' .
 				'<div class="filter-section">' .
 				'<label class="from-date-filter">' .
