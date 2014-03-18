@@ -224,6 +224,7 @@ Translation templates are available in the [affiliates-translations](https://git
 
 Many thanks to those who have contributed translations:
 
+* French translation provided by Johan Walter from [Massage Factory](http://www.massagefactory.eu)
 * Hebrew translation provided by Yair from [temoni.org](http://www.temoni.org/)
 * Italian translation provided by Alessandro Bergamin from [VoglioClienti.it](http://www.voglioclienti.it/) and Roberto Castaldo from [InArte](http://www.inarte.it)
 * Indonesian translation provided by Ganis Irawan from [Bisnis Internet 101](http://www.bisnisin.com/)
@@ -422,6 +423,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.5.1 =
+* Added the French translation.
+* Improved UI elements for filter sections.
+
 = 2.5.0 =
 * New affiliates dashboard widget added.
 * New shortcode [affiliates_earnings] showing affiliate earnings per month.
@@ -615,6 +620,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.5.1 =
+* Added the French translation.
 
 = 2.5.0 =
 * This release provides a new dashboard widget showing referral totals and a new shortcode [affiliates_earnings] showing affiliate earnings per month.

@@ -314,7 +314,9 @@ function affiliates_admin_hits_affiliate() {
 	$affiliates = affiliates_get_affiliates( true, !$show_inoperative );
 	$affiliates_select = '';
 	if ( !empty( $affiliates ) ) {
-		$affiliates_select .= '<label class="affiliate-id-filter" for="affiliate_id">' . __('Affiliate', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
+		$affiliates_select .= '<label class="affiliate-id-filter">';
+		$affiliates_select .= __( 'Affiliate', AFFILIATES_PLUGIN_DOMAIN );
+		$affiliates_select .= ' ';
 		$affiliates_select .= '<select class="affiliate-id-filter" name="affiliate_id">';
 		$affiliates_select .= '<option value="">--</option>';
 		foreach ( $affiliates as $affiliate ) {
@@ -326,24 +328,33 @@ function affiliates_admin_hits_affiliate() {
 			$affiliates_select .= '<option ' . $selected . ' value="' . esc_attr( $affiliate['affiliate_id'] ) . '">' . esc_attr( stripslashes( $affiliate['name'] ) ) . '</option>';
 		}
 		$affiliates_select .= '</select>';
+		$affiliates_select .= '</label>';
 	}
 	
 	$output .=
 		'<div class="filters">' .
 			'<label class="description" for="setfilters">' . __( 'Filters', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
-				'<p>' .
+
+				'<div class="filter-section">' .
 				$affiliates_select .
-				'</p>
-				<p>' .
-				'<label class="from-date-filter" for="from_date">' . __('From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'</div>' .
+
+				'<div class="filter-section">' .
+				'<label class="from-date-filter">' .
+				__('From', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="datefield from-date-filter" name="from_date" type="text" value="' . esc_attr( $from_date ) . '"/>'.
-				'<label class="thru-date-filter" for="thru_date">' . __('Until', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'</label>' .
+				' ' .
+				'<label class="thru-date-filter">' .
+				__( 'Until', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="datefield thru-date-filter" name="thru_date" type="text" class="datefield" value="' . esc_attr( $thru_date ) . '"/>'.
-				'</p>
-				<p>' .
-				wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_AFF_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
+				'</label>' .
+				'</div>' .
+
+				'<div class="filter-section">' .
 //				'<label class="expanded-filter" for="expanded">' . __( 'Expand details', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 //				'<input class="expanded-filter" name="expanded" type="checkbox" ' . ( $expanded ? 'checked="checked"' : '' ) . '/>' .
 
@@ -352,22 +363,26 @@ function affiliates_admin_hits_affiliate() {
 				' ' .
 				__( 'Expand referrals', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
-
+				' ' .
 				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded_hits" type="checkbox" ' . ( $expanded_hits ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Expand hits', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
-
+				' ' .
 				'<label class="show-inoperative-filter">' .
 				'<input class="show-inoperative-filter" name="show_inoperative" type="checkbox" ' . ( $show_inoperative ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Include inoperative affiliates', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
-				
+				'</div>' .
+
+				'<div class="filter-buttons">' .
+				wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_AFF_FILTER_NONCE, true, false ) .
+				'<input class="button" type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
-				'</p>' .
+				'</div>' .
 			'</form>' .
 		'</div>';
 							

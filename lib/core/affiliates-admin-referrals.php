@@ -414,8 +414,10 @@ function affiliates_admin_referrals() {
 	$affiliates = affiliates_get_affiliates( true, !$show_inoperative );
 	$affiliates_select = '';
 	if ( !empty( $affiliates ) ) {
-		$affiliates_select .= '<label class="affiliate-id-filter" for="affiliate_id">' . __('Affiliate', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
-		$affiliates_select .= '<select class="affiliate-id-filter" name="affiliate_id">';
+		$affiliates_select .= '<label class="affiliate-id-filter"">';
+		$affiliates_select .= __( 'Affiliate', AFFILIATES_PLUGIN_DOMAIN );
+		$affiliates_select .= ' ';
+		$affiliates_select .= '<select class="affiliate-id-filter">';
 		$affiliates_select .= '<option value="">--</option>';
 		foreach ( $affiliates as $affiliate ) {
 			if ( $affiliate_id == $affiliate['affiliate_id']) {
@@ -426,6 +428,7 @@ function affiliates_admin_referrals() {
 			$affiliates_select .= '<option ' . $selected . ' value="' . esc_attr( $affiliate['affiliate_id'] ) . '">' . esc_attr( stripslashes( $affiliate['name'] ) ) . '</option>';
 		}
 		$affiliates_select .= '</select>';
+		$affiliates_select .= '</label>';
 	}
 	
 	$status_descriptions = array(
@@ -441,7 +444,9 @@ function affiliates_admin_referrals() {
 		AFFILIATES_REFERRAL_STATUS_REJECTED => "<img class='icon' alt='" . __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/rejected.png'/>",
 	);
 	
-	$status_select = '<label class="status-filter" for="status">' . __('Status', AFFILIATES_PLUGIN_DOMAIN ) . '</label>';
+	$status_select = '<label class="status-filter">';
+	$status_select .= __( 'Status', AFFILIATES_PLUGIN_DOMAIN );
+	$status_select .= ' ';
 	$status_select .= '<select name="status">';
 	$status_select .= '<option value="" ' . ( empty( $status ) ? ' selected="selected" ' : '' ) . '>--</option>';
 	foreach ( $status_descriptions as $key => $label ) {
@@ -449,55 +454,77 @@ function affiliates_admin_referrals() {
 		$status_select .= '<option ' . $selected . ' value="' . esc_attr( $key ) . '">' . $label . '</option>';
 	}
 	$status_select .= '</select>';
-		
+	$status_select .= '</label>';
+
 	$output .=
 		'<div class="filters">' .
 			'<label class="description" for="setfilters">' . __( 'Filters', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
 			'<form id="setfilters" action="" method="post">' .
-				'<p>' .
+
+				'<div class="filter-section">' .
 				$affiliates_select .
+				' ' .
 				$status_select .
-				' <label class="search-filter" for="search" title="Search in data">' . __( 'Search', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				' ' .
+				' <label class="search-filter" title="Search in data">' .
+				__( 'Search', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				' <input class="search-filter" name="search" type="text" value="' . esc_attr( $search ) . '"/>' .
+				'</label>' .
 				' ' .
 				sprintf( '<label class="search-description-filter" title="%s">', __( 'Also search in descriptions', AFFILIATES_PLUGIN_DOMAIN ) ) .
 				'<input class="search-description-filter" name="search_description" type="checkbox" ' . ( $search_description ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Descriptions', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
-				'</p>
-				<p>' .
-				'<label class="from-date-filter" for="from_date">' . __('From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'</div>' .
+
+				'<div class="filter-section">' .
+				'<label class="from-date-filter">' .
+				__( 'From', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="datefield from-date-filter" name="from_date" type="text" value="' . esc_attr( $from_date ) . '"/>'.
-				'<label class="thru-date-filter" for="thru_date">' . __('Until', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+				'</label>' .
+				' ' .
+				'<label class="thru-date-filter">' .
+				__( 'Until', AFFILIATES_PLUGIN_DOMAIN ) .
+				' ' .
 				'<input class="datefield thru-date-filter" name="thru_date" type="text" class="datefield" value="' . esc_attr( $thru_date ) . '"/>'.
-				'</p>
-				<p>' .
-				wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false ) .
-				'<input class="button" type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
+				'</label>' .
+				'</div>' .
+
+				'<div class="filter-section">' .
 				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded" type="checkbox" ' . ( $expanded ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Expand details', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
+				' ' .
 				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded_description" type="checkbox" ' . ( $expanded_description ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Expand descriptions', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
+				' ' .
 				'<label class="expanded-filter">' .
 				'<input class="expanded-filter" name="expanded_data" type="checkbox" ' . ( $expanded_data ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Expand data', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
+				' ' .
 				'<label class="show-inoperative-filter">' .
 				'<input class="show-inoperative-filter" name="show_inoperative" type="checkbox" ' . ( $show_inoperative ? 'checked="checked"' : '' ) . '/>' .
 				' ' .
 				__( 'Include inoperative affiliates', AFFILIATES_PLUGIN_DOMAIN ) .
 				'</label>' .
+				'</div>' .
+
+				'<div class="filter-buttons">' .
+				wp_nonce_field( 'admin', AFFILIATES_ADMIN_HITS_FILTER_NONCE, true, false ) .
+				'<input class="button" type="submit" value="' . __( 'Apply', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input class="button" type="submit" name="clear_filters" value="' . __( 'Clear', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 				'<input type="hidden" value="submitted" name="submitted"/>' .
-				'</p>' .
+				'</div>' .
 			'</form>' .
 		'</div>';
 						

@@ -218,7 +218,7 @@ div.details-hits {
 .expanded-filter,
 .show-inoperative-filter,
 .show-deleted-filter {
-	padding-left: 1em;
+	/*padding-left: 1em;*/
 	padding-right: 5px;
 }
 
@@ -241,7 +241,15 @@ input.days-back-filter {
 }
 
 input[name="clear_filters"] {
-	float:right;
+	float: right;
+}
+
+.filters form label {
+	white-space: nowrap;
+}
+.filters label.description,
+.filters .filter-section {
+	padding-bottom: 1em;
 }
 
 .warning {
