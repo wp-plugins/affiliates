@@ -33,7 +33,7 @@ label.field-label.first {
 .affiliate.new input[type="text"],
 .affiliate.edit input[type="text"] {
 	display: block;
-	width: 100%;
+	width: 80%;
 	padding: 0.62em 0;
 	margin-bottom: 0.31em;
 }
