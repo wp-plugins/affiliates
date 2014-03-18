@@ -72,36 +72,70 @@ function affiliates_admin_affiliates_edit( $affiliate_id ) {
 		'<form id="edit-affiliate" action="' . $current_url . '" method="post">' .
 		'<div class="affiliate edit">' .
 		'<input id="affiliate-id-field" name="affiliate-id-field" type="hidden" value="' . esc_attr( intval( $affiliate_id ) ) . '"/>' .
+
 		'<div class="field">' .
-		'<label for="name-field" class="field-label first required">' .__( 'Name', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+		'<label class="field-label first required">' .
+		'<span class="label">' .
+		__( 'Name', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</span>' .
+		' ' .
 		'<input id="name-field" name="name-field" class="namefield" type="text" value="' . esc_attr( $name ) . '"/>' .
+		'</label>' .
 		'</div>' .
+
 		'<div class="field">' .
-		'<label for="email-field" class="field-label">' . __( 'Email', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+		'<label class="field-label">' .
+		'<span class="label">' .
+		__( 'Email', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</span>' .
+		' ' .
 		'<input id="email-field" name="email-field" class="emailfield" type="text" value="' . esc_attr( $email ) . '"/>' .
+		'</label>' .
+		' ' .
 		'<span class="description">' .
 		__( "If a valid <strong>Username</strong> is specified and no email is given, the user's email address will be used automatically.", AFFILIATES_PLUGIN_DOMAIN ) .
 		'</span>' .
 		'</div>' .
+
 		'<div class="field">' .
-		'<label for="user-field" class="field-label">' . __( 'Username', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+		'<label class="field-label">' .
+		'<span class="label">' .
+		__( 'Username', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</span>' .
+		' ' .
 		'<input id="user-field" name="user-field" class="userfield" type="text" value="' . esc_attr( $user_login ) . '"/>' .
+		'</label>' .
+		' ' .
 		$affiliate_user_edit .
 		'</div>' .
+
 		'<div class="field">' .
-		'<label for="from-date-field" class="field-label first">' . __( 'From', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+		'<label class="field-label">' .
+		'<span class="label">' .
+		__( 'From', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</span>' .
+		' ' .
 		'<input id="from-date-field" name="from-date-field" class="datefield" type="text" value="' . esc_attr( $from_date ) . '"/>' .
+		'</label>' .
 		'</div>' .
+
 		'<div class="field">' .
-		'<label for="thru-date-field" class="field-label">' . __( 'Until', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
+		'<label class="field-label">' .
+		'<span class="label">' .
+		__( 'Until', AFFILIATES_PLUGIN_DOMAIN ) .
+		'</span>' .
+		' ' .
 		'<input id="thru-date-field" name="thru-date-field" class="datefield" type="text" value="' . esc_attr( $thru_date ) . '"/>' .
+		'</label>' .
 		'</div>' .
+
 		'<div class="field">' .
 		wp_nonce_field( 'affiliates-edit', AFFILIATES_ADMIN_AFFILIATES_NONCE, true, false ) .
 		'<input class="button" type="submit" value="' . __( 'Save', AFFILIATES_PLUGIN_DOMAIN ) . '"/>' .
 		'<input type="hidden" value="edit" name="action"/>' .
 		'<a class="cancel" href="' . $current_url . '">' . __( 'Cancel', AFFILIATES_PLUGIN_DOMAIN ) . '</a>' .
 		'</div>' .
+
 		'</div>' . // .affiliate.edit
 		'</form>' .
 		'</div>'; // .manage-affiliates

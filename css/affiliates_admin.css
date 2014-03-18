@@ -25,17 +25,20 @@ label.field-label {
 label.field-label.first {
 	padding-left: 0;
 }
-.affiliate.new label.field-label {
+.affiliate.new label.field-label,
+.affiliate.edit label.field-label {
 	display: block;
 	padding-left: 0;
 }
-.affiliate.new input[type="text"] {
+.affiliate.new input[type="text"],
+.affiliate.edit input[type="text"] {
 	display: block;
-	width: 50%;
+	width: 100%;
 	padding: 0.62em 0;
 	margin-bottom: 0.31em;
 }
-.affiliate.new input[type="text"].datefield {
+.affiliate.new input[type="text"].datefield,
+.affiliate.edit input[type="text"].datefield {
 	width: 10em;
 	text-align: center;
 }
