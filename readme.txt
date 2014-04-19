@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.5.1
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: 2.5.1
 License: GPLv3
 
@@ -423,6 +423,15 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.6.0 =
+* WordPress 3.9 compatibility checked
+* Fixed the affiliate filter on the Referrals screen.
+* Changed filter logic on Referrals screen for 3.90's prepare() nags.
+* Changed filter logic on Visits & Referrals screen for 3.90's prepare() nags.
+* Changed filter logic on Affiliates & Referrals screen for 3.90's prepare() nags.
+* Fixed the affiliates_get_affiliates() function invoking prepare() when no parameters are needed.
+* Added status filter on Affiliates & Referrals screen.
+
 = 2.5.1 =
 * Added the French translation.
 * Improved UI elements for filter sections.
@@ -622,6 +631,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Upgrade Notice ==
 
+= 2.6.0 =
+* WordPress 3.9 compatibility, UI filter improvements and bug fixes.
+
 = 2.5.1 =
 * UI improvements and added the French translation.
 
@@ -635,7 +647,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * WordPress 3.7.1 compatibility checked and some minor fixes and improvements.
 
 = 2.4.2 =
-* Improvements: Added captcha filters to allow to use alternatives; replaced use of deprecated PHP function; new registration form filters added; new affiliate registration email filters added. 
+* Improvements: Added captcha filters to allow to use alternatives; replaced use of deprecated PHP function; new registration form filters added; new affiliate registration email filters added.
 
 = 2.4.1 =
 * Improves handling of the URL parameter recognition process and makes it more robst with respect to potential conflicts caused by other plugins.

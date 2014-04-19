@@ -58,6 +58,7 @@ function affiliates_admin_hits_affiliate() {
 	$from_date          = $affiliates_options->get_option( 'hits_affiliate_from_date', null );
 	$thru_date          = $affiliates_options->get_option( 'hits_affiliate_thru_date', null );
 	$affiliate_id       = $affiliates_options->get_option( 'hits_affiliate_affiliate_id', null );
+	$status             = $affiliates_options->get_option( 'hits_affiliate_status', null );
 	$expanded           = $affiliates_options->get_option( 'hits_affiliate_expanded', null ); // @todo input ist not shown, eventually remove unless ...
 	$expanded_referrals = $affiliates_options->get_option( 'hits_affiliate_expanded_referrals', null );
 	$expanded_hits      = $affiliates_options->get_option( 'hits_affiliate_expanded_hits', null );
@@ -67,6 +68,7 @@ function affiliates_admin_hits_affiliate() {
 		$affiliates_options->delete_option( 'hits_affiliate_from_date' );
 		$affiliates_options->delete_option( 'hits_affiliate_thru_date' );
 		$affiliates_options->delete_option( 'hits_affiliate_affiliate_id' );
+		$affiliates_options->delete_option( 'hits_affiliate_status' );
 		$affiliates_options->delete_option( 'hits_affiliate_expanded' );
 		$affiliates_options->delete_option( 'hits_affiliate_expanded_referrals' );
 		$affiliates_options->delete_option( 'hits_affiliate_expanded_hits' );
@@ -74,6 +76,7 @@ function affiliates_admin_hits_affiliate() {
 		$from_date = null;
 		$thru_date = null;
 		$affiliate_id = null;
+		$status = null;
 		$expanded = null;
 		$expanded_hits = null;
 		$expanded_referrals = null;
@@ -110,6 +113,27 @@ function affiliates_admin_hits_affiliate() {
 		} else if ( isset( $_POST['affiliate_id'] ) ) { // empty && isset => '' => all
 			$affiliate_id = null;
 			$affiliates_options->delete_option( 'hits_affiliate_affiliate_id' );	
+		}
+
+		if ( !empty( $_POST['status'] ) ) {
+			if ( is_array( $_POST['status'] ) ) {
+				$stati = array();
+				foreach( $_POST['status'] as $status ) {
+					if ( $status = Affiliates_Utility::verify_referral_status_transition( $status, $status ) ) {
+						$stati[] = $status;
+					}
+				}
+				if ( count( $stati ) > 0 ) {
+					$status = $stati;
+					$affiliates_options->update_option( 'hits_affiliate_status', $stati );
+				} else {
+					$status = null;
+					$affiliates_options->delete_option( 'hits_affiliate_status' );
+				}
+			}
+		} else {
+			$status = null;
+			$affiliates_options->delete_option( 'hits_affiliate_status' );
 		}
 
 		// expanded details?
@@ -212,13 +236,9 @@ function affiliates_admin_hits_affiliate() {
 			$order = 'ASC';
 			$switch_order = 'DESC';
 	}
-	
-	if ( $from_date || $thru_date || $affiliate_id ) {
-		$filters = " WHERE ";
-	} else {
-		$filters = '';			
-	}
-	$filter_params = array();
+
+	$filters = " WHERE 1=%d ";
+	$filter_params = array( 1 );
 	// We now have the desired dates from the user's point of view, i.e. in her timezone.
 	// If supported, adjust the dates for the site's timezone:
 	if ( $from_date ) {
@@ -228,21 +248,18 @@ function affiliates_admin_hits_affiliate() {
 		$thru_datetime = DateHelper::u2s( $thru_date, 24*3600 );
 	}
 	if ( $from_date && $thru_date ) {
-		$filters .= " datetime >= %s AND datetime < %s ";
+		$filters .= " AND datetime >= %s AND datetime < %s ";
 		$filter_params[] = $from_datetime;
 		$filter_params[] = $thru_datetime;
 	} else if ( $from_date ) {
-		$filters .= " datetime >= %s ";
+		$filters .= " AND datetime >= %s ";
 		$filter_params[] = $from_datetime;
 	} else if ( $thru_date ) {
-		$filters .= " datetime < %s ";
+		$filters .= " AND datetime < %s ";
 		$filter_params[] = $thru_datetime;
 	}
 	if ( $affiliate_id ) {
-		if ( $from_date || $thru_date ) {
-			$filters .= " AND ";
-		}
-		$filters .= " h.affiliate_id = %d ";
+		$filters .= " AND h.affiliate_id = %d ";
 		$filter_params[] = $affiliate_id;
 	}
 	
@@ -282,13 +299,17 @@ function affiliates_admin_hits_affiliate() {
 	} else if ( $thru_date ) {
 		$date_condition = " AND datetime < '" . $thru_datetime . "' ";
 	}
+	$status_condition = "";
+	if ( is_array( $status ) && count( $status ) > 0 ) {
+		$status_condition = " AND status IN ('" . implode( "','", $status ) . "') ";
+	}
 	$query = $wpdb->prepare("
 			SELECT
 				*,
 				count(distinct ip) visits,
 				sum(count) hits,
-				(select count(*) from $referrals_table where affiliate_id = h.affiliate_id $date_condition ) referrals,
-				((select count(*) from $referrals_table where affiliate_id = h.affiliate_id $date_condition )/count(distinct ip)) ratio
+				(SELECT COUNT(*) FROM $referrals_table WHERE affiliate_id = h.affiliate_id $date_condition $status_condition ) referrals,
+				((SELECT COUNT(*) FROM $referrals_table WHERE affiliate_id = h.affiliate_id $date_condition $status_condition )/COUNT(DISTINCT ip)) ratio
 			FROM $hits_table h
 			LEFT JOIN $affiliates_table a ON h.affiliate_id = a.affiliate_id
 			$filters
@@ -299,7 +320,7 @@ function affiliates_admin_hits_affiliate() {
 			$filter_params
 	);
 
-	$results = $wpdb->get_results( $query, OBJECT );		
+	$results = $wpdb->get_results( $query, OBJECT );
 
 	$column_display_names = array(
 		'name'         => __( 'Affiliate', AFFILIATES_PLUGIN_DOMAIN ),
@@ -310,7 +331,7 @@ function affiliates_admin_hits_affiliate() {
 	);
 	
 	$output .= '<div id="" class="hits-affiliates-overview">';
-		
+
 	$affiliates = affiliates_get_affiliates( true, !$show_inoperative );
 	$affiliates_select = '';
 	if ( !empty( $affiliates ) ) {
@@ -330,7 +351,28 @@ function affiliates_admin_hits_affiliate() {
 		$affiliates_select .= '</select>';
 		$affiliates_select .= '</label>';
 	}
-	
+
+	$status_descriptions = array(
+		AFFILIATES_REFERRAL_STATUS_ACCEPTED => __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_CLOSED   => __( 'Closed', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_PENDING  => __( 'Pending', AFFILIATES_PLUGIN_DOMAIN ),
+		AFFILIATES_REFERRAL_STATUS_REJECTED => __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN ),
+	);
+	$status_icons = array(
+		AFFILIATES_REFERRAL_STATUS_ACCEPTED => "<img class='icon' alt='" . __( 'Accepted', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/accepted.png'/>",
+		AFFILIATES_REFERRAL_STATUS_CLOSED   => "<img class='icon' alt='" . __( 'Closed', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/closed.png'/>",
+		AFFILIATES_REFERRAL_STATUS_PENDING  => "<img class='icon' alt='" . __( 'Pending', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/pending.png'/>",
+		AFFILIATES_REFERRAL_STATUS_REJECTED => "<img class='icon' alt='" . __( 'Rejected', AFFILIATES_PLUGIN_DOMAIN) . "' src='" . AFFILIATES_PLUGIN_URL . "images/rejected.png'/>",
+	);
+	$status_checkboxes = '';
+	foreach ( $status_descriptions as $key => $label ) {
+		$checked = empty( $status ) || is_array( $status ) && in_array( $key, $status ) ? ' checked="checked" ' : ''; 
+		$status_checkboxes .= '<label style="padding-right:1em;">';
+		$status_checkboxes .= sprintf( '<input type="checkbox" name="status[]" value="%s" %s />',  esc_attr( $key ), $checked );
+		$status_checkboxes .= $status_icons[$key] . ' ' . $label;
+		$status_checkboxes .= '</label>';
+	}
+
 	$output .=
 		'<div class="filters">' .
 			'<label class="description" for="setfilters">' . __( 'Filters', AFFILIATES_PLUGIN_DOMAIN ) . '</label>' .
@@ -352,6 +394,12 @@ function affiliates_admin_hits_affiliate() {
 				' ' .
 				'<input class="datefield thru-date-filter" name="thru_date" type="text" class="datefield" value="' . esc_attr( $thru_date ) . '"/>'.
 				'</label>' .
+				'</div>' .
+				
+				'<div class="filter-section">' .
+				'<span style="padding-right:1em">' . __( 'Status', AFFILIATES_PLUGIN_DOMAIN ) . '</span>' .
+				' ' .
+				$status_checkboxes .
 				'</div>' .
 
 				'<div class="filter-section">' .

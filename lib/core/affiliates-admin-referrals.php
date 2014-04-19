@@ -306,13 +306,8 @@ function affiliates_admin_referrals() {
 			$order = 'DESC';
 			$switch_order = 'ASC';
 	}
-	
-	if ( $from_date || $thru_date || $affiliate_id || $status || $search ) {
-		$filters = " WHERE ";
-	} else {
-		$filters = '';
-	}
-	$filter_params = array();
+	$filters = " WHERE 1=%d ";
+	$filter_params = array( 1 );
 	// We have the desired dates from the user's point of view, i.e. in her timezone.
 	// If supported, adjust the dates for the site's timezone:
 	if ( $from_date ) {
@@ -322,40 +317,31 @@ function affiliates_admin_referrals() {
 		$thru_datetime = DateHelper::u2s( $thru_date, 24*3600 );
 	}
 	if ( $from_date && $thru_date ) {
-		$filters .= " datetime >= %s AND datetime < %s ";
+		$filters .= " AND datetime >= %s AND datetime < %s ";
 		$filter_params[] = $from_datetime;
 		$filter_params[] = $thru_datetime;
 	} else if ( $from_date ) {
-		$filters .= " datetime >= %s ";
+		$filters .= " AND datetime >= %s ";
 		$filter_params[] = $from_datetime;
 	} else if ( $thru_date ) {
-		$filters .= " datetime < %s ";
+		$filters .= " AND datetime < %s ";
 		$filter_params[] = $thru_datetime;
 	}
 	if ( $affiliate_id ) {
-		if ( $from_date || $thru_date ) {
-			$filters .= " AND ";
-		}
-		$filters .= " r.affiliate_id = %d ";
+		$filters .= " AND r.affiliate_id = %d ";
 		$filter_params[] = $affiliate_id;
 	}
 	if ( $status ) {
-		if ( $from_date || $thru_date || $affiliate_id ) {
-			$filters .= " AND ";
-		}
-		$filters .= " r.status = %s ";
+		$filters .= " AND r.status = %s ";
 		$filter_params[] = $status;
 	}
 	if ( $search ) {
-		if ( $from_date || $thru_date || $affiliate_id || $status ) {
-			$filters .= " AND ";
-		}
 		if ( $search_description ) {
-			$filters .= " ( r.data LIKE '%%%s%%' OR r.description LIKE '%%%s%%' ) ";
+			$filters .= " AND ( r.data LIKE '%%%s%%' OR r.description LIKE '%%%s%%' ) ";
 			$filter_params[] = $search;
 			$filter_params[] = $search;
 		} else {
-			$filters .= " r.data LIKE '%%%s%%' ";
+			$filters .= " AND r.data LIKE '%%%s%%' ";
 			$filter_params[] = $search;
 		}
 	}
@@ -417,7 +403,7 @@ function affiliates_admin_referrals() {
 		$affiliates_select .= '<label class="affiliate-id-filter"">';
 		$affiliates_select .= __( 'Affiliate', AFFILIATES_PLUGIN_DOMAIN );
 		$affiliates_select .= ' ';
-		$affiliates_select .= '<select class="affiliate-id-filter">';
+		$affiliates_select .= '<select class="affiliate-id-filter" name="affiliate_id">';
 		$affiliates_select .= '<option value="">--</option>';
 		foreach ( $affiliates as $affiliate ) {
 			if ( $affiliate_id == $affiliate['affiliate_id']) {

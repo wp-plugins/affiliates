@@ -1524,13 +1524,13 @@ function affiliates_get_affiliates( $active = true, $valid = true ) {
 		if ( $valid ) {
 			$query = $wpdb->prepare( "SELECT * FROM $table WHERE from_date <= %s AND ( thru_date IS NULL OR thru_date >= %s ) AND status = 'active' ORDER BY NAME", $today, $today );
 	 } else {
-	 	$query = $wpdb->prepare( "SELECT * FROM $table WHERE status = 'active' ORDER BY NAME", $today, $today );
+	 	$query = "SELECT * FROM $table WHERE status = 'active' ORDER BY NAME";
 	 }
 	} else {
 		if ( $valid ) {
 			$query = $wpdb->prepare( "SELECT * FROM $table WHERE from_date <= %s AND ( thru_date IS NULL OR thru_date >= %s ) ORDER BY NAME", $today, $today );
 		} else {
-			$query = $wpdb->prepare( "SELECT * FROM $table ORDER BY NAME", $today, $today );
+			$query = "SELECT * FROM $table ORDER BY NAME";
 		}
 	}
 	if ( $affiliates = $wpdb->get_results( $query, ARRAY_A ) ) {
