@@ -426,9 +426,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 = 2.6.0 =
 * WordPress 3.9 compatibility checked
 * Fixed the affiliate filter on the Referrals screen.
-* Changed filter logic on Referrals screen for 3.90's prepare() nags.
-* Changed filter logic on Visits & Referrals screen for 3.90's prepare() nags.
-* Changed filter logic on Affiliates & Referrals screen for 3.90's prepare() nags.
+* Changed filter logic on Referrals screen for 3.9's prepare() nags.
+* Changed filter logic on Visits & Referrals screen for 3.9's prepare() nags.
+* Changed filter logic on Affiliates & Referrals screen for 3.9's prepare() nags.
 * Fixed the affiliates_get_affiliates() function invoking prepare() when no parameters are needed.
 * Added status filter on Affiliates & Referrals screen.
 

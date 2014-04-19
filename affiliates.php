@@ -27,18 +27,20 @@
  * Donate-Link: http://www.itthinx.com
  * License: GPLv3
  */
-define( 'AFFILIATES_CORE_VERSION', '2.6.0' );
-define( 'AFFILIATES_PLUGIN_NAME', 'affiliates' );
-define( 'AFFILIATES_FILE', __FILE__ );
-define( 'AFFILIATES_PLUGIN_BASENAME', plugin_basename( AFFILIATES_FILE ) );
-if ( !defined( 'AFFILIATES_CORE_DIR' ) ) {
-	define( 'AFFILIATES_CORE_DIR', WP_PLUGIN_DIR . '/affiliates' );
+if ( !defined( 'AFFILIATES_CORE_VERSION' ) ) {
+	define( 'AFFILIATES_CORE_VERSION', '2.6.0' );
+	define( 'AFFILIATES_PLUGIN_NAME', 'affiliates' );
+	define( 'AFFILIATES_FILE', __FILE__ );
+	define( 'AFFILIATES_PLUGIN_BASENAME', plugin_basename( AFFILIATES_FILE ) );
+	if ( !defined( 'AFFILIATES_CORE_DIR' ) ) {
+		define( 'AFFILIATES_CORE_DIR', WP_PLUGIN_DIR . '/affiliates' );
+	}
+	if ( !defined( 'AFFILIATES_CORE_LIB' ) ) {
+		define( 'AFFILIATES_CORE_LIB', AFFILIATES_CORE_DIR . '/lib/core' );
+	}
+	if ( !defined( 'AFFILIATES_CORE_URL' ) ) {
+		define( 'AFFILIATES_CORE_URL', WP_PLUGIN_URL . '/affiliates' );
+	}
+	require_once( AFFILIATES_CORE_LIB . '/constants.php' );	
+	require_once( AFFILIATES_CORE_LIB . '/wp-init.php');
 }
-if ( !defined( 'AFFILIATES_CORE_LIB' ) ) {
-	define( 'AFFILIATES_CORE_LIB', AFFILIATES_CORE_DIR . '/lib/core' );
-}
-if ( !defined( 'AFFILIATES_CORE_URL' ) ) {
-	define( 'AFFILIATES_CORE_URL', WP_PLUGIN_URL . '/affiliates' );
-}
-require_once( AFFILIATES_CORE_LIB . '/constants.php' );	
-require_once( AFFILIATES_CORE_LIB . '/wp-init.php');
