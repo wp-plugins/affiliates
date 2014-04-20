@@ -303,8 +303,8 @@ function affiliates_admin_affiliates() {
 //	} else {
 //		$filters = '';			
 //	}
-	$filters = array();
-	$filter_params = array();
+	$filters = array( " 1=%d " );
+	$filter_params = array( 1 );
 	if ( $affiliate_id ) {
 		$filters[] = " $affiliates_table.affiliate_id = %d ";
 		$filter_params[] = $affiliate_id;
