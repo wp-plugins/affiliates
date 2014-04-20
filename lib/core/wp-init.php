@@ -593,6 +593,7 @@ function affiliates_query_vars( $query_vars ) {
 
 /**
  * Add a rewrite rule for pretty links.
+ * @deprecated
  */
 function affiliates_update_rewrite_rules() {
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
@@ -1326,9 +1327,10 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 		case 'affiliates_page_affiliates-admin-affiliates':
 			$show_affiliates_help = true;
 			$help .= '<p>' . __( 'Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
-			$help .= '<p>' .
-				__( 'There are two types of links your affiliates may use to link to your site:', AFFILIATES_PLUGIN_DOMAIN ) .
-				'</p>' .
+			$help .=
+// 				'<p>' .
+// 				__( 'There are two types of links your affiliates may use to link to your site:', AFFILIATES_PLUGIN_DOMAIN ) .
+// 				'</p>' .
 				'<ul>' .
 				'<li>' .
 				'<p class="affiliate-link">' .
@@ -1340,15 +1342,16 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 				sprintf( __( 'You may also append the ?%s=... part to links to your posts.', AFFILIATES_PLUGIN_DOMAIN ), $pname ) .
 				'</p>' .
 				'</li>' .
-				'<li>' .
-				'<p class="affiliate-permalink">' .
-				__( 'Affiliate permalink', AFFILIATES_PLUGIN_DOMAIN ) .
-				'</p>' .
-				'<p>' .
-				__( 'This link uses a nicer URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
-				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) .
-				'</p>' .
-				'</li>' .
+				// @deprecated
+// 				'<li>' .
+// 				'<p class="affiliate-permalink">' .
+// 				__( 'Affiliate permalink', AFFILIATES_PLUGIN_DOMAIN ) .
+// 				'</p>' .
+// 				'<p>' .
+// 				__( 'This link uses a nicer URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
+// 				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) .
+// 				'</p>' .
+// 				'</li>' .
 				'</ul>' .
 				'<p>' .
 				__( 'Once a visitor has landed on your site through an affiliate link, referrals may be recorded and attributed to the affiliate.', AFFILIATES_PLUGIN_DOMAIN ) .

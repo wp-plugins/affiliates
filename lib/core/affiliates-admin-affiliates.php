@@ -48,12 +48,13 @@ function affiliates_admin_affiliates() {
 		wp_die( __( 'Access denied.', AFFILIATES_PLUGIN_DOMAIN ) );
 	}
 	
-	if ( !$wp_rewrite->using_permalinks() ) {
-		$output .= '<p class="warning">' .
-			'* ' .
-			sprintf( __( 'Your site is not using pretty <a href="%s">permalinks</a>. You will only be able to use URL parameter based <span class="affiliate-link">affiliate links</span> but not pretty <span class="affiliate-permalink">affiliate permalinks</span>, unless you change your permalink settings.', AFFILIATES_PLUGIN_DOMAIN ), esc_url( get_admin_url( null, 'options-permalink.php') ) ) .
-			'</p>';
-	}
+	// @deprecated
+// 	if ( !$wp_rewrite->using_permalinks() ) {
+// 		$output .= '<p class="warning">' .
+// 			'* ' .
+// 			sprintf( __( 'Your site is not using pretty <a href="%s">permalinks</a>. You will only be able to use URL parameter based <span class="affiliate-link">affiliate links</span> but not pretty <span class="affiliate-permalink">affiliate permalinks</span>, unless you change your permalink settings.', AFFILIATES_PLUGIN_DOMAIN ), esc_url( get_admin_url( null, 'options-permalink.php') ) ) .
+// 			'</p>';
+// 	}
 	
 	//
 	// handle actions
@@ -565,16 +566,17 @@ function affiliates_admin_affiliates() {
 				'<br/>' .
 				__( 'URL Parameter', AFFILIATES_PLUGIN_DOMAIN ) .
 				': ' .
-				 '<span class="affiliate-link-param">' . '?' . $pname . '=' . $encoded_id . '</span>' .
-				'<br/>' .
-				__( 'Pretty', AFFILIATES_PLUGIN_DOMAIN ) .
-				': ' .
-				'<span class="affiliate-permalink">' . get_bloginfo('url') . '/' . $pname . '/' . $encoded_id . '</span>' .
-				( $wp_rewrite->using_permalinks() ? '' :
-					' ' .
-					sprintf( '<span class="warning" title="%s" style="cursor:help;padding:0 2px;">*</span>', __( 'Pretty URLs only work with appropriate permalink settings, this is not a requirement and most affiliate links will be using the URL parameter anyhow when linking to different pages on the site.', AFFILIATES_PLUGIN_DOMAIN ) ) .
-					'</span>'
-				);
+				 '<span class="affiliate-link-param">' . '?' . $pname . '=' . $encoded_id . '</span>';
+				 // @deprecated
+// 				'<br/>' .
+// 				__( 'Pretty', AFFILIATES_PLUGIN_DOMAIN ) .
+// 				': ' .
+// 				'<span class="affiliate-permalink">' . get_bloginfo('url') . '/' . $pname . '/' . $encoded_id . '</span>' .
+// 				( $wp_rewrite->using_permalinks() ? '' :
+// 					' ' .
+// 					sprintf( '<span class="warning" title="%s" style="cursor:help;padding:0 2px;">*</span>', __( 'Pretty URLs only work with appropriate permalink settings, this is not a requirement and most affiliate links will be using the URL parameter anyhow when linking to different pages on the site.', AFFILIATES_PLUGIN_DOMAIN ) ) .
+// 					'</span>'
+// 				)
 			$output .= "</td>";
 			$output .= '</tr>';
 
