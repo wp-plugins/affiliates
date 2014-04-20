@@ -23,13 +23,7 @@
  * Affiliates options
  */
 class Affiliates_Options {
-	
-	/**
-	 * Create
-	 */
-	function Affiliates_Options() {
-	}
-	
+
 	/**
 	 * Returns the value of a setting.
 	 * 
