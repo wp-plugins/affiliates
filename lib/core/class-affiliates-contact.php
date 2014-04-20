@@ -25,7 +25,7 @@
  * @link http://codex.wordpress.org/Widgets_API#Developing_Widgets
  */
 class Affiliates_Contact extends WP_Widget {
-		
+
 	/**
 	 * This class, as it currently is, will only work correctly as a singleton.
 	 * Note though that it is not implemented as such (you may freely create so many ...)
@@ -38,21 +38,14 @@ class Affiliates_Contact extends WP_Widget {
 	 * @var string captcha field id
 	 */
 	private static $captcha_field_id = 'lmfao';
-	
-	/**
-	 * Creates a contact widget.
-	 */
-	function Affiliates_Contact() {
-		$this->__construct();
-	}
-	
+
 	/**
 	 * Creates a contact widget.
 	 */
 	function __construct() {
 		parent::__construct( false, $name = 'Affiliates Contact' );
-		add_action( 'wp_print_styles', array( 'Affiliates_Contact', '_print_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( 'Affiliates_Contact', '_enqueue_scripts' ) );
+		add_action( 'wp_print_styles', array( __CLASS__, '_print_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, '_enqueue_scripts' ) );
 	}
 	
 	/**
