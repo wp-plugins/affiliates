@@ -431,6 +431,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Changed filter logic on Affiliates & Referrals screen for 3.9's prepare() nags.
 * Fixed the affiliates_get_affiliates() function invoking prepare() when no parameters are needed.
 * Added status filter on Affiliates & Referrals screen.
+* Pretty affiliate links have been deprecated and won't be supported anymore.
 
 = 2.5.1 =
 * Added the French translation.
