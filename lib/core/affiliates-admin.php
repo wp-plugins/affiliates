@@ -94,11 +94,20 @@ function affiliates_admin() {
 			}
 		}
 	}
+
 	if ( !empty( $from_date ) || !empty( $thru_date ) ) {
 		if ( !empty( $from_date ) && !empty( $thru_date ) ) {
 			$delta = ( strtotime( $thru_date ) - strtotime( $from_date ) ) / ( 3600 * 24 );
 		} else {
-			$delta = $days_back;
+			if ( empty( $days_back ) ) {
+				if ( !empty( $from_date ) ) {
+					$delta = ( strtotime( $today ) - strtotime( $from_date ) ) / ( 3600 * 24 );
+				} else {
+					$delta = $min_days_back;
+				}
+			} else {
+				$delta = $days_back;
+			}
 		}
 		if ( ( $delta > $max_days_back ) || ( $delta < $min_days_back ) ) {
 			if ( $delta > $max_days_back ) {
@@ -109,7 +118,11 @@ function affiliates_admin() {
 			}
 			$days_back = $delta;
 			$day_interval = intval( $days_back / 2 );
-			$from_date = date( 'Y-m-d', strtotime( $thru_date ) - $days_back * 3600 * 24 );
+			if ( !empty( $thru_date ) ) {
+				$from_date = date( 'Y-m-d', strtotime( $thru_date ) - $days_back * 3600 * 24 );
+			} else {
+				$from_date = date( 'Y-m-d', strtotime( $today ) - $days_back * 3600 * 24 );
+			}
 		} else {
 			$days_back = $delta;
 			$day_interval = intval( $days_back / 2 );

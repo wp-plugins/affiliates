@@ -432,6 +432,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Fixed the affiliates_get_affiliates() function invoking prepare() when no parameters are needed.
 * Added status filter on Affiliates & Referrals screen.
 * Pretty affiliate links have been deprecated and won't be supported anymore.
+* Removed/substituted old PHP4 constructors.
+* Fixed day chart on affiliates overview screen when from date is given only.
 
 = 2.5.1 =
 * Added the French translation.
