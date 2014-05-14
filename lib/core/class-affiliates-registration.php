@@ -431,8 +431,8 @@ class Affiliates_Registration {
 	
 		update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
 	
-		// notify admin & new user
-		wp_new_user_notification( $user_id, $user_pass );
+		// notify new user
+		self::new_user_notification( $user_id, $user_pass );
 	
 		return $user_id;
 	}
@@ -588,7 +588,32 @@ class Affiliates_Registration {
 				apply_filters( 'affiliates_new_affiliate_registration_message', $message )
 			);
 		}
+
 	}
+
+	/**
+	 * Notify of new user creation for an affiliate.
+	 * 
+	 * @param int $user_id User ID.
+	 * @param string $plaintext_pass Optional. The user's plaintext password. Default empty.
+	 */
+	public static function new_user_notification( $user_id, $plaintext_pass = '' ) {
+		$user = get_userdata( $user_id );
+		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+		if ( !empty( $plaintext_pass ) ) {
+			if ( get_option( 'aff_notify_affiliate_user', true ) ) {
+				$message  = sprintf( __( 'Username: %s', AFFILIATES_PLUGIN_DOMAIN ), $user->user_login) . "\r\n";
+				$message .= sprintf( __( 'Password: %s', AFFILIATES_PLUGIN_DOMAIN ), $plaintext_pass ) . "\r\n";
+				$message .= wp_login_url() . "\r\n";
+				@wp_mail(
+					$user->user_email,
+					apply_filters( 'affiliates_new_affiliate_user_registration_subject', sprintf( __( '[%s] Your username and password', AFFILIATES_PLUGIN_DOMAIN ), $blogname) ),
+					apply_filters( 'affiliates_new_affiliate_user_registration_message', $message )
+				);	
+			}
+		}
+	}
+
 }
 
 Affiliates_Registration::init();

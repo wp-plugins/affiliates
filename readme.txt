@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, bucks, contact form, crm, earn money, e-commerce, lead, link, marketing, money, online sale, order, partner, referral, referral links, referrer, shopping cart, sales, site, track, transaction, wordpress, contact form, contact form 7, digital downloads, easy digital downloads, eshop, jigowatt, jigoshop, paypal, s2Member, TheCartPress, woocommerce, woothemes, wp e-commerce, Ecwid
 Requires at least: 3.5.1
-Tested up to: 3.9
+Tested up to: 3.9.1
 Stable tag: 2.6.0
 License: GPLv3
 
@@ -423,6 +423,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.6.1 =
+* Affiliate user notification filters added.
+
 = 2.6.0 =
 * WordPress 3.9 compatibility checked
 * Fixed the affiliate filter on the Referrals screen.
@@ -633,6 +636,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.6.1 =
+* Affiliate user notification filters added.
 
 = 2.6.0 =
 * WordPress 3.9 compatibility, UI filter improvements and bug fixes.
