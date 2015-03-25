@@ -344,6 +344,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Fixes an issue with the registration form not being rendered when page
   content is evaluated previously.
 * Fixes user URL not saved due to usage of inexistent variable.
+* Removed Ready from integrations index.
 
 = 2.8.1 =
 * Fixed a PHP Warning when saving a user profile.

@@ -55,6 +55,12 @@ function affiliates_admin_add_ons() {
 	echo '<ul>';
 
 	echo '<li>';
+	echo __( 'Additional and advanced integrations accessible with Affiliates Pro and Affiliates Enterprise include social sharing integrations with AddToAny and AddThis, support for affiliate commissions based on Pay Per Click (PPC), Events Manager, Formidable Forms, Formidable Pro and Gravity Forms integrations.', AFFILIATES_PLUGIN_DOMAIN );
+	echo ' ';
+	echo __( 'Please consult the Shop pages for an updated list of included integrations.', AFFILIATES_PLUGIN_DOMAIN );
+	echo '</li>';
+
+	echo '<li>';
 	echo __( 'Affiliate attributes for individual commission rates, coupons, ...', AFFILIATES_PLUGIN_DOMAIN );
 	echo '</li>';
 
@@ -91,7 +97,7 @@ function affiliates_admin_add_ons() {
 	echo '</li>';
 
 	echo '<li>';
-	echo __( 'Access to advanced integrations with popular e-commerce systems', AFFILIATES_PLUGIN_DOMAIN );
+	echo __( 'The <a href="http://docs.itthinx.com/">Documentation</a> site also provides up-to-date information on the Affiliates, Affiliates Pro and Affiliates Enterprise plugin features.', AFFILIATES_PLUGIN_DOMAIN );
 	echo '</li>';
 
 	echo '</ul>';
@@ -115,6 +121,12 @@ function affiliates_admin_add_ons() {
 	echo '</li>';
 
 	echo '<li>';
+	echo __( 'Affiliate campaign management and tracking.', AFFILIATES_PLUGIN_DOMAIN );
+	echo ' ';
+	echo __( 'This allows affiliates to distinguish between income they generate by placing affiliate links on Facebook, from that generated through Twitter and other sources.', AFFILIATES_PLUGIN_DOMAIN );
+	echo '</li>';
+
+	echo '<li>';
 	echo __( 'Multi-tier capability with unlimited levels and rates', AFFILIATES_PLUGIN_DOMAIN );
 	echo '</li>';
 
@@ -127,7 +139,7 @@ function affiliates_admin_add_ons() {
 	echo '</h2>';
 
 	echo '<p>';
-	echo __( 'Free and premium extensions are listed on the <a href="http://www.itthinx.com/plugins/overview/">Overview</a> page and in the <a href="http://www.itthinx.com/shop/">Shop</a>.', AFFILIATES_PLUGIN_DOMAIN );
+	echo __( 'Free and premium extensions are listed on the <a href="http://www.itthinx.com/plugins-overview/">Overview</a> page and in the <a href="http://www.itthinx.com/shop/">Shop</a>.', AFFILIATES_PLUGIN_DOMAIN );
 	echo '</p>';
 
 	echo '</div>';
