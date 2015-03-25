@@ -113,6 +113,8 @@ function affiliates_admin_add_ons() {
 	echo sprintf( '<img class="screenshot enterprise" alt="Multiple Tiers" src="%s"/>', AFFILIATES_PLUGIN_URL . 'images/add-ons/Multi-tiered Referrals-small.png' );
 	echo sprintf( '<img class="screenshot enterprise" alt="Banners" src="%s"/>', AFFILIATES_PLUGIN_URL . 'images/add-ons/Specific Level Rates-small.png' );
 	echo sprintf( '<img class="screenshot enterprise" alt="Notifications" src="%s"/>', AFFILIATES_PLUGIN_URL . 'images/add-ons/Tiers-small.png' );
+	echo sprintf( '<img class="screenshot enterprise" alt="Campaigns" src="%s"/>', AFFILIATES_PLUGIN_URL . 'images/add-ons/campaigns.png' );
+	echo sprintf( '<img class="screenshot enterprise" alt="Campaigns Administration" src="%s"/>', AFFILIATES_PLUGIN_URL . 'images/add-ons/campaigns-admin.png' );
 
 	echo '<ul>';
 
