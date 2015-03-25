@@ -343,6 +343,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 = 2.8.2 =
 * Fixes an issue with the registration form not being rendered when page
   content is evaluated previously.
+* Fixes user URL not saved due to usage of inexistent variable.
 
 = 2.8.1 =
 * Fixed a PHP Warning when saving a user profile.
@@ -602,7 +603,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 = 2.8.2 =
 * Fixes an issue with the registration form not being rendered when page
-  content is evaluated previously.
+  content is evaluated previously and missing user URL.
 
 = 2.8.1 =
 * This release fixes a PHP Warning when saving a user profile.
