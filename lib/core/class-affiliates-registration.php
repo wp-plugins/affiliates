@@ -241,7 +241,7 @@ class Affiliates_Registration {
 				}
 
 				// don't try to create a new user on multiple renderings
-				global $affiliate_user_id, $new_affiliate_registered, $store_affiliate;
+				global $affiliate_user_id, $new_affiliate_registered, $stored_affiliate;
 				if ( !isset( $affiliate_user_id ) ) {
 					if ( !$is_logged_in ) {
 						// allow plugins to be aware of new user account being created
@@ -261,7 +261,7 @@ class Affiliates_Registration {
 
 					// add affiliate entry
 					$send = true;
-					if ( !isset( $store_affiliate ) ) {
+					if ( !isset( $stored_affiliate ) ) {
 						if ( $new_affiliate_registered ) {
 							$affiliate_id = self::store_affiliate( $affiliate_user_id, $userdata );
 							// update user meta data: name and last name
@@ -269,7 +269,7 @@ class Affiliates_Registration {
 							// @todo handle rest of user meta here, too?
 							do_action( 'affiliates_stored_affiliate', $affiliate_id, $affiliate_user_id );
 						}
-						$store_affiliate = true;
+						$stored_affiliate = true;
 					}
 
 					$is_widget    = isset( $options['is_widget'] ) && ( $options['is_widget'] === true || $options['is_widget'] == 'true' );
