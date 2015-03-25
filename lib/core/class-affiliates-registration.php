@@ -115,12 +115,6 @@ class Affiliates_Registration {
 	 */
 	public static function render_form( $options = array() ) {
 
-		global $affiliates_registration_form_count;
-		if ( isset( $affiliates_registration_form_count ) ) {
-			return '';
-		}
-		$affiliates_registration_form_count = 1;
-
 		wp_enqueue_style( 'affiliates' );
 
 		self::$submit_button_label = __( 'Sign Up', AFFILIATES_PLUGIN_DOMAIN );

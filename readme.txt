@@ -340,6 +340,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.8.2 =
+* Fixes an issue with the registration form not being rendered when page
+  content is evaluated previously.
+
 = 2.8.1 =
 * Fixed a PHP Warning when saving a user profile.
 
@@ -595,6 +599,10 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Initial release (tested & working on production sites).
 
 == Upgrade Notice ==
+
+= 2.8.2 =
+* Fixes an issue with the registration form not being rendered when page
+  content is evaluated previously.
 
 = 2.8.1 =
 * This release fixes a PHP Warning when saving a user profile.
