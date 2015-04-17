@@ -1431,7 +1431,12 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 	$pname = get_option( 'aff_pname', AFFILIATES_PNAME );
 
 	$show_affiliates_help = false;
-	$help = '<h3><a href="http://www.itthinx.com/plugins/affiliates" target="_blank">Affiliates</a></h3>';
+
+	$title = '<h3>';
+	$title .= sprintf( '<a href="%s" target="_blank">%s</a>', esc_attr( 'http://www.itthinx.com/plugins/affiliates' ), __( 'Affiliates', AFFILIATES_PLUGIN_DOMAIN ) );
+	$title .= '</h3>';
+
+	$help = apply_filters( 'affiliates_help_tab_title', $title );
 
 	switch ( $screen_id ) {
 		case 'toplevel_page_affiliates-admin' :

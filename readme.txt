@@ -345,6 +345,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Updated the translation template.
 * Fixed missing spacing on filters in Totals section.
 * Removed deprecated information about links from Manage Affiliates help.
+* Added a filter for the help tab title.
 
 = 2.8.4 =
 * Added the translation template.
