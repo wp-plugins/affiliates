@@ -1458,32 +1458,22 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 			break;
 		case 'affiliates_page_affiliates-admin-affiliates':
 			$show_affiliates_help = true;
-			$help .= '<p>' . __( 'Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . '</p>';
 			$help .=
-// 				'<p>' .
-// 				__( 'There are two types of links your affiliates may use to link to your site:', AFFILIATES_PLUGIN_DOMAIN ) .
-// 				'</p>' .
+				'<p>' .
+				__( 'Here you can <strong>add</strong>, <strong>edit</strong> and <strong>remove</strong> affiliates.', AFFILIATES_PLUGIN_DOMAIN ) .
+				'</p>';
+			$help .=
 				'<ul>' .
 				'<li>' .
 				'<p class="affiliate-link">' .
 				__( 'Affiliate link', AFFILIATES_PLUGIN_DOMAIN ) .
 				'<p/>' .
 				'<p>' .
-				__( 'This link uses a parameter in the URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
-				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) . '<br/>' .
+				__( 'This link uses a parameter in the URL to record visits you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
+				'<br/>' .
 				sprintf( __( 'You may also append the ?%s=... part to links to your posts.', AFFILIATES_PLUGIN_DOMAIN ), $pname ) .
 				'</p>' .
 				'</li>' .
-				// @deprecated
-// 				'<li>' .
-// 				'<p class="affiliate-permalink">' .
-// 				__( 'Affiliate permalink', AFFILIATES_PLUGIN_DOMAIN ) .
-// 				'</p>' .
-// 				'<p>' .
-// 				__( 'This link uses a nicer URL to record vists you receive through your affiliates.', AFFILIATES_PLUGIN_DOMAIN ) . ' ' .
-// 				__( 'The affiliate information is removed once a visitor has landed on your site.', AFFILIATES_PLUGIN_DOMAIN ) .
-// 				'</p>' .
-// 				'</li>' .
 				'</ul>' .
 				'<p>' .
 				__( 'Once a visitor has landed on your site through an affiliate link, referrals may be recorded and attributed to the affiliate.', AFFILIATES_PLUGIN_DOMAIN ) .
@@ -1530,8 +1520,13 @@ function affiliates_contextual_help( $contextual_help, $screen_id, $screen ) {
 function affiliates_help_tab_footer( $render = true ) {
 	$footer =
 		'<div class="affiliates-documentation">' .
-		__( '<a href="http://docs.itthinx.com/document/affiliates/">Online documentation</a>', AFFILIATES_PLUGIN_DOMAIN ) .
+		sprintf(
+			'<a href="%s">%s</a>',
+			esc_attr( 'http://docs.itthinx.com/document/affiliates/' ),
+			esc_html( __( 'Online documentation', AFFILIATES_PLUGIN_DOMAIN ) )
+		) .
 		'</div>';
+	$footer = apply_filters( 'affiliates_help_tab_footer', $footer );
 	if ( $render ) {
 		echo $footer;
 	} else {

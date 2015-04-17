@@ -340,6 +340,12 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.8.5 =
+* Added a filter for the help tab footer.
+* Updated the translation template.
+* Fixed missing spacing on filters in Totals section.
+* Removed deprecated information about links from Manage Affiliates help.
+
 = 2.8.4 =
 * Added the translation template.
 * Removed a couple of translations for empty strings.
@@ -612,5 +618,5 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Upgrade Notice ==
 
-= 2.8.4 =
-This release adds the plugin's translation template.
+= 2.8.5 =
+This release adds a filter for the help tab footer and updates the translation template.
