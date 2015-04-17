@@ -108,9 +108,11 @@ a.removefromaffiliate {
 .hits-overview,
 .hits-affiliates-overview,
 .manage-affiliates,
-.referrals-overview,
-.totals {
+.referrals-overview {
 	padding-right: 1em;
+}
+.totals {
+	margin-right: 1em;
 }
 
 div.details-referrals,
