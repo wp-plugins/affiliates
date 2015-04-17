@@ -1353,7 +1353,7 @@ function affiliates_admin_menu() {
 			'affiliates-admin',
 			__( 'Totals', AFFILIATES_PLUGIN_DOMAIN ),
 			__( 'Totals', AFFILIATES_PLUGIN_DOMAIN ),
-			AFFILIATES_ADMINISTER_OPTIONS,
+			AFFILIATES_ACCESS_AFFILIATES,
 			'affiliates-admin-totals',
 			apply_filters( 'affiliates_add_submenu_page_function', array( 'Affiliates_Totals', 'view' ) )
 		);
