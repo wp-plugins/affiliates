@@ -347,6 +347,8 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 * Removed deprecated information about links from Manage Affiliates help.
 * Added a filter for the help tab title.
 * Corrected the menu permission for the Totals section.
+* Fixed missing right margin in Totals section.
+* Corrected user profile output when showing affiliate fields (needed slashes stripped).
 
 = 2.8.4 =
 * Added the translation template.
