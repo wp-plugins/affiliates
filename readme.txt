@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, AddToAny, AddThis, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, contact form, contact form 7, downloads, e-commerce, Ecwid, Events Manager, Jigoshop, lead, link, marketing, money, partner, Pay per Click, PayPal, PPC, referral, referral links, referrer, sales, shopping cart, TheCartPress, track, transaction, WooCommerce, WP e-Commerce
 Requires at least: 3.5.1
-Tested up to: 4.1.1
+Tested up to: 4.2
 Stable tag: 2.8.5
 License: GPLv3
 
