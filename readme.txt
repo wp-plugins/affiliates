@@ -624,3 +624,4 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 = 2.8.5 =
 This release fixes some user interface issues and adds filters for the help tab footer and updates the translation template.
+
