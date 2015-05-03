@@ -342,6 +342,7 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 = 2.8.6 =
 * Fixed custom registration fields not taken into account when existing users register as affiliates.
+* Fixed slashes are not stripped on custom fields and labels when editing an affiliate.
 
 = 2.8.5 =
 * Added a filter for the help tab footer.
@@ -626,5 +627,4 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 == Upgrade Notice ==
 
 = 2.8.6 =
-This release fixes an issue with custom registration fields not taken into account when existing users register as affiliates.
-
+This release fixes an admin UI issue and an issue with custom registration fields not taken into account when existing users register as affiliates.
