@@ -3,7 +3,7 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, AddToAny, AddThis, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, contact form, contact form 7, downloads, e-commerce, Ecwid, Events Manager, Jigoshop, lead, link, marketing, money, partner, Pay per Click, PayPal, PPC, referral, referral links, referrer, sales, shopping cart, TheCartPress, track, transaction, WooCommerce, WP e-Commerce
 Requires at least: 3.5.1
-Tested up to: 4.2
+Tested up to: 4.2.1
 Stable tag: 2.8.5
 License: GPLv3
 
@@ -340,6 +340,9 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Changelog ==
 
+= 2.8.6 =
+* Fixed custom registration fields not taken into account when existing users register as affiliates.
+
 = 2.8.5 =
 * Added a filter for the help tab footer.
 * Updated the translation template.
@@ -622,6 +625,6 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Upgrade Notice ==
 
-= 2.8.5 =
-This release fixes some user interface issues and adds filters for the help tab footer and updates the translation template.
+= 2.8.6 =
+This release fixes an issue with custom registration fields not taken into account when existing users register as affiliates.
 
