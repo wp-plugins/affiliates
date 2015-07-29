@@ -265,6 +265,9 @@ function affiliates_admin_referrals() {
 		AFFILIATES_PLUGIN_URL .'images/add.png',
 		__( 'Add', AFFILIATES_PLUGIN_DOMAIN)
 	);
+	$output .= '<div style="float:right">';
+	$output .= apply_filters( 'affiliates_admin_referrals_secondary_actions', '' );
+	$output .= '</div>'; // floating right
 	$output .= '</div>';
 
 	$row_count = isset( $_POST['row_count'] ) ? intval( $_POST['row_count'] ) : 0;
@@ -655,9 +658,7 @@ function affiliates_admin_referrals() {
 							$output .= stripslashes( wp_filter_nohtml_kses( $title ) );
 							$output .= '</td>';
 							$output .= '<td class="referral-data-value">';
-							// @todo revise
-							// $output .= wp_filter_nohtml_kses( $value );
-							$output .= stripslashes( $value );
+							$output .= stripslashes( wp_filter_kses( $value ) );
 							$output .= '</td>';
 							$output .= '</tr>';
 						}
@@ -667,9 +668,9 @@ function affiliates_admin_referrals() {
 						$output .= __( 'Data', AFFILIATES_PLUGIN_DOMAIN );
 						$output .= '</td>';
 						$output .= '<td class="referral-data-value">';
-						// @todo revise
-						//$output .= wp_filter_nohtml_kses( $data );
-						$output .= stripslashes( $value );
+						if ( is_string( $data ) ) {
+							$output .= stripslashes( wp_filter_kses( $data ) );
+						}
 						$output .= '</td>';
 						$output .= '</tr>';
 					}

@@ -3,8 +3,8 @@ Contributors: itthinx
 Donate link: http://www.itthinx.com/plugins/affiliates
 Tags: ads, AddToAny, AddThis, advertising, affiliate, affiliate marketing, affiliate plugin, affiliate tool, affiliates, contact form, contact form 7, downloads, e-commerce, Ecwid, Events Manager, Jigoshop, lead, link, marketing, money, partner, Pay per Click, PayPal, PPC, referral, referral links, referrer, sales, shopping cart, TheCartPress, track, transaction, WooCommerce, WP e-Commerce
 Requires at least: 4.0.0
-Tested up to: 4.2.2
-Stable tag: 2.10.0
+Tested up to: 4.2.3
+Stable tag: 2.11.0
 License: GPLv3
 
 The Affiliates system provides powerful tools to maintain an Affiliate Marketing Program.
@@ -56,7 +56,7 @@ Integrations with popular forms plugins include
 [Gravity Forms](http://www.itthinx.com/plugins/affiliates-gravityforms/)
 and [Formidable Forms and Formidable Pro](http://www.itthinx.com/plugins/affiliates-formidable/).
 
-[Affiliates Enterprise](http://www.itthinx.com/plugins/affiliates-enterprise) provides all features and integrations available in _Affiliates Pro_ and also supports mulitple tiers and campaigns.
+[Affiliates Enterprise](http://www.itthinx.com/plugins/affiliates-enterprise) provides all features and integrations available in _Affiliates Pro_ and also supports mulitple tiers, campaigns and pixel tracking with image and iframe tracking pixels.
 
 Other extensions include [Affiliates Is Referred](https://github.com/itthinx/affiliates-is-referred) which adds shortcodes to show content conditionally based on whether a visitor was referred (or not) by an affiliate,
 [Affiliates Products](http://www.itthinx.com/plugins/affiliates-products/) which handles product commissions for product partners and affiliates on product sales,
@@ -339,6 +339,16 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 19. User Registration - Settings of the built-in User Registration integration, granting affiliates commissions on referred new users and customers.
 
 == Changelog ==
+
+= 2.11.0 =
+* Added a cookie timeout filter.
+* Removed menu title translation to circumvent effects of core bug 18857.
+* Fixed a bug related to retrieving a user option where the null comparison needed to be strict.
+* Added an AJAX handler to allow setting user options on the fly.
+* Added the option to hide or show filters on the affiliates overview.
+* Added the affiliates_admin_referrals_secondary_actions filter.
+* Fixed a minor bug related to data representation in case of string data in referrals.
+* Improved PHP compatibility avoiding use of boolval.
 
 = 2.10.0 =
 * Updated the German translation with more suitable translations in context.
@@ -644,5 +654,5 @@ See [Affiliates Screenshots](http://www.itthinx.com/plugins/affiliates/affiliate
 
 == Upgrade Notice ==
 
-= 2.10.0 =
-This release improves the German translation and adds some additional translations. It also improves the menu position to avoid any overlapping or the Affiliates menu disappearing.
+= 2.11.0 =
+This release improves the API by adding a cookie timeout filter and circumvents issues with translated screens related to a core bug.
